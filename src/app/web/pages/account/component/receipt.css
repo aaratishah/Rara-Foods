@@ -1,0 +1,15 @@
+.order-receipt .ant-modal-mask {
+    background: transparent;
+    pointer-events: none;
+}
+.order-receipt .ant-modal-wrap {
+    pointer-events: none;
+}
+.order-receipt .ant-modal {
+    pointer-events: all;
+}
+.order-receipt .ant-modal-content {
+    box-shadow: none !important;
+    background: unset !important;
+
+}

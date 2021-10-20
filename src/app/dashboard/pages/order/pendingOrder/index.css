@@ -1,0 +1,12 @@
+.order-preview-dashboard {
+  width: unset !important;
+  max-width: 700px !important;
+}
+
+.order-preview-dashboard .ant-input-textarea{
+  width: 100% !important;
+}
+
+.order-textarea .ant-input-textarea {
+  width: 100%;
+}

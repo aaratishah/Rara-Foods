@@ -1,0 +1,87 @@
+.hero-section .hero-content-wrapper {
+	height: calc(100vh - 80px);
+	position: relative;
+}
+.hero-section .hero-content-wrapper > img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+.hero-section .hero-content-wrapper .form-wrapper {
+	max-width: 100vw !important;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	background-color: rgba(0,0,0,0.65);
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	/* text-shadow: 0 0 10px rgba(0, 0, 0, 0.9); */
+}
+.hero-section .hero-content-wrapper .form-wrapper h1 {
+	text-align: center;
+	margin-bottom: 1.25em;
+}
+.hero-section .hero-content-wrapper .form-wrapper .form-control {
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+}
+
+/* Restaurant by location */
+.link-blue {
+	color: #343 !important;
+	font-weight: 600 !important;
+	text-decoration: none !important;
+}
+
+.link-blue:hover {
+	color: #0056b3 !important;
+	text-decoration: underline !important;
+}
+/* boiler plate */
+/* localhost carousel */
+.iamfxf {
+	padding: 10px 0px !important;
+}
+
+.sc-jSFkmK {
+	/* width: 110% !important;
+	margin-left: -51px;
+	margin-right: -30px; */
+}
+
+/* production caraousel */
+/* sc-gsTCUz  MBokW   */
+.MBokW {
+	padding: 10px 0px !important;
+}
+
+.sc-gsTCUz {
+	/* width: 110% !important;
+	margin-left: -51px;
+	margin-right: -30px; */
+}
+
+.rec-item-wrapper {
+	padding: 0px;
+}
+
+.hvCMSX {
+	box-sizing: border-box;
+	display: flex;
+	width: 285px !important;
+	overflow: hidden;
+	padding: 10px 0 !important;
+	user-select: none;
+	-webkit-box-pack: center;
+	justify-content: center;
+}
+
+/* .hero-section */

@@ -1,0 +1,175 @@
+
+.search-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow: auto;
+    text-align: center;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .search-wrapper .search-box {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    max-width: 90%;
+  }
+  .search-wrapper .search-box .search-close {
+    position: absolute;
+    top: 20%;
+    right: 20%;
+    line-height: 40px;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    font-size: 40px;
+    color: rgba(35, 35, 36, 0.6);
+  }
+  .search-wrapper .search-box .search-close:hover {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+  .search-wrapper .search-box .search-form {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    -webkit-transform: scale(0.7);
+    -moz-transform: scale(0.7);
+    -ms-transform: scale(0.7);
+    -o-transform: scale(0.7);
+    transform: scale(0.7);
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+  }
+  @media (max-width: 767px) {
+    .search-wrapper .search-box .search-form {
+      padding: 0 15px;
+    }
+  }
+  .search-wrapper .search-box .search-form label {
+    font-size: 18px;
+    color: #232324;
+    font-weight: 400;
+  }
+  @media (max-width: 767px) {
+    .search-wrapper .search-box .search-form label {
+      font-size: 13px;
+    }
+  }
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    .search-wrapper .search-box .search-form label {
+      font-size: 16px;
+    }
+  }
+  .search-wrapper .search-box .search-form .search-input {
+    position: relative;
+  }
+  .search-wrapper .search-box .search-form .search-input input {
+    width: 100%;
+    height: 75px;
+    padding: 0 15px;
+    font-size: 30px;
+    font-weight: 300;
+    color: #232324;
+    border: 0;
+    border-bottom: 2px solid #232324;
+    background: 0 0;
+    text-align: center;
+  }
+  @media (max-width: 767px) {
+    .search-wrapper .search-box .search-form .search-input input {
+      height: 45px;
+      font-size: 16px;
+      padding: 0 15px;
+    }
+  }
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    .search-wrapper .search-box .search-form .search-input input {
+      height: 55px;
+      font-size: 18px;
+      padding: 0 15px;
+    }
+  }
+  .search-wrapper .search-box .search-form .search-input input::placeholder {
+    opacity: 1;
+    color: #232324;
+  }
+  .search-wrapper .search-box .search-form .search-input input::-moz-placeholder {
+    opacity: 1;
+    color: #232324;
+  }
+  .search-wrapper .search-box .search-form .search-input input::-moz-placeholder {
+    opacity: 1;
+    color: #232324;
+  }
+  .search-wrapper
+    .search-box
+    .search-form
+    .search-input
+    input::-webkit-input-placeholder {
+    opacity: 1;
+    color: #232324;
+  }
+  .search-wrapper .search-box .search-form .search-input button {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    background: 0 0;
+    border: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  @media (max-width: 767px) {
+    .search-wrapper .search-box .search-form .search-input button {
+      font-size: 16px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    .search-wrapper .search-box .search-form .search-input button {
+      font-size: 20px;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .search-wrapper.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .search-wrapper.open .search-box .search-form {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }

@@ -1,0 +1,100 @@
+/* new css */
+.product {
+	/*width: 100%;*/
+	margin-bottom: 30px;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	background-color: #fff;
+	-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+	border-radius: 10px;
+	overflow: hidden;
+}
+.product:hover .product-image img {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+.product.circle {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.product.circle .product-image {
+	padding-top: 100%;
+	border-radius: 50%;
+}
+.product .product-image {
+	display: block;
+	position: relative;
+	padding-top: 70%;
+	margin-bottom: 1em;
+	overflow: hidden;
+}
+.product .product-image img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+.product .product-container {
+	padding: 0 1em;
+}
+.product .product-container .product-title {
+	font-size: 20px;
+	font-weight: 700;
+	margin-bottom: 0.25em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.product .product-container .product-title a {
+	color: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.product .product-container .product-meta {
+	padding-bottom: 0.5em;
+	border-bottom: 1px solid #eee;
+	font-size: 16px;
+}
+.product .product-container .product-cat span {
+	font-size: 14px;
+	display: inline-block;
+	margin-right: 0.5em;
+	position: relative;
+}
+
+.product .product-container .product-cat span a {
+	font-size: inherit;
+	color: inherit;
+}
+.product-list {
+	list-style: none;
+	padding: 0;
+}
+.product-list .product {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	padding: 1em;
+}
+.product-list .product .product-image {
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 30%;
+	flex: 0 0 30%;
+	height: 100%;
+	padding: 0;
+	border: 1px solid #eee;
+	margin: 0;
+	border-radius: 10px;
+}
+.product-list .product .product-image img {
+	position: static;
+}
+.product-list .product .product-meta {
+	border: 0;
+}

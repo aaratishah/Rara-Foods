@@ -1,0 +1,13 @@
+.ant-form-item-children-icon{
+    margin-top: -10px !important;
+}
+.product {
+    box-shadow: none !important;
+}
+.model-image-card {
+    border-radius: 5px;
+}
+
+.pending-order-preview  .product {
+    width: unset !important;
+}

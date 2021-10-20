@@ -1,0 +1,59 @@
+.view-list li{
+display: inline;
+}
+.view-account-tab p{
+	color: 	#000;
+	font-size: 	14px;
+
+}
+.view-title{
+	margin:20px 0;
+}
+.view-account-tab label{
+	font-size: 	14px;
+	float: 	left;	
+padding-right: 10px;
+}
+.view-account-tab .form-group{
+}
+.img-profile img{
+	height:100px;
+	width: 	100px;
+	margin: 0	20px;
+	border-radius: 	50%;
+	float: 	left;	
+}
+.vehicle-img img{
+	height:150px;
+	display:block;	
+	margin:15px 0;
+}
+.img-profile p{
+	color: 	#000;
+	margin-bottom: 0;
+}
+.text-mute{
+	color: 	#888;
+}
+.head-widget{
+	  
+    width: 400px;
+    padding-bottom: 20px;
+}
+.media {
+    border-bottom: 1px dashed #efefef;
+    margin-bottom: 25px;
+}
+.view-table {
+	font-size: 	14px;
+}
+.media img {
+    width: 64px;
+    height: 64px;
+    border: 2px solid #e5e7e8;
+    margin-right: 	20px;
+}
+.media-body, .media-left, .media-right {
+    display: table-cell;
+    vertical-align: top;
+}

@@ -1,0 +1,14 @@
+.btn-block {
+  width: 100%;
+}
+.main-btn {
+  padding: 8px;
+  text-align: center;
+  background-color: #263238;
+  color: #fff;
+}
+
+.main-btn:hover {
+  background-color: #607d8b;
+  color: #000;
+}

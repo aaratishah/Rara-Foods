@@ -1,0 +1,273 @@
+.social-icon {
+	transition: background-color ease-in 0.3s;
+}
+
+.insta:hover {
+	background-color: dodgerblue;
+}
+
+.facebook:hover {
+	background-color: cornflowerblue;
+}
+
+.header-sticky {
+	-webkit-animation: slide 0.5s forwards;
+	-webkit-animation-delay: 2s;
+	animation: slide 0.5s forwards;
+	animation-delay: 2s;
+}
+
+@-webkit-keyframes slide {
+	100% {
+		top: 0;
+	}
+}
+
+@keyframes slide {
+	100% {
+		top: 45px;
+	}
+}
+
+.sticky-header {
+	position: fixed !important;
+	top: 0 !important;
+}
+
+.non-sticky-header {
+	position: absolute;
+	top: 45px;
+	left: 0;
+}
+/* try taking sticky to the div wrapped both header and content so that both scroll along */
+
+.top-header-info:hover {
+	color: #ccc !important;
+}
+
+.header-menu:hover {
+	color: #ff5a5f;
+}
+
+@media screen and (max-width: 1199px) {
+	.navbar {
+		padding: 0px 0 !important;
+	}
+}
+
+.sign-in {
+	cursor: pointer;
+	block-size: 20px;
+	border-block-end-color: rgb(0, 0, 0);
+	border-block-start-color: rgb(0, 0, 0);
+	border-inline-end-color: rgb(0, 0, 0);
+	border-inline-start-color: rgb(0, 0, 0);
+	caret-color: rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
+	column-rule-color: rgb(0, 0, 0);
+	display: block;
+	height: 20px;
+	inline-size: 51.1523px;
+	min-block-size: auto;
+	min-height: auto;
+	min-inline-size: auto;
+	min-width: auto;
+	perspective-origin: 25.5664px 10px;
+	text-decoration: none solid rgb(0, 0, 0);
+	text-size-adjust: 100%;
+	transform-origin: 25.5762px 10px;
+	white-space: nowrap;
+	width: 51.1523px;
+	border: 0px none rgb(0, 0, 0);
+	font: 16px / 20px UberMoveText-Medium, sans-serif;
+	outline: rgb(0, 0, 0) none 0px;
+}
+
+.sign-in :after {
+	border-block-end-color: rgb(0, 0, 0);
+	border-block-start-color: rgb(0, 0, 0);
+	border-inline-end-color: rgb(0, 0, 0);
+	border-inline-start-color: rgb(0, 0, 0);
+	caret-color: rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
+	column-rule-color: rgb(0, 0, 0);
+	text-decoration: none solid rgb(0, 0, 0);
+	text-size-adjust: 100%;
+	white-space: nowrap;
+	border: 0px none rgb(0, 0, 0);
+	font: 16px / 20px UberMoveText-Medium, sans-serif;
+	outline: rgb(0, 0, 0) none 0px;
+} /*sign-in :after*/
+
+.sign-in :before {
+	border-block-end-color: rgb(0, 0, 0);
+	border-block-start-color: rgb(0, 0, 0);
+	border-inline-end-color: rgb(0, 0, 0);
+	border-inline-start-color: rgb(0, 0, 0);
+	caret-color: rgb(0, 0, 0);
+	color: rgb(0, 0, 0);
+	column-rule-color: rgb(0, 0, 0);
+	text-decoration: none solid rgb(0, 0, 0);
+	text-size-adjust: 100%;
+	white-space: nowrap;
+	border: 0px none rgb(0, 0, 0);
+	font: 16px / 20px UberMoveText-Medium, sans-serif;
+	outline: rgb(0, 0, 0) none 0px;
+} /*sign-in :before*/
+
+
+.preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+	z-index: 999999;
+  }
+  .preloader .spinner {
+	width: 70px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+  }
+  .preloader .spinner > div {
+	width: 18px;
+	height: 18px;
+	background-color: #232324;
+	border-radius: 100%;
+	display: inline-block;
+	-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+	-moz-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+	-o-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+	animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  }
+  .preloader .spinner > div.bounce1 {
+	-webkit-animation-delay: -0.32s;
+	-moz-animation-delay: -0.32s;
+	-o-animation-delay: -0.32s;
+	animation-delay: -0.32s;
+  }
+  .preloader .spinner > div.bounce2 {
+	-webkit-animation-delay: -0.16s;
+	-moz-animation-delay: -0.16s;
+	-o-animation-delay: -0.16s;
+	animation-delay: -0.16s;
+  }
+  @-webkit-keyframes sk-bouncedelay {
+	0%,
+	100%,
+	80% {
+	  -webkit-transform: scale(0);
+	  -moz-transform: scale(0);
+	  -ms-transform: scale(0);
+	  -o-transform: scale(0);
+	  transform: scale(0);
+	}
+	40% {
+	  -webkit-transform: scale(1);
+	  -moz-transform: scale(1);
+	  -ms-transform: scale(1);
+	  -o-transform: scale(1);
+	  transform: scale(1);
+	}
+  }
+  @keyframes sk-bouncedelay {
+	0%,
+	100%,
+	80% {
+	  -webkit-transform: scale(0);
+	  -moz-transform: scale(0);
+	  -ms-transform: scale(0);
+	  -o-transform: scale(0);
+	  transform: scale(0);
+	}
+	40% {
+	  -webkit-transform: scale(1);
+	  -moz-transform: scale(1);
+	  -ms-transform: scale(1);
+	  -o-transform: scale(1);
+	  transform: scale(1);
+	}
+  }
+  .header-navbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: transparent;
+	z-index: 1;
+	will-change: transform, background;
+	transition: transform 0.45s linear;
+	-webkit-transition: transform 0.45s linear;
+	-moz-transition: transform 0.45s linear;
+	-ms-transition: transform 0.45s linear;
+	-o-transition: transform 0.45s linear;
+  }
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+	.header-navbar {
+	  background-color: #fff;
+	  position: relative;
+	}
+  }
+  @media (max-width: 767px) {
+	.header-navbar {
+	  background-color: #fff;
+	  position: relative;
+	}
+  }
+  .header-navbar.is-sticky {
+	background-color: #fff;
+	position: fixed;
+  }
+  .header-navbar.scroll-up {
+	-webkit-transform: none;
+	-moz-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+  }
+  .header-navbar.scroll-down {
+	-webkit-transform: translate3d(0, -100%, 0);
+	-moz-transform: translate3d(0, -100%, 0);
+	-ms-transform: translate3d(0, -100%, 0);
+	-o-transform: translate3d(0, -100%, 0);
+	transform: translate3d(0, -100%, 0);
+  }
+  .mobile-nav-link {
+	  cursor: pointer;
+	  width: 100%;
+  }
+  .mobile-nav-link:hover {
+	  background-color: #ccc !important;
+  }
+
+
+/* Demo 2 */
+#demo-2 input[type=search] {
+	width: 15px;
+	padding-left: 10px;
+	color: transparent;
+	cursor: pointer;
+}
+#demo-2 input[type=search]:hover {
+	background-color: #fff;
+}
+#demo-2 input[type=search]:focus {
+	width: 130px;
+	padding-left: 32px;
+	color: #000;
+	background-color: #fff;
+	cursor: auto;
+}
+#demo-2 input:-moz-placeholder {
+	color: transparent;
+}
+#demo-2 input::-webkit-input-placeholder {
+	color: transparent;
+}

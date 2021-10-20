@@ -1,0 +1,277 @@
+.product-review .review-comment .comment > li {
+    padding: 30px 0;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .product-review .review-comment .single-review-comment {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+  }
+  @media (max-width: 767px) {
+    .product-review .review-comment .single-review-comment {
+      display: block;
+    }
+  }
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    .product-review .review-comment .single-review-comment {
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+    }
+  }
+  .product-review .review-comment .single-review-comment .review-author img {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+  }
+  .product-review .review-comment .single-review-comment .review-content {
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding-left: 30px;
+  }
+  @media (max-width: 767px) {
+    .product-review .review-comment .single-review-comment .review-content {
+      padding-left: 0;
+      padding-top: 25px;
+    }
+  }
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    .product-review .review-comment .single-review-comment .review-content {
+      padding-left: 30px;
+      padding-top: 0;
+    }
+  }
+  .product-review .review-comment .single-review-comment .review-content p {
+    font-size: 14px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  .product-review
+    .review-comment
+    .single-review-comment
+    .review-content
+    p::before {
+    width: 50px;
+    height: 1px;
+    background-color: #232324;
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: 0;
+  }
+  .product-review
+    .review-comment
+    .single-review-comment
+    .review-content
+    .review-name-rating {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -webkit-box-pack: space-between;
+    -ms-flex-pack: space-between;
+    justify-content: space-between;
+    padding-top: 5px;
+  }
+  .product-review
+    .review-comment
+    .single-review-comment
+    .review-content
+    .review-name-rating
+    .review-name {
+    text-transform: uppercase;
+    color: #232324;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 10px;
+  }
+  .product-review
+    .review-comment
+    .single-review-comment
+    .review-content
+    .review-name-rating
+    .review-rating {
+    margin-top: 15px;
+  }
+  .product-review
+    .review-comment
+    .single-review-comment
+    .review-content
+    .review-name-rating
+    .review-rating
+    li {
+    display: inline-block;
+    font-size: 12px;
+    color: #8a8a8a;
+  }
+  .product-review
+    .review-comment
+    .single-review-comment
+    .review-content
+    .review-name-rating
+    .review-rating
+    li.rating-on {
+    color: #f5b223;
+  }
+  .product-review .review-form .form-title {
+    font-weight: 400;
+    color: #232324;
+    font-size: 20px;
+  }
+  .product-review .review-form .rating-star {
+    padding-top: 10px;
+  }
+  .product-review .review-form .rating-star a::before {
+    font-family: 'Font Awesome 5 Pro';
+    font-weight: 900;
+    font-size: 12px;
+    color: #8a8a8a;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+  }
+  .product-review .review-form .rating-star a + a {
+    margin-left: 15px;
+  }
+  @media (max-width: 767px) {
+    .product-review .review-form .rating-star a + a {
+      margin-left: 10px;
+    }
+  }
+  @media only screen and (min-width: 576px) and (max-width: 767px) {
+    .product-review .review-form .rating-star a + a {
+      margin-left: 15px;
+    }
+  }
+  .product-review .review-form .rating-star a.star-1::before {
+    content: '\f005';
+  }
+  .product-review .review-form .rating-star a.star-2::before {
+    content: '\f005\f005';
+  }
+  .product-review .review-form .rating-star a.star-3::before {
+    content: '\f005\f005\f005';
+  }
+  .product-review .review-form .rating-star a.star-4::before {
+    content: '\f005\f005\f005\f005';
+  }
+  .product-review .review-form .rating-star a.star-5::before {
+    content: '\f005\f005\f005\f005\f005';
+  }
+  .product-review .review-form .rating-star a.active::before,
+  .product-review .review-form .rating-star a:hover::before {
+    color: #f5b223;
+  }
+  .product-review .review-form .review-textarea {
+    margin-top: 15px;
+  }
+  .product-review .review-form .review-textarea label {
+    font-size: 14px;
+    color: #232324;
+    text-transform: uppercase;
+  }
+  .product-review .review-form .review-textarea textarea {
+    width: 100%;
+    height: 100px;
+    max-width: 100%;
+    vertical-align: top;
+    resize: none;
+    -webkit-appearance: none;
+    padding: 10px 20px;
+    border: 1px solid #ebebeb;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+  }
+  .product-review .review-form .review-textarea textarea:focus {
+    border-color: #232324;
+  }
+  .product-review .review-form .review-btn {
+    margin-top: 30px;
+  }
+  .product-review .review-form .review-btn .main-btn {
+    width: 160px;
+  }
+  .product-review .review-form .review-checkbok {
+    margin-top: 25px;
+  }
+  .product-review .review-form .review-checkbok input[type='checkbox'] {
+    display: none;
+  }
+  .product-review .review-form .review-checkbok input[type='checkbox'] + label {
+    position: relative;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: #232324;
+  }
+  .product-review
+    .review-form
+    .review-checkbok
+    input[type='checkbox']
+    + label
+    span {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #232324;
+    position: relative;
+    border-radius: 3px;
+    top: 5px;
+    margin-right: 5px;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+  }
+  .product-review
+    .review-form
+    .review-checkbok
+    input[type='checkbox']
+    + label
+    span::before {
+    content: '\f00c';
+    font-family: 'Font Awesome 5 Pro';
+    font-weight: 400;
+    font-size: 12px;
+    color: #232324;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    position: relative;
+    top: -5px;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .product-review
+    .review-form
+    .review-checkbok
+    input[type='checkbox']:checked
+    + label
+    span {
+    background-color: #ef5619;
+    border-color: #ef5619;
+  }
+  .product-review
+    .review-form
+    .review-checkbok
+    input[type='checkbox']:checked
+    + label
+    span::before {
+    color: #fff;
+    opacity: 1;
+    visibility: visible;
+  }

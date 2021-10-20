@@ -1,0 +1,18 @@
+.ant-tabs-nav {
+  background-color: #f7f7f7;
+}
+.ant-tabs-tab {
+  margin: 0 !important;
+  padding: 0px !important;
+  text-align: left !important;
+  display: unset !important;
+  padding-left: 10px;
+}
+
+.my-account-menu .account-menu-list li a{
+  line-height: normal !important;
+}
+
+.ant-modal {
+  top: 0px !important;
+}

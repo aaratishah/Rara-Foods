@@ -1,0 +1,15 @@
+.cart-form span.ant-radio + * {
+    width: 100%;
+}
+.cart-form .ant-radio-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+.shipping-address-guest .ant-spin-nested-loading {
+    width: 100%;
+}
+.ant-spin-blur {
+    height: 200px;
+}
