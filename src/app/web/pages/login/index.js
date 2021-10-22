@@ -1,18 +1,15 @@
-import React, { Fragment } from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { useRouteMatch } from "react-router-dom";
 import { Button, Form, Input, Layout, Row } from "antd";
 import {
   LOGIN_USER_CLIENT,
   LOGOUT_USER_CLIENT,
   UserLoginContextProvider,
   UserContext,
-  UserProvider
+  UserProvider,
 } from "context/";
 import AccountModal from "../../components/Account/";
 import { JwtService } from "services";
-
-import bgImg from "image/background.png";
-import logoImg from "image/logo.png";
 
 import "./index.css";
 
@@ -21,6 +18,7 @@ const { Content } = Layout;
 const ClientLogin = (props) => {
   const { clientStore, clientDispatch } = useContext(UserContext);
   const isAuth = clientStore.isAuthenticated;
+
   useEffect(() => {
     if (isAuth === undefined) {
       const token = JwtService.getAccessToken();
@@ -37,20 +35,13 @@ const ClientLogin = (props) => {
 
   return (
     <UserLoginContextProvider>
-      <Layout>
-        <Content>
-          <div className="login-main">
-            <div className="login-header">
-              <Row justify="center">
-                <img
-                  alt="logo"
-                  width="100px"
-                  src={logoImg}
-                  style={{ marginBottom: "20px" }}
-                />
-              </Row>
-            </div>
-
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
+      >
+        <Content style={{ height: "1px", overflow: "hidden" }}>
+          <div className="client-login-main">
             {!clientStore.isAuthenticated && (
               <AccountModal history={props.history} />
             )}
@@ -65,6 +56,6 @@ const Application = (props) => (
   <UserProvider>
     <ClientLogin {...props} />
   </UserProvider>
-)
+);
 
 export default Application;
