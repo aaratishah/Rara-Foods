@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Avatar, Button, Col, Dropdown, Menu, Row } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import routeURL from 'config/routeURL';
 import config from 'config';
 import defaultProfile from 'image/user.png';
@@ -14,6 +14,12 @@ const DesktopMenu = ({
   profile
 }) => {
   const [isVisible, setVisible, tab, setTab] = useContext(UserLoginContext);
+  const history = useHistory();
+
+  const handleSignInClick = () => {
+    return history.push("/login");
+  }
+  
   return (
     <Row align="middle" gutter={16}>
       {isAuth ? <Col>
@@ -68,12 +74,20 @@ const DesktopMenu = ({
             defaultProfile}/>
           </Dropdown>
         </Col> :
+        // <Button style={{
+        //   backgroundColor: '#000',
+        //   color: '#fff',
+        //   marginRight: 8,
+        //   cursor: 'pointer'
+        // }} onClick={() => setVisible(true)}>
+        //   Sign In
+        // </Button>
         <Button style={{
           backgroundColor: '#000',
           color: '#fff',
           marginRight: 8,
           cursor: 'pointer'
-        }} onClick={() => setVisible(true)}>
+        }} onClick={handleSignInClick}>
           Sign In
         </Button>
       }

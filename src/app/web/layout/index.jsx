@@ -11,7 +11,6 @@ import {
 import { useContext, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { JwtService } from 'services/jwtServiceClient';
-import AccountModal from '../components/Account/';
 import NavigationFooter from '../components/Footer/';
 import NavigationHeader from '../components/Header/';
 import routeConfig from './routeConfig';
@@ -99,9 +98,6 @@ function ClientLayout(props) {
           <Layout id="main-</UserCartProvider>wrapper" class="site-wrapper">
             <SearchOverlay />
             <NavigationHeader {...props} />
-            {!clientStore.isAuthenticated && (
-              <AccountModal history={props.history} />
-            )}
             <CartItems />
             <div
               style={
@@ -126,8 +122,11 @@ function ClientLayout(props) {
   );
 }
 
-export default (props) => (
+const Application = (props) => (
   <UserProvider>
     <ClientLayout {...props}></ClientLayout>
   </UserProvider>
 );
+
+
+export default Application;

@@ -16,6 +16,7 @@ const loginStep = {
   PHONE_NUMBER: 'PHONE_NUMBER',
   OTP_PIN: 'OTP_PIN',
 };
+
 const LoginForm = ({ history }) => {
   const [step, setStep] = useState(loginStep.PHONE_NUMBER);
   const [apiResponse, setApiResponse] = useState({
@@ -260,7 +261,7 @@ export default function Account({ history }) {
     <Modal
       title={null}
       footer={false}
-      visible={isVisible}
+      visible={true}
       // onOk={this.handleOk}
       onCancel={() => {
         setTab('1');
@@ -296,6 +297,6 @@ export default function Account({ history }) {
           </Row>
         </div>
       </div>
-    </Modal>
+    </Modal>  
   );
 }

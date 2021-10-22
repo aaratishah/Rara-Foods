@@ -9,6 +9,7 @@ import api from "./dashboard/api";
 import { JwtService } from "services/jwtServiceClient";
 import Geocode from 'react-geocode';
 import ScrollToTop from 'app/web/components/scrollToTop';
+import ClientLoginPage from "app/web/pages/login/index";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_KEY);
 
@@ -43,6 +44,7 @@ class App extends Component {
 					/>
 
 					<Route exact path={routeURL.cms.login()} component={LoginPage} />
+					<Route exact path={routeURL.web.client_login()} component={ClientLoginPage} />
 					<Route path={routeURL.cms.home()} component={AdminLayout} />
 					<Route path={routeURL.web.home()} component={ClientLayout} />
 				</Switch>
