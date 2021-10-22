@@ -224,7 +224,7 @@ const HeaderHome = ({ isHomePage }) => {
         >
           <Row className="navbar-left-area" align="middle">
             <Col>
-              <SideMenu/>
+              <SideMenu isAuth={isAuth} onLogout={onLogout} profile={profile}/>
             </Col>
             <Col>
               <Link to={routeURL.web.home()} className="navbar-brand">
