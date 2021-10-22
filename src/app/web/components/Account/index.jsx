@@ -1,20 +1,20 @@
-import { Button, Col, Form, Input, Modal, Row, Select } from 'antd';
-import { LOGIN_USER_CLIENT, UserContext, UserLoginContext } from 'context';
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { JwtService } from 'services/jwtServiceClient';
-import DarkBlueRedButton from '../Button/DarkBlueRedButton';
-import { FacebookLogin, GoogleLogin } from '../socialLogin/';
-import './index.css';
-import { handleError } from 'services/util';
-import { LeftOutlined, UndoOutlined } from '@ant-design/icons';
-import { notificationSuccess } from '../notification';
-import 'flag-icon-css/css/flag-icon.min.css';
-import { countryCode } from './country';
+import { Button, Col, Form, Input, Row, Select } from "antd";
+import { LOGIN_USER_CLIENT, UserContext, UserLoginContext } from "context";
+import { Fragment, useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { JwtService } from "services/jwtServiceClient";
+import DarkBlueRedButton from "../Button/DarkBlueRedButton";
+import { FacebookLogin, GoogleLogin } from "../socialLogin/";
+import "./index.css";
+import { handleError } from "services/util";
+import { LeftOutlined, UndoOutlined } from "@ant-design/icons";
+import { notificationSuccess } from "../notification";
+import "flag-icon-css/css/flag-icon.min.css";
+import { countryCode } from "./country";
 
 const loginStep = {
-  PHONE_NUMBER: 'PHONE_NUMBER',
-  OTP_PIN: 'OTP_PIN',
+  PHONE_NUMBER: "PHONE_NUMBER",
+  OTP_PIN: "OTP_PIN",
 };
 
 const LoginForm = ({ history }) => {
@@ -23,10 +23,7 @@ const LoginForm = ({ history }) => {
     OTPLength: 4,
   });
   const [isVisible, setVisible] = useContext(UserLoginContext);
-  const {
-    clientStore,
-    clientDispatch
-  } = useContext(UserContext);
+  const { clientStore, clientDispatch } = useContext(UserContext);
 
   const [loginRef] = Form.useForm();
   const [spinning, setSpinning] = useState(false);
@@ -40,14 +37,14 @@ const LoginForm = ({ history }) => {
       .then((data) => {
         clientDispatch({ type: LOGIN_USER_CLIENT });
         setVisible(false);
-        notificationSuccess('Logged in successfully! ');
+        notificationSuccess("Logged in successfully! ");
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
   };
 
   const onSaveForm = (value) => {
-    console.log('onSaveForm', value);
+    console.log("onSaveForm", value);
     // client side validation here
     if (step === loginStep.PHONE_NUMBER) {
       setSpinning(true);
@@ -58,10 +55,14 @@ const LoginForm = ({ history }) => {
   };
 
   const registerPhoneNumber = (values) => {
-    let countryDial = countryCode.find(country => country?.name?.toLowerCase() === values.countryCode?.toLowerCase())?.dial || '';
-    countryDial = countryDial ? `${countryDial}` : '';
+    let countryDial =
+      countryCode.find(
+        (country) =>
+          country?.name?.toLowerCase() === values.countryCode?.toLowerCase()
+      )?.dial || "";
+    countryDial = countryDial ? `${countryDial}` : "";
     JwtService.signInWithPhone({
-      phone: `${countryDial}${values.phone}`
+      phone: `${countryDial}${values.phone}`,
     })
       .then((data) => {
         setApiResponse({
@@ -97,42 +98,51 @@ const LoginForm = ({ history }) => {
   const getPhoneNumberUI = () => (
     <>
       <label>
-        Add your phone number. We'll send you a verification code so we know you're real.
+        Add your phone number. We'll send you a verification code so we know
+        you're real.
       </label>
 
       <Row>
         <Col xs={8}>
           <Form.Item
-            initialValue={'AUSTRALIA'?.toLowerCase()}
+            initialValue={"AUSTRALIA"?.toLowerCase()}
             name="countryCode"
             rules={[
               {
                 required: true,
-                message: 'Please input valid Country Code!'
+                message: "Please input valid Country Code!",
               },
             ]}
           >
             <Select
               filterOption={(input, option) => {
-                return option?.value?.toLowerCase()
-                  .startsWith(input?.toLowerCase())
-                  // || option?.dial?.toLowerCase().includes(input?.toLowerCase())
+                return option?.value
+                  ?.toLowerCase()
+                  .startsWith(input?.toLowerCase());
+                // || option?.dial?.toLowerCase().includes(input?.toLowerCase())
               }}
               showSearch={true}
               placeholder="Country Name"
               style={{}}
               size="large"
             >
-              {countryCode.map(each => <Select.Option style={{
-                width: 200
-              }} value={each.name?.toLowerCase()}
-              >
-                 <Row>
-                   <span className={`flag-icon flag-icon-${each.code?.toLowerCase()}`}></span>
-                   <span className="ml-2 title">{each.dial}</span>
-                 </Row>
-              </Select.Option>)}
-            </Select></Form.Item>
+              {countryCode.map((each) => (
+                <Select.Option
+                  style={{
+                    width: 200,
+                  }}
+                  value={each.name?.toLowerCase()}
+                >
+                  <Row>
+                    <span
+                      className={`flag-icon flag-icon-${each.code?.toLowerCase()}`}
+                    ></span>
+                    <span className="ml-2 title">{each.dial}</span>
+                  </Row>
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </Col>
         <Col xs={16}>
           <Form.Item
@@ -140,21 +150,21 @@ const LoginForm = ({ history }) => {
             rules={[
               {
                 required: true,
-                message: 'Please input valid phone number !'
+                message: "Please input valid phone number !",
               },
             ]}
           >
             <Input
               style={{
-                flex: 1
+                flex: 1,
               }}
               size="large"
               className="site-form-item-icon"
               placeholder="Mobile Number"
-            /></Form.Item>
+            />
+          </Form.Item>
         </Col>
       </Row>
-
 
       <Form.Item>
         <DarkBlueRedButton
@@ -166,9 +176,11 @@ const LoginForm = ({ history }) => {
         </DarkBlueRedButton>
       </Form.Item>
       <Form.Item>
-		  <span>
-			  By providing my phone number, I hereby agree and accept the <Link>Terms of Service</Link> and <Link>Privacy Policy</Link> in use of the {process.env.REACT_APP_CMS_TITLE}.
-		  </span>
+        <span>
+          By providing my phone number, I hereby agree and accept the{" "}
+          <Link>Terms of Service</Link> and <Link>Privacy Policy</Link> in use
+          of the {process.env.REACT_APP_CMS_TITLE}.
+        </span>
       </Form.Item>
     </>
   );
@@ -184,15 +196,14 @@ const LoginForm = ({ history }) => {
         rules={[
           {
             required: true,
-            message: `OTP cannot be empty. `
+            message: `OTP cannot be empty. `,
           },
           {
             min: apiResponse.OTPLength,
-            message: `Please input ${apiResponse.OTPLength} digit valid code. `
-          }
+            message: `Please input ${apiResponse.OTPLength} digit valid code. `,
+          },
         ]}
       >
-
         <Input
           style={{
             borderRadius: 5,
@@ -203,7 +214,7 @@ const LoginForm = ({ history }) => {
         />
       </Form.Item>
       <Form.Item>
-        <Row align={'middle'}>
+        <Row align={"middle"}>
           <Col xs={18}>
             <DarkBlueRedButton
               // onClick={loginRef.submit}
@@ -215,17 +226,28 @@ const LoginForm = ({ history }) => {
             </DarkBlueRedButton>
           </Col>
           <Col xs={6}>
-            <Button onClick={resendOTP} loading={false} type={'text'} icon={<UndoOutlined/>}>
+            <Button
+              onClick={resendOTP}
+              loading={false}
+              type={"text"}
+              icon={<UndoOutlined />}
+            >
               Resend
             </Button>
           </Col>
-          <Col xs={24} style={{
-            marginTop: 16
-          }}>
-            <span style={{
-              cursor: 'pointer'
-            }} onClick={() => setStep(loginStep.PHONE_NUMBER)}>
-              <LeftOutlined/> Edit Phone number
+          <Col
+            xs={24}
+            style={{
+              marginTop: 16,
+            }}
+          >
+            <span
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={() => setStep(loginStep.PHONE_NUMBER)}
+            >
+              <LeftOutlined /> Edit Phone number
             </span>
           </Col>
         </Row>
@@ -249,34 +271,22 @@ const LoginForm = ({ history }) => {
     >
       {step === loginStep.PHONE_NUMBER && getPhoneNumberUI()}
       {step === loginStep.OTP_PIN && getOTPUI()}
-
     </Form>
   );
 };
 
 export default function Account({ history }) {
-  const [isVisible, setVisible, tab, setTab] = useContext(UserLoginContext);
-
   return (
-    <Modal
-      title={null}
-      footer={false}
-      visible={true}
-      // onOk={this.handleOk}
-      onCancel={() => {
-        setTab('1');
-        setVisible(false);
-      }}
-      width={500}
-      style={{
-        top: 20,
-      }}
-    >
-      <div style={{
-        width: '100%'
-      }}>
-        <h4 className="text-center theme1">{process.env.REACT_APP_CMS_TITLE} | Log In</h4>
-        <LoginForm history={history}/>
+    <Fragment>
+      <div
+        style={{
+          width: "100%",
+        }}
+      >
+        <h4 className="text-center theme1">
+          {process.env.REACT_APP_CMS_TITLE} | Log In
+        </h4>
+        <LoginForm history={history} />
       </div>
       <div className="tab-content">
         <div className="social-icon origin-color si-square">
@@ -284,19 +294,19 @@ export default function Account({ history }) {
           <Row
             gutter={16}
             style={{
-              width: '100%',
+              width: "100%",
               marginTop: 20,
             }}
           >
             <Col>
-              <FacebookLogin/>
+              <FacebookLogin />
             </Col>
             <Col>
-              <GoogleLogin/>
+              <GoogleLogin />
             </Col>
           </Row>
         </div>
       </div>
-    </Modal>  
+    </Fragment>
   );
 }

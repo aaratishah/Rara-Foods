@@ -37,15 +37,7 @@ const ClientLogin = (props) => {
 
   return (
     <UserLoginContextProvider>
-      <Layout
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100vh",
-          backgroundImage: `url(${bgImg})`,
-          backgroundSize: "cover",
-        }}
-      >
+      <Layout>
         <Content>
           <div className="login-main">
             <div className="login-header">
@@ -56,17 +48,6 @@ const ClientLogin = (props) => {
                   src={logoImg}
                   style={{ marginBottom: "20px" }}
                 />
-              </Row>
-              <Row justify="center">
-                <span
-                  style={{
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                    marginBottom: 10,
-                  }}
-                >
-                  Login to your account
-                </span>
               </Row>
             </div>
 
