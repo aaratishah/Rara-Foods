@@ -95,6 +95,7 @@ const AuthenticatedLayout = (props) => {
 			}
 		}
 	}, [appStore.isAuthenticated]);
+	
 	return (
         <Layout style={{ minHeight: "100vh", backgroundColor: "#F2F4F8" }}>
 			<Sidebar {...props} collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -126,6 +127,7 @@ const AuthenticatedLayout = (props) => {
 		</Layout>
     );
 };
+
 const AppLayout = (props) => {
 	const { appStore, appDispatch } = useContext(AppContext);
 

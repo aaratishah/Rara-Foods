@@ -9,6 +9,7 @@ import Icon, {
   DollarOutlined, FieldTimeOutlined,
   HomeFilled,
   IssuesCloseOutlined,
+  MobileOutlined,
   PayCircleOutlined,
   PlusSquareOutlined,
   PoundOutlined,
@@ -485,6 +486,30 @@ const sidebar = [
     auth: [PRIVILEGE_ADMIN],
   },
   {
+    key: 'campaign',
+    label: 'Campaign',
+    icon: <UserOutlined/>,
+    auth: [PRIVILEGE_ADMIN],
+    children: [
+      {
+        key: 'sms',
+        route: routeURL.cms.sms_campaign(),
+        label: 'SMS Campaign',
+        icon: <MobileOutlined />,
+        auth: [PRIVILEGE_ADMIN],
+
+      },
+      {
+        key: 'email',
+        route: routeURL.cms.email_campaign(),
+        label: 'Email Campaign',
+        icon: <Icon component={EmailOpenIcon}/>,
+        auth: [PRIVILEGE_ADMIN],
+
+      },
+    ]
+  },
+  {
   	key: "log",
   	route: routeURL.cms.log(),
   	label: "Log Management",
@@ -504,14 +529,6 @@ const sidebar = [
     icon: <Icon component={WebIcon}/>,
     auth: [PRIVILEGE_ADMIN],
     children: [
-      {
-        key: 'sms',
-        route: routeURL.cms.sms_campaign(),
-        label: 'SMS Campaign',
-        icon: <Icon component={EmailOpenIcon}/>,
-        auth: [PRIVILEGE_ADMIN],
-
-      },
       {
         key: 'commission',
         route: routeURL.cms.commission(),

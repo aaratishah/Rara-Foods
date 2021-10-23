@@ -1,4 +1,5 @@
-export default {
+
+export const routeURL = {
   cms: {
     home: () => '/admin',
     login: () => '/admin/login',
@@ -111,6 +112,9 @@ export default {
 
     sms_campaign: () => "/admin/sms-campaign",
     sms_campaign_add: () => "/admin/sms-campaign/add",
+
+    email_campaign: () => "/admin/email-campaign",
+    email_campaign_add: () => "/admin/email-campaign/add",
 
     vehicle_type: () => "/admin/vehicle-type",
     vehicle_type_add: () => `/admin/vehicle-type/add`,
@@ -237,3 +241,6 @@ export default {
   },
   params: (link,query) => `${link}/?${query}`
 };
+
+
+export default routeURL;

@@ -30,6 +30,7 @@ import reviewConfig from "./review/route";
 import riderWithdrawConfig from "./rider_withdraw/route";
 import restaurantWithdrawConfig from "./restaurant_withdraw/route";
 import queryConfig from "./query/route";
+import campaignConfig from "./campaign/route";
 // import rideConfig from "./ride/route";
 
 export default [
@@ -40,6 +41,7 @@ export default [
   ...RiderConfig,
   ...RideConfig,
   ...SystemDataPageConfig,
+  ...campaignConfig,
   RegionConfig,
   DietaryPlanConfig,
   FoodSpecialityConfig,
