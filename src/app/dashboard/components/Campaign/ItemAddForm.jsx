@@ -53,7 +53,17 @@ const ItemAddForm = ({ ItemId, history, pageTitle="Send SMS", rowStyle }) => {
       };
       // if (ItemId) jsonData._id = ItemId;
       setSpinning(true);
-      api.settings.sendSMS(jsonData)
+      if(campaignName.toLowerCase() !== "Email".toLowerCase()) {
+        return api.settings.sendSMS(jsonData)
+        .then((data) => {
+          notificationSuccess(data.message);
+          history.push(backUrl);
+        })
+        .catch(handleError)
+        .finally(() => setSpinning(false));
+      }
+
+      api.settings.sendEmail(jsonData)
         .then((data) => {
           notificationSuccess(data.message);
           history.push(backUrl);

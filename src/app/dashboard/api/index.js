@@ -38,6 +38,7 @@ const url = {
   vehicle_type: '/api/settings/vehicle-type',
   settings: '/api/settings/configuration',
   sms: '/api/settings/sms',
+  email: '/api/settings/emailCamp',
   customer_notification: '/api/customer/notification',
   rider_notification: '/api/rider/notification',
   customer_review: '/api/customer/review',
@@ -503,7 +504,8 @@ export default {
     read: () => parse_res(api.get(`${url.settings}/`)),
     readSMS: () => parse_res(api.get(`${url.sms}/`)),
     sendSMS: (data) => parse_res(api.post(`${url.sms}/`, data)),
-
+    readEmail: () => parse_res(api.get(`${url.email}/`)),
+    sendEmail: (data) => parse_res(api.post(`${url.email}/`, data)),
   },
   constant: (constant) => parse_res(api.get(`/api/constant/${constant}`)),
 };
