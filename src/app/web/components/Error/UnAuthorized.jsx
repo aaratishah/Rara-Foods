@@ -2,11 +2,12 @@ import { useContext } from "react";
 import { Result, Button } from "antd";
 import Container from "app/web/components/Container";
 import routeURL from "config/routeURL";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserLoginContext } from "context/";
 
 export default function UnAuthorized() {
 	const [isVisible, setVisible, tab, setTab] = useContext(UserLoginContext);
+	const history = useHistory();
 
 	return (
 		<>
@@ -33,10 +34,7 @@ export default function UnAuthorized() {
 								</Link>,
 								<Button
 									key="login"
-									onClick={() => {
-										setTab("1");
-										setVisible(true);
-									}}
+									onClick={() => history.push(routeURL.web.client_login())}
 								>
 									Login
 								</Button>,

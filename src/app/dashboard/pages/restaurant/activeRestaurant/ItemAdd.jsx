@@ -428,6 +428,20 @@ export default function ItemAdd(props) {
                         />
                       </Form.Item>
                     </Col>
+                    <Col xs={24}>
+                      <Form.Item
+                        name="deliveryTime"
+                        label="Delivery Time (in minutes)"
+                      >
+                        <InputNumber
+                          min={0}
+                          max={1000}
+                          style={{
+                            width: '100%',
+                          }}
+                        />
+                      </Form.Item>
+                    </Col>
                   </Row>
                   <Row style={rowStyle} gutter={24}>
                     {/*<Col xs={24} md={12}>*/}
