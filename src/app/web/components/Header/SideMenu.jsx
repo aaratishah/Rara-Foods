@@ -30,6 +30,11 @@ const appLinkStyle = {
   textDecoration: "none",
 };
 
+const menuItemStyle = {
+  textDecoration: "none",
+  color: "#000",
+};
+
 export const AndroidLink = () => (
   <a
     target="_blank"
@@ -128,28 +133,57 @@ const SideMenu = ({ isAuth, onLogout, profile }) => {
               </Col>
 
               <Col style={{ marginLeft: 20 }}>
-                <Row>{profile && profile.name ? profile.name : 'No UserName'}</Row>
+                <Row>
+                  {profile && profile.name ? profile.name : "No UserName"}
+                </Row>
                 <Link to={routeURL.web.my_account("accountDetail")}>
                   <Row style={{ color: "blue" }}>View Account</Row>
                 </Link>
               </Col>
             </Row>
-            <div style={{ fontWeight: "bold", marginTop: 25, cursor: 'pointer' }}>
-              <ShoppingCartOutlined style={{ marginRight: 10, fontSize: 20 }} />
-              Orders
+            <div
+              style={{ fontWeight: "bold", marginTop: 25, cursor: "pointer" }}
+            >
+              <Link to={routeURL.web.my_account("order")} style={menuItemStyle}>
+                <ShoppingCartOutlined
+                  style={{ marginRight: 10, fontSize: 20 }}
+                />
+                Orders
+              </Link>
             </div>
-            <div style={{ fontWeight: "bold", marginTop: 25, cursor: 'pointer' }}>
-              <HeartFilled style={{ marginRight: 10, fontSize: 20 }} />
-              Wishlist
+            <div
+              style={{ fontWeight: "bold", marginTop: 25, cursor: "pointer" }}
+            >
+              <Link
+                to={routeURL.web.my_account("wishlist")}
+                style={menuItemStyle}
+              >
+                <HeartFilled style={{ marginRight: 10, fontSize: 20 }} />
+                Wishlist
+              </Link>
             </div>
-            <div style={{ fontWeight: "bold", marginTop: 25, cursor: 'pointer' }}>
-              <FaLocationArrow style={{ marginRight: 10, fontSize: 20 }} />
-              Address
+            <div
+              style={{ fontWeight: "bold", marginTop: 25, cursor: "pointer" }}
+            >
+              <Link
+                to={routeURL.web.my_account("shippingAddress")}
+                style={menuItemStyle}
+              >
+                <FaLocationArrow style={{ marginRight: 10, fontSize: 20 }} />
+                Address
+              </Link>
             </div>
-            <Button size="large" shape="round" style={{ marginTop: 30, cursor: 'pointer'}} onClick = {onLogout}>
+            <Button
+              size="large"
+              shape="round"
+              style={{ marginTop: 30, cursor: "pointer" }}
+              onClick={onLogout}
+            >
               SignOut
             </Button>
-            <div style = {{height: '1px', backgroundColor: 'gray', marginTop: 30, }}></div>
+            <div
+              style={{ height: "1px", backgroundColor: "gray", marginTop: 30 }}
+            ></div>
           </Col>
         ) : (
           <Button size="large" shape="round">

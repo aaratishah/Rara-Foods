@@ -80,6 +80,32 @@ export default function Account(props) {
     }
   }, [isAuth]);
 
+  const tabs = [
+    {
+      title: "Order",
+      key: "order",
+      content: <Order />,
+    },
+    {
+      title: "Wishlist",
+      key: "wishlist",
+      content: <Wishlist />,
+      // content: <Dashboard profile={profile} />,
+    },
+    {
+      title: "Address",
+      key: "shippingAddress",
+      content: <ShippingAddress />,
+    },
+    {
+      title: "Account Details",
+      key: "accountDetail",
+      content: (
+        <AccountDetail profile={profile} refreshProfile={refreshProfile} />
+      ),
+    },
+  ];
+
   return isAuth === undefined ? null : isAuth ? (
     <>
       <Helmet>
@@ -109,12 +135,11 @@ export default function Account(props) {
                 marginTop: 30,
               }}
             >
-              <Col xs={16} offset={4}>
-                <AccountDetail
-                  profile={profile}
-                  refreshProfile={refreshProfile}
-                />
-              </Col>
+              {tabs.map((tab, idx) => tab.key === tabValue && (
+                <Col xs={16} offset={4} key={idx}>
+                  {tab.content}
+                </Col>
+              ))}
             </div>
           </div>
         </div>

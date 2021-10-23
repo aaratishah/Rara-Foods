@@ -57,9 +57,9 @@ export default function ShippingAddress() {
             marginBottom: 16,
           }}
         >
-          <Col>
+          {/* <Col>
             <h4 className="account-title">Address</h4>
-          </Col>
+          </Col> */}
           <Col>
             <Button
               onClick={() => {
