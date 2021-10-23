@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import { LOGIN_USER_CLIENT, UserContext, UserLoginContext } from "context";
 import { Fragment, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { JwtService } from "services/jwtServiceClient";
 import DarkBlueRedButton from "../Button/DarkBlueRedButton";
 import { FacebookLogin, GoogleLogin } from "../socialLogin/";
@@ -11,6 +11,7 @@ import { LeftOutlined, UndoOutlined } from "@ant-design/icons";
 import { notificationSuccess } from "../notification";
 import "flag-icon-css/css/flag-icon.min.css";
 import { countryCode } from "./country";
+import routeURL from "config/routeURL";
 
 const loginStep = {
   PHONE_NUMBER: "PHONE_NUMBER",
@@ -36,7 +37,7 @@ const LoginForm = ({ history }) => {
     })
       .then((data) => {
         clientDispatch({ type: LOGIN_USER_CLIENT });
-        setVisible(false);
+        window.location.href = routeURL.web.home();
         notificationSuccess("Logged in successfully! ");
       })
       .catch(handleError)

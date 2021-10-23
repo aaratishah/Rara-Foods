@@ -17,7 +17,7 @@ const DesktopMenu = ({
   const history = useHistory();
 
   const handleSignInClick = () => {
-    return history.push("/login");
+    return history.push(routeURL.web.client_login());
   }
   
   return (
