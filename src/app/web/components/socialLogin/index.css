@@ -1,4 +1,18 @@
 .auth-login {
-    /*width: 40px !important;*/
-    height: 40px !important;
+  /*width: 40px !important;*/
+  height: 40px !important;
+}
+
+.google-login {
+  background-color: #4385f4 !important;
+  width: 120px !important;
+}
+
+.facebook-login {
+  width: 140px !important;
+}
+
+.apple-login {
+  width: 130px !important;
+  background-color: #000 !important;
 }

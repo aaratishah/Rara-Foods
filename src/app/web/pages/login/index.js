@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useRouteMatch } from "react-router-dom";
-import { Button, Form, Input, Layout, Row } from "antd";
+import { Button, Form, Input, Layout, Row, Col } from "antd";
 import {
   LOGIN_USER_CLIENT,
   LOGOUT_USER_CLIENT,
@@ -12,6 +12,7 @@ import AccountModal from "../../components/Account/";
 import { JwtService } from "services";
 
 import "./index.css";
+import Footer from "app/web/components/Footer";
 
 const { Content } = Layout;
 
@@ -40,13 +41,21 @@ const ClientLogin = (props) => {
           minHeight: "100vh",
         }}
       >
-        <Content style={{ height: "1px", overflow: "hidden" }}>
+        <Content style={{ overflow: "hidden" }}>
           <div className="client-login-main">
             {!clientStore.isAuthenticated && (
               <AccountModal history={props.history} />
             )}
           </div>
         </Content>
+        <Col xs={24} className="login-footer-copyright">
+          <p className="login-footer-text">
+            <span className="">
+              Copyright © {new Date().getFullYear()}. |&nbsp;
+              {process.env.REACT_APP_CMS_TITLE}&nbsp;|&nbsp;All rights reserved.{" "}
+            </span>
+          </p>
+        </Col>
       </Layout>
     </UserLoginContextProvider>
   );

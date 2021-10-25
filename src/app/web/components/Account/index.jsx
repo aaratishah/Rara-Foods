@@ -12,6 +12,7 @@ import { notificationSuccess } from "../notification";
 import "flag-icon-css/css/flag-icon.min.css";
 import { countryCode } from "./country";
 import routeURL from "config/routeURL";
+import AppleLogin from "../socialLogin/AppleLogin";
 
 const loginStep = {
   PHONE_NUMBER: "PHONE_NUMBER",
@@ -36,6 +37,7 @@ const LoginForm = ({ history }) => {
       hash: apiResponse.hash,
     })
       .then((data) => {
+        console.log("VERIFY OTP SUCCESS", data);
         clientDispatch({ type: LOGIN_USER_CLIENT });
         window.location.href = routeURL.web.home();
         notificationSuccess("Logged in successfully! ");
@@ -304,6 +306,9 @@ export default function Account({ history }) {
             </Col>
             <Col>
               <GoogleLogin />
+            </Col>
+            <Col>
+              <AppleLogin />
             </Col>
           </Row>
         </div>

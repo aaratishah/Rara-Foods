@@ -1,7 +1,23 @@
 .client-login-main {
-    background-color: #fff;
-    margin: 100px auto;
-    padding: 30px;
-    width: 500px;
-    box-shadow: 2px 2px 15px 0 rgb(0, 0, 0, 0.15);
+  background-color: #fff;
+  margin: 100px auto;
+  padding: 30px;
+  width: 500px;
+  box-shadow: 2px 2px 15px 0 rgb(0, 0, 0, 0.15);
+}
+
+.login-footer-text {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.login-footer-copyright {
+  background-color: #f44336;
+  color: #fff;
+  padding: 15px 30px;
+  text-align: center;
 }
