@@ -1,6 +1,11 @@
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { LOGIN_USER_CLIENT, UserContext, UserLoginContext } from "context";
-import { Fragment, useContext, useState } from "react";
+import {
+  LOGIN_USER_CLIENT,
+  UserContext,
+  UserLoginContext,
+  LOGOUT_USER_CLIENT,
+} from "context";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { JwtService } from "services/jwtServiceClient";
 import DarkBlueRedButton from "../Button/DarkBlueRedButton";
@@ -13,7 +18,6 @@ import "flag-icon-css/css/flag-icon.min.css";
 import { countryCode } from "./country";
 import routeURL from "config/routeURL";
 import AppleLogin from "../socialLogin/AppleLogin";
-
 const loginStep = {
   PHONE_NUMBER: "PHONE_NUMBER",
   OTP_PIN: "OTP_PIN",
@@ -24,11 +28,21 @@ const LoginForm = ({ history }) => {
   const [apiResponse, setApiResponse] = useState({
     OTPLength: 4,
   });
-  const [isVisible, setVisible] = useContext(UserLoginContext);
   const { clientStore, clientDispatch } = useContext(UserContext);
 
   const [loginRef] = Form.useForm();
   const [spinning, setSpinning] = useState(false);
+
+  useEffect(() => {
+    if (clientStore.isAuthenticated === undefined) {
+      const token = JwtService.getAccessToken();
+      if (JwtService.isAuthTokenValid(token)) {
+        clientDispatch({ type: LOGIN_USER_CLIENT });
+      } else {
+        clientDispatch({ type: LOGOUT_USER_CLIENT });
+      }
+    }
+  }, [clientStore.isAuthenticated, clientDispatch]);
 
   const verifyOTP = (values) => {
     JwtService.verifyOTP({
@@ -37,9 +51,7 @@ const LoginForm = ({ history }) => {
       hash: apiResponse.hash,
     })
       .then((data) => {
-        console.log("VERIFY OTP SUCCESS", data);
         clientDispatch({ type: LOGIN_USER_CLIENT });
-        window.location.href = routeURL.web.home();
         notificationSuccess("Logged in successfully! ");
       })
       .catch(handleError)
@@ -279,40 +291,48 @@ const LoginForm = ({ history }) => {
 };
 
 export default function Account({ history }) {
+  const { clientStore } = useContext(UserContext);
+
   return (
     <Fragment>
-      <div
-        style={{
-          width: "100%",
-        }}
-      >
-        <h4 className="text-center theme1">
-          {process.env.REACT_APP_CMS_TITLE} | Log In
-        </h4>
-        <LoginForm history={history} />
-      </div>
-      <div className="tab-content">
-        <div className="social-icon origin-color si-square">
-          <div className="font-size-md text-dark "> Log In With</div>
-          <Row
-            gutter={16}
+      {!clientStore.isAuthenticated ? (
+        <>
+          <div
             style={{
               width: "100%",
-              marginTop: 20,
             }}
           >
-            <Col>
-              <FacebookLogin />
-            </Col>
-            <Col>
-              <GoogleLogin />
-            </Col>
-            <Col>
-              <AppleLogin />
-            </Col>
-          </Row>
-        </div>
-      </div>
+            <h4 className="text-center theme1">
+              {process.env.REACT_APP_CMS_TITLE} | Log In
+            </h4>
+            <LoginForm history={history} />
+          </div>
+          <div className="tab-content">
+            <div className="social-icon origin-color si-square">
+              <div className="font-size-md text-dark "> Log In With</div>
+              <Row
+                gutter={16}
+                style={{
+                  width: "100%",
+                  marginTop: 20,
+                }}
+              >
+                <Col>
+                  <FacebookLogin />
+                </Col>
+                <Col>
+                  <GoogleLogin />
+                </Col>
+                <Col>
+                  <AppleLogin />
+                </Col>
+              </Row>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Redirect to={routeURL.web.home()} />
+      )}
     </Fragment>
   );
 }
