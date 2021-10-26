@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { Button, Col, Form, Input, Row, Select, Space } from "antd";
 import {
   LOGIN_USER_CLIENT,
   UserContext,
@@ -18,9 +18,11 @@ import "flag-icon-css/css/flag-icon.min.css";
 import { countryCode } from "./country";
 import routeURL from "config/routeURL";
 import AppleLogin from "../socialLogin/AppleLogin";
+import api from "app/web/api";
 const loginStep = {
   PHONE_NUMBER: "PHONE_NUMBER",
   OTP_PIN: "OTP_PIN",
+  NEW_USER: "NEW_USER",
 };
 
 const LoginForm = ({ history }) => {
@@ -50,10 +52,21 @@ const LoginForm = ({ history }) => {
       otp: values.otp,
       hash: apiResponse.hash,
     })
-      .then((data) => {
+      .then((response) => {
+        // return api.client.me();
+        // api.client
+        //   .me()
+        //   .then(({ data }) => setIsNew(data.hasProfileSave))
+        //   .catch(handleError)
+        //   .finally(() => setSpinningProfile(false));
         clientDispatch({ type: LOGIN_USER_CLIENT });
         notificationSuccess("Logged in successfully! ");
       })
+      // .then(({ data }) => {
+      //   if (!data.hasProfileSave) {
+      //     setStep(loginStep.NEW_USER);
+      //   }
+      // })
       .catch(handleError)
       .finally(() => setSpinning(false));
   };
@@ -65,6 +78,7 @@ const LoginForm = ({ history }) => {
       setSpinning(true);
       registerPhoneNumber(value);
     } else if (step === loginStep.OTP_PIN) {
+      setSpinning(true);
       verifyOTP(value);
     }
   };
@@ -200,6 +214,49 @@ const LoginForm = ({ history }) => {
     </>
   );
 
+  // const getNewUserUI = () => (
+  //   <>
+  //     <Row>
+  //       <Col md={10}>
+  //         <Form.Item
+  //           name="firstName"
+  //           rules={[
+  //             {
+  //               required: true,
+  //               message: "First Name is required",
+  //             },
+  //           ]}
+  //         >
+  //           <Input placeholder="First Name" />
+  //         </Form.Item>
+  //       </Col>
+  //       <Col md={10} style={{ marginLeft: "15px" }}>
+  //         <Form.Item
+  //           name="lastName"
+  //           rules={[
+  //             {
+  //               required: true,
+  //               message: "Last Name is required",
+  //             },
+  //           ]}
+  //         >
+  //           <Input placeholder="Last Name" />
+  //         </Form.Item>
+  //       </Col>
+  //     </Row>
+  //     <Row>
+  //       <DarkBlueRedButton
+  //         shape="default"
+  //         loading={spinning}
+  //         className="login-form-button"
+  //         htmlType="submit"
+  //       >
+  //         Save
+  //       </DarkBlueRedButton>
+  //     </Row>
+  //   </>
+  // );
+
   const getOTPUI = () => (
     <>
       <label>
@@ -286,6 +343,7 @@ const LoginForm = ({ history }) => {
     >
       {step === loginStep.PHONE_NUMBER && getPhoneNumberUI()}
       {step === loginStep.OTP_PIN && getOTPUI()}
+      {/* {step === loginStep.NEW_USER && getNewUserUI()} */}
     </Form>
   );
 };
