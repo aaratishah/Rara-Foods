@@ -5,7 +5,7 @@ const AppleLogin = () => {
   return (
     <div className="auth-login apple-login">
       <AppleFilled style={{ fontSize: "24px", verticalAlign: 3 }} />
-      <span style={{ marginLeft: "8px" }}>Apple Id</span>
+      <span style={{ marginLeft: "8px", verticalAlign: "top" }}>Apple Id</span>
     </div>
   );
 };
