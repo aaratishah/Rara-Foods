@@ -100,50 +100,6 @@ export default function AllRestaurant(props) {
     );
   };
 
-  // return (
-  //   <Container>
-  //     <section className="cart-page">
-  //       <Row
-  //         style={{
-  //           width: "100%",
-  //         }}
-  //       >
-  //         <Col
-  //           xs={24}
-  //           style={{
-  //             paddingTop: 90,
-  //           }}
-  //         >
-  //           <SearchOption onSearch={onSearch} query={params} />
-  //         </Col>
-  //         <Col xs={24}>
-  //           {spinning ? (
-  //             <Row
-  //               align="middle"
-  //               justify="center"
-  //               style={{
-  //                 minHeight: 300,
-  //               }}
-  //             >
-  //               <Spin />
-  //             </Row>
-  //           ) : searchResult.length === 0 ? (
-  //             <EmptyResult />
-  //           ) : (
-  //             <SearchResult
-  //               spinning={spinning}
-  //               query={params.q}
-  //               fetchData={fetchMoreData}
-  //               pagination={pagination}
-  //               result={searchResult}
-  //             />
-  //           )}
-  //         </Col>
-  //       </Row>
-  //     </section>
-  //   </Container>
-  // );
-
   return (
     <Container>
       <Layout style={{ backgroundColor: "#fff", padding: "20px" }}>

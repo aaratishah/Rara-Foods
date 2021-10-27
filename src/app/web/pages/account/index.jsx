@@ -17,35 +17,22 @@ import { Link } from "react-router-dom";
 import routeURL from "config/routeURL";
 import { Helmet } from "react-helmet";
 import LinkSocialMedia from "app/web/pages/account/LinkSocialMedia";
+import BannerContainer from "app/web/components/Banner/Banner";
 
 const pageTitle = "Account Details";
 
 const Banner = () => (
-  <section
-    className="bg_cover"
-    style={{
-      backgroundImage: `url(${bannerImage})`,
-      height: "200px",
-      backgroundPosition: "top center",
-    }}
-  >
-    <div className="container">
-      <div className="page-banner-content text-center">
-        <h2 className="title" style={{ marginTop: "120px" }}>
-          My Account
-        </h2>
-        <ol
-          className="breadcrumb justify-content-center"
-          style={{ marginTop: "150px" }}
-        >
-          <li className="breadcrumb-item">
-            <a href="index.html">Home</a>
-          </li>
-          <li className="breadcrumb-item active">My Account</li>
-        </ol>
-      </div>
-    </div>
-  </section>
+  <BannerContainer bannerText="My Account">
+    <ol
+      className="breadcrumb justify-content-center"
+      style={{ marginTop: "150px" }}
+    >
+      <li className="breadcrumb-item">
+        <Link to={routeURL.web.home()}>Home</Link>
+      </li>
+      <li className="breadcrumb-item active">My Account</li>
+    </ol>
+  </BannerContainer>
 );
 
 export default function Account(props) {
@@ -135,11 +122,14 @@ export default function Account(props) {
                 marginTop: 30,
               }}
             >
-              {tabs.map((tab, idx) => tab.key === tabValue && (
-                <Col xs={16} offset={4} key={idx}>
-                  {tab.content}
-                </Col>
-              ))}
+              {tabs.map(
+                (tab, idx) =>
+                  tab.key === tabValue && (
+                    <Col xs={16} offset={4} key={idx}>
+                      {tab.content}
+                    </Col>
+                  )
+              )}
             </div>
           </div>
         </div>
