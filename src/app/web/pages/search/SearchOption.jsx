@@ -16,7 +16,7 @@ export default function SearchOption({ query, onSearch }) {
   }, []);
   return (
     <Form layout="vertical">
-      <Row
+      <Col
         gutter={[16, 16]}
         style={
           {
@@ -53,6 +53,7 @@ export default function SearchOption({ query, onSearch }) {
           <Form.Item
             style={{
               marginBottom: 0,
+              marginTop: '15px'
             }}
             label="Dietary"
           >
@@ -77,6 +78,7 @@ export default function SearchOption({ query, onSearch }) {
           <Form.Item
             style={{
               marginBottom: 0,
+              marginTop: '15px'
             }}
             label="Popularity"
           >
@@ -103,7 +105,7 @@ export default function SearchOption({ query, onSearch }) {
             </Select>
           </Form.Item>
         </Col>
-      </Row>
+      </Col>
     </Form>
   );
 }

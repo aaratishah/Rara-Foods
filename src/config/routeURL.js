@@ -116,6 +116,10 @@ export const routeURL = {
     email_campaign: () => "/admin/email-campaign",
     email_campaign_add: () => "/admin/email-campaign/add",
 
+    promotion: () => '/admin/promotion',
+    promotion_add: () => '/admin/promotion/add',
+    promotion_edit: (itemId) => `/admin/promotion/edit/${itemId ? itemId : ':itemId'}`,
+
     vehicle_type: () => "/admin/vehicle-type",
     vehicle_type_add: () => `/admin/vehicle-type/add`,
     vehicle_type_edit: (itemId) =>
