@@ -151,7 +151,7 @@ export default function AccountDetail({ profile, refreshProfile }) {
                   <Form.Item name="address" label="Address">
                     <ShippingAddress />
                   </Form.Item>
-                  </Row>
+                </Row>
 
                 {/*<Form.Item*/}
                 {/*  style={{*/}

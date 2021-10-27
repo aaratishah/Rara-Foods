@@ -3,6 +3,7 @@ import ClientLoginLayout from "app/web/layout/ClientLoginLayout";
 import { Form, Input, Row, Col } from "antd";
 import DarkBlueRedButton from "app/web/components/Button/DarkBlueRedButton";
 import SocialLoginFooter from "app/web/components/Account/SocialLoginFooter";
+import { notificationSuccess } from "app/web/components/notification";
 import { UserProvider } from "context";
 import api from "app/web/api";
 import { Redirect } from "react-router";
@@ -20,27 +21,34 @@ const NewUser = () => {
     api.client
       .me()
       .then(({ data }) => {
-        if (data.hasProfileSave) {
+        if (data.hasProfileSave && data.name) {
           setIsNew(false);
         } else {
           setIsNew(true);
         }
-        // isInitial = false;
       })
       .catch(handleError)
       .finally(() => setIsSpinning(false));
   }, []);
 
-  useEffect(() => {
-    console.log("IS USER REGISTERED", isNew);
-  }, [isNew]);
-
   const onSaveForm = (values) => {
-    setIsSpinning(true);
-    setTimeout(() => {
-      setIsSpinning(false);
-      console.log("Form Value", values);
-    }, 3000);
+    const jsonData = {
+      name: `${values.firstName.trim()} ${values.lastName.trim()}`,
+    };
+    // client side validation here
+    if (true) {
+      setIsSpinning(true);
+      api.client
+        .editProfile(jsonData)
+        .then((tokenInfo) => {
+          notificationSuccess("Account Updated");
+        })
+        .then(() => {
+          setIsNew(false);
+        })
+        .catch(handleError)
+        .finally(() => setIsSpinning(false));
+    }
   };
 
   const getNewUserUI = (spinning) => (
