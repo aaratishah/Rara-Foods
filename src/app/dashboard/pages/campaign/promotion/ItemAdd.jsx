@@ -1,7 +1,5 @@
 import { Row } from "antd";
 import PromotionAddForm from "app/dashboard/components/Campaign/PromotionAddForm";
-// import AddPageLayout from 'app/dashboard/components/ListTable/AddPageLayout';
-// import { notificationError } from 'app/dashboard/components/notification';
 
 const rowStyle = {
   width: "100%",

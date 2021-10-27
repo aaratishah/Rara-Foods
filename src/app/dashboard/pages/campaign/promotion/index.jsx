@@ -36,13 +36,6 @@ export default function Promotion() {
           title: `Add Promotion`,
           url: routeURL.cms.promotion_add,
         }}
-        // edit={{
-        //   url: routeURL.cms.customer_review_edit,
-        //   title: 'Duplicate'
-        // }}
-        // preview={{
-        //   url: routeURL.cms.customer_review_view,
-        // }}
         columnData={columns}
         apiURL={{
           get: api.settings.readPromotion,
