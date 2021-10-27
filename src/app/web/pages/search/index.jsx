@@ -124,6 +124,7 @@ export default function Search(props) {
       {true ? (
         <Container>
           <section className="cart-page">
+            <BannerSection />
             <Row
               style={{
                 width: '100%',
