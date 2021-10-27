@@ -34,6 +34,7 @@ const url = {
   terms_and_condition: '/api/terms-and-condition',
   review: '/api/review',
   vehicle_type: '/api/settings/vehicle-type',
+  featured_restaurant: '/api/featured'
 };
 
 const parse_res = (api) =>

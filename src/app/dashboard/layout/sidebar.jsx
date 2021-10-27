@@ -19,6 +19,7 @@ import Icon, {
   UserAddOutlined,
   UserOutlined,
   UserSwitchOutlined,
+  WalletOutlined
 } from '@ant-design/icons';
 import logoImg from 'image/logo.png';
 import routeURL from 'config/routeURL';
@@ -35,7 +36,7 @@ import {
   WebIcon,
 } from 'image/icon-svg';
 import { JwtService } from 'services';
-import { PRIVILEGE_ADMIN } from 'config';
+import { PRIVILEGE_ADMIN, PRIVILEGE_RESTAURANT } from 'config';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -49,6 +50,7 @@ const sidebar = [
     auth: true,
     // children: []
   },
+
   {
     key: 'order',
     label: 'Order',
@@ -231,21 +233,21 @@ const sidebar = [
         route: routeURL.cms.dietary_plan(),
         label: 'Dietary Plan',
         icon: <Icon component={DietaryPlanIcon}/>,
-        auth: [PRIVILEGE_ADMIN],
+        auth: true,
       },
       {
         key: 'speciality_food',
         route: routeURL.cms.food_speciality(),
         label: 'Food Speciality',
         icon: <Icon component={DietaryPlanIcon}/>,
-        auth: [PRIVILEGE_ADMIN],
+        auth: true,
       },
       {
         key: 'category_food',
         route: routeURL.cms.food_category(),
         label: 'Food Category',
         icon: <Icon component={WebIcon}/>,
-        auth: [PRIVILEGE_ADMIN],
+        auth: true,
       },
       {
         key: 'group_food',
@@ -266,9 +268,17 @@ const sidebar = [
         route: routeURL.cms.restaurant_package(),
         label: 'Restaurant Package',
         icon: <Icon component={RestaurantIcon}/>,
-        auth: [PRIVILEGE_ADMIN],
+        auth: true,
       },
     ],
+  },
+  {
+    key: 'wallet',
+    route: routeURL.cms.restaurant_earning(),
+    label: 'Wallet',
+    icon: <WalletOutlined />,
+    auth: [PRIVILEGE_RESTAURANT],
+    // children: []
   },
   {
     key: 'payment',
@@ -507,6 +517,14 @@ const sidebar = [
         auth: [PRIVILEGE_ADMIN],
 
       },
+      {
+        key: 'promotion',
+        route: routeURL.cms.promotion(),
+        label: 'Promotion',
+        icon: <Icon component={EmailOpenIcon}/>,
+        auth: [PRIVILEGE_ADMIN],
+
+      },
     ]
   },
   {
@@ -522,6 +540,7 @@ const sidebar = [
     route: routeURL.cms.community(),
     label: 'Community',
     icon: <Icon component={community_icon} />,
+    auth:[PRIVILEGE_ADMIN]
   },
   {
     key: 'system-data',

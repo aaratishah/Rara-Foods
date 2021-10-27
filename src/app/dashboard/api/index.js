@@ -50,6 +50,7 @@ const url = {
   restaurant_withdraw: '/api/restaurant/withdraw',
   rider_payment_method: '/api/rider/payment-method',
   ride: '/api/ride',
+  promotion: '/api/featured',
 
 };
 
@@ -506,6 +507,8 @@ export default {
     sendSMS: (data) => parse_res(api.post(`${url.sms}/`, data)),
     readEmail: () => parse_res(api.get(`${url.email}/`)),
     sendEmail: (data) => parse_res(api.post(`${url.email}/`, data)),
+    readPromotion: () => parse_res(api.get(`${url.promotion}/`)),
+    sendPromotion: (data) => parse_res(api.post(`${url.promotion}/`, data))
   },
   constant: (constant) => parse_res(api.get(`/api/constant/${constant}`)),
 };

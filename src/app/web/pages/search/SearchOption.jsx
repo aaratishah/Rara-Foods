@@ -73,6 +73,7 @@ export default function SearchOption({ query, onSearch }) {
           <Form.Item
             style={{
               marginBottom: 0,
+              marginTop: "15px",
             }}
             label="Popularity"
           >
