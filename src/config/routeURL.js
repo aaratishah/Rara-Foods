@@ -1,35 +1,33 @@
-
 export const routeURL = {
   cms: {
-    home: () => '/admin',
-    login: () => '/admin/login',
-    promote: () => '/admin/promote',
-    terms_and_condition: () => '/admin/terms-and-condition',
-    privacy_policy: () => '/admin/privacy-policy',
-    pending_order: () => '/admin/pending-order',
-    completed_order: () => '/admin/completed-order',
-    upcoming_order: () => '/admin/upcoming-order',
-    contact_message: () => '/admin/contact-message',
-    restaurant_earning: () => '/admin/restaurant-earning',
-    company_earning: () => '/admin/company-earning',
-    account: () => '/admin/my-account',
-    error404: () => '/admin/errors/error-404',
-    shipping_charge: () => '/admin/shipping-charge',
+    home: () => "/admin",
+    login: () => "/admin/login",
+    promote: () => "/admin/promote",
+    terms_and_condition: () => "/admin/terms-and-condition",
+    privacy_policy: () => "/admin/privacy-policy",
+    pending_order: () => "/admin/pending-order",
+    completed_order: () => "/admin/completed-order",
+    upcoming_order: () => "/admin/upcoming-order",
+    contact_message: () => "/admin/contact-message",
+    restaurant_earning: () => "/admin/restaurant-earning",
+    company_earning: () => "/admin/company-earning",
+    account: () => "/admin/my-account",
+    error404: () => "/admin/errors/error-404",
+    shipping_charge: () => "/admin/shipping-charge",
     shipping_charge_add: () => `/admin/shipping-charge/add`,
     shipping_charge_edit: (itemId) =>
-      `/admin/shipping-charge/edit/${itemId ? itemId : ':itemId'}`,
-    tax: () => '/admin/tax',
+      `/admin/shipping-charge/edit/${itemId ? itemId : ":itemId"}`,
+    tax: () => "/admin/tax",
     tax_add: () => `/admin/tax/add`,
-    tax_edit: (itemId) =>
-      `/admin/tax/edit/${itemId ? itemId : ':itemId'}`,
-    region: () => '/admin/region',
+    tax_edit: (itemId) => `/admin/tax/edit/${itemId ? itemId : ":itemId"}`,
+    region: () => "/admin/region",
     region_add: () => `/admin/region/add`,
     region_edit: (itemId) =>
-      `/admin/region/edit/${itemId ? itemId : ':itemId'}`,
-    food_category: () => '/admin/category-food',
+      `/admin/region/edit/${itemId ? itemId : ":itemId"}`,
+    food_category: () => "/admin/category-food",
     food_category_add: () => `/admin/category-food/add`,
     food_category_edit: (itemId) =>
-      `/admin/category-food/edit/${itemId ? itemId : ':itemId'}`,
+      `/admin/category-food/edit/${itemId ? itemId : ":itemId"}`,
 
     search_rider: () => "/admin/search-rider",
     rider_request: () => "/admin/rider-request",
@@ -48,55 +46,54 @@ export const routeURL = {
     rider_active: () => "/admin/rider-active",
     rider_suspend: () => "/admin/rider-suspend",
 
-
-    rider: () => '/admin/rider',
+    rider: () => "/admin/rider",
     rider_add: () => `/admin/rider/add`,
-    rider_edit: (itemId) => `/admin/rider/edit/${itemId ? itemId : ':itemId'}`,
+    rider_edit: (itemId) => `/admin/rider/edit/${itemId ? itemId : ":itemId"}`,
     rider_request_verify: (itemId) =>
-      `/admin/rider/verify/${itemId ? itemId : ':itemId'}`,
-    dietary_plan: () => '/admin/dietary-plan',
+      `/admin/rider/verify/${itemId ? itemId : ":itemId"}`,
+    dietary_plan: () => "/admin/dietary-plan",
     dietary_plan_add: () => `/admin/dietary-plan/add`,
     dietary_plan_edit: (itemId) =>
-      `/admin/dietary-plan/edit/${itemId ? itemId : ':itemId'}`,
-    food_speciality: () => '/admin/speciality-food',
+      `/admin/dietary-plan/edit/${itemId ? itemId : ":itemId"}`,
+    food_speciality: () => "/admin/speciality-food",
     food_speciality_add: () => `/admin/speciality-food/add`,
     food_speciality_edit: (itemId) =>
-      `/admin/speciality-food/edit/${itemId ? itemId : ':itemId'}`,
-    restaurant_request: () => '/admin/restaurant-request',
-    restaurant_rejected: () => '/admin/restaurant-rejected',
-    restaurant: () => '/admin/active-restaurant',
+      `/admin/speciality-food/edit/${itemId ? itemId : ":itemId"}`,
+    restaurant_request: () => "/admin/restaurant-request",
+    restaurant_rejected: () => "/admin/restaurant-rejected",
+    restaurant: () => "/admin/active-restaurant",
     restaurant_add: () => `/admin/active-restaurant/add`,
     restaurant_edit: (itemId) =>
-      `/admin/active-restaurant/edit/${itemId ? itemId : ':itemId'}`,
-    food_group_restaurant: () => '/admin/restaurant-food-group',
+      `/admin/active-restaurant/edit/${itemId ? itemId : ":itemId"}`,
+    food_group_restaurant: () => "/admin/restaurant-food-group",
     food_group_restaurant_add: () => `/admin/restaurant-food-group/add`,
     food_group_restaurant_edit: (itemId) =>
-      `/admin/restaurant-food-group/edit/${itemId ? itemId : ':itemId'}`,
-    food: () => '/admin/food',
+      `/admin/restaurant-food-group/edit/${itemId ? itemId : ":itemId"}`,
+    food: () => "/admin/food",
     food_add: () => `/admin/food/add`,
-    food_edit: (itemId) => `/admin/food/edit/${itemId ? itemId : ':itemId'}`,
-    restaurant_package: () => '/admin/restaurant-package',
+    food_edit: (itemId) => `/admin/food/edit/${itemId ? itemId : ":itemId"}`,
+    restaurant_package: () => "/admin/restaurant-package",
     restaurant_package_add: () => `/admin/restaurant-package/add`,
     restaurant_package_edit: (itemId) =>
-      `/admin/restaurant-package/edit/${itemId ? itemId : ':itemId'}`,
-    food_and_beverage: () => '/admin/food-and-beverage',
+      `/admin/restaurant-package/edit/${itemId ? itemId : ":itemId"}`,
+    food_and_beverage: () => "/admin/food-and-beverage",
     food_and_beverage_add: () => `/admin/food-and-beverage/add`,
     food_and_beverage_edit: (itemId) =>
-      `/admin/food-and-beverage/edit/${itemId ? itemId : ':itemId'}`,
-    community: () => '/admin/community',
+      `/admin/food-and-beverage/edit/${itemId ? itemId : ":itemId"}`,
+    community: () => "/admin/community",
     community_add: () => `/admin/community/add`,
     community_edit: (itemId) =>
-      `/admin/community/edit/${itemId ? itemId : ':itemId'}`,
+      `/admin/community/edit/${itemId ? itemId : ":itemId"}`,
     community_edit_answer: (questionId, threadid) =>
-      `/admin/community-answer/${questionId ? questionId : ':questionId'}/${
-        threadid ? threadid : ':itemId'
+      `/admin/community-answer/${questionId ? questionId : ":questionId"}/${
+        threadid ? threadid : ":itemId"
       }`,
-    user_management: () => '/admin/user-management',
+    user_management: () => "/admin/user-management",
     user_management_add: () => `/admin/user-management/add`,
     user_management_edit: (userId) =>
-      `/admin/user-management/edit/${userId ? userId : ':userId'}`,
-    client_list: () => '/admin/client-list',
-    log: () => '/admin/log-list',
+      `/admin/user-management/edit/${userId ? userId : ":userId"}`,
+    client_list: () => "/admin/client-list",
+    log: () => "/admin/log-list",
 
     commission: () => "/admin/commission",
     commission_add: () => `/admin/commission/add`,
@@ -176,10 +173,12 @@ export const routeURL = {
     sweat_coin_payment: () => "/admin/sweat-coin-payment",
 
     restaurant_withdraw_request: () => "/admin/restaurant-withdraw-request",
-    restaurant_withdraw_request_add: () => `/admin/restaurant-withdraw-request/add`,
+    restaurant_withdraw_request_add: () =>
+      `/admin/restaurant-withdraw-request/add`,
     restaurant_withdraw_request_view: (itemId) =>
       `/admin/restaurant-withdraw-request/view/${itemId ? itemId : ":itemId"}`,
-    restaurant_successful_withdraw: () => "/admin/restaurant-successful-withdraw",
+    restaurant_successful_withdraw: () =>
+      "/admin/restaurant-successful-withdraw",
     restaurant_cancelled_withdraw: () => "/admin/restaurant-cancelled-withdraw",
 
     withdraw_request: () => "/admin/withdraw-request",
@@ -209,38 +208,37 @@ export const routeURL = {
     cancelled_ride: () => "/admin/cancelled-ride",
     pending_ride: () => "/admin/pending-history",
     active_ride: () => "/admin/active-history",
-
   },
   web: {
     search: () => `/search`,
-    home: () => '/',
-    terms_and_condition: () => '/terms-and-condition',
-    privacy_policy: () => '/privacy-policy',
-    forget_password: () => '/forget-password',
-    my_account: (tabValue) => `/account/dashboard/${tabValue || ':tabValue'}`,
-    cart: () => '/shop/cart',
-    checkout: () => '/shop/checkout',
-    rider_request: () => '/rider-request',
-    restaurant_request: () => '/restaurant-request',
-    forget_username: () => '/forget-username',
-    confirm_email: () => '/confirm-email',
-    aboutUs: () => '/about-us',
-    contactUs: () => '/contact-us',
-    error404: () => '/errors/error-404',
-    client_login: () => '/login',
-    client_register: () => '/register',
-    food_and_beverage: () => '/food-and-beverage',
-    cart_edit_item: (itemId) => `/cart-edit/${itemId || ':itemId'}`,
+    home: () => "/",
+    new_user: () => "/login/new-user",
+    terms_and_condition: () => "/terms-and-condition",
+    privacy_policy: () => "/privacy-policy",
+    forget_password: () => "/forget-password",
+    my_account: (tabValue) => `/account/dashboard/${tabValue || ":tabValue"}`,
+    cart: () => "/shop/cart",
+    checkout: () => "/shop/checkout",
+    rider_request: () => "/rider-request",
+    restaurant_request: () => "/restaurant-request",
+    forget_username: () => "/forget-username",
+    confirm_email: () => "/confirm-email",
+    aboutUs: () => "/about-us",
+    contactUs: () => "/contact-us",
+    error404: () => "/errors/error-404",
+    client_login: () => "/login",
+    client_register: () => "/register",
+    food_and_beverage: () => "/food-and-beverage",
+    cart_edit_item: (itemId) => `/cart-edit/${itemId || ":itemId"}`,
     food_and_beverage_detail: (itemId) =>
-      `/food-and-beverage/${itemId || ':itemId'}`,
-    restaurant_detail: (itemId) => `/restaurant/${itemId || ':itemId'}`,
-    community: () => '/community',
-    community_detail: (itemId) => `/community/${itemId || ':itemId'}`,
+      `/food-and-beverage/${itemId || ":itemId"}`,
+    restaurant_detail: (itemId) => `/restaurant/${itemId || ":itemId"}`,
+    community: () => "/community",
+    community_detail: (itemId) => `/community/${itemId || ":itemId"}`,
     restaurant_list: (queryString) =>
-      `/restaurants/${queryString ? ('?' + queryString) : ''}`,
+      `/restaurants/${queryString ? "?" + queryString : ""}`,
   },
-  params: (link,query) => `${link}/?${query}`
+  params: (link, query) => `${link}/?${query}`,
 };
-
 
 export default routeURL;

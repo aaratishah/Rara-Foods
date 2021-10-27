@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import { handleError } from "services/util";
 
 export const GoogleLogin = function ({ onSuccess, text = "" }) {
-  const [isVisible, setVisible] = useContext(UserLoginContext);
+  // const [isVisible, setVisible] = useContext(UserLoginContext);
   const { clientDispatch } = useContext(UserContext);
 
   const responseGoogle = (response) => {
@@ -26,7 +26,7 @@ export const GoogleLogin = function ({ onSuccess, text = "" }) {
           console.log("message", message);
           notificationSuccess(message);
           clientDispatch({ type: LOGIN_USER_CLIENT });
-          setVisible(false);
+          // setVisible(false);
         })
         .catch(handleError);
       // .finally(() => setSpinning(false));

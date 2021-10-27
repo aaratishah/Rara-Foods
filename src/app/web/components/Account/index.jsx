@@ -1,15 +1,9 @@
 import { Button, Col, Form, Input, Row, Select, Space } from "antd";
-import {
-  LOGIN_USER_CLIENT,
-  UserContext,
-  UserLoginContext,
-  LOGOUT_USER_CLIENT,
-} from "context";
+import { LOGIN_USER_CLIENT, UserContext, LOGOUT_USER_CLIENT } from "context";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { JwtService } from "services/jwtServiceClient";
 import DarkBlueRedButton from "../Button/DarkBlueRedButton";
-import { FacebookLogin, GoogleLogin } from "../socialLogin/";
 import "./index.css";
 import { handleError } from "services/util";
 import { LeftOutlined, UndoOutlined } from "@ant-design/icons";
@@ -17,8 +11,7 @@ import { notificationSuccess } from "../notification";
 import "flag-icon-css/css/flag-icon.min.css";
 import { countryCode } from "./country";
 import routeURL from "config/routeURL";
-import AppleLogin from "../socialLogin/AppleLogin";
-import api from "app/web/api";
+import SocialLoginFooter from "./SocialLoginFooter";
 const loginStep = {
   PHONE_NUMBER: "PHONE_NUMBER",
   OTP_PIN: "OTP_PIN",
@@ -53,14 +46,9 @@ const LoginForm = ({ history }) => {
       hash: apiResponse.hash,
     })
       .then((response) => {
-        // return api.client.me();
-        // api.client
-        //   .me()
-        //   .then(({ data }) => setIsNew(data.hasProfileSave))
-        //   .catch(handleError)
-        //   .finally(() => setSpinningProfile(false));
         clientDispatch({ type: LOGIN_USER_CLIENT });
         notificationSuccess("Logged in successfully! ");
+        window.location.href = routeURL.web.new_user();
       })
       // .then(({ data }) => {
       //   if (!data.hasProfileSave) {
@@ -214,49 +202,6 @@ const LoginForm = ({ history }) => {
     </>
   );
 
-  // const getNewUserUI = () => (
-  //   <>
-  //     <Row>
-  //       <Col md={10}>
-  //         <Form.Item
-  //           name="firstName"
-  //           rules={[
-  //             {
-  //               required: true,
-  //               message: "First Name is required",
-  //             },
-  //           ]}
-  //         >
-  //           <Input placeholder="First Name" />
-  //         </Form.Item>
-  //       </Col>
-  //       <Col md={10} style={{ marginLeft: "15px" }}>
-  //         <Form.Item
-  //           name="lastName"
-  //           rules={[
-  //             {
-  //               required: true,
-  //               message: "Last Name is required",
-  //             },
-  //           ]}
-  //         >
-  //           <Input placeholder="Last Name" />
-  //         </Form.Item>
-  //       </Col>
-  //     </Row>
-  //     <Row>
-  //       <DarkBlueRedButton
-  //         shape="default"
-  //         loading={spinning}
-  //         className="login-form-button"
-  //         htmlType="submit"
-  //       >
-  //         Save
-  //       </DarkBlueRedButton>
-  //     </Row>
-  //   </>
-  // );
-
   const getOTPUI = () => (
     <>
       <label>
@@ -365,28 +310,7 @@ export default function Account({ history }) {
             </h4>
             <LoginForm history={history} />
           </div>
-          <div className="tab-content">
-            <div className="social-icon origin-color si-square">
-              <div className="font-size-md text-dark "> Log In With</div>
-              <Row
-                gutter={16}
-                style={{
-                  width: "100%",
-                  marginTop: 20,
-                }}
-              >
-                <Col>
-                  <FacebookLogin />
-                </Col>
-                <Col>
-                  <GoogleLogin />
-                </Col>
-                <Col>
-                  <AppleLogin />
-                </Col>
-              </Row>
-            </div>
-          </div>
+          <SocialLoginFooter />
         </>
       ) : (
         <Redirect to={routeURL.web.home()} />

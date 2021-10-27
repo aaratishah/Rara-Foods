@@ -12,7 +12,7 @@ import "./index.css";
 import PropTypes from "prop-types";
 
 export const FacebookLogin = function ({ onSuccess, text = "" }) {
-  const [isVisible, setVisible] = useContext(UserLoginContext);
+  // const [isVisible, setVisible] = useContext(UserLoginContext);
   const { clientDispatch } = useContext(UserContext);
 
   const responseFacebook = (response) => {
@@ -23,7 +23,7 @@ export const FacebookLogin = function ({ onSuccess, text = "" }) {
         .then((message) => {
           notificationSuccess(message);
           clientDispatch({ type: LOGIN_USER_CLIENT });
-          setVisible(false);
+          // setVisible(false);
         })
         .catch((error) => {
           if (error && error.data) {
