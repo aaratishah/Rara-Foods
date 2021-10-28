@@ -1,7 +1,7 @@
-import { Button, Col, Row, Tooltip, Typography } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Restaurant from '../home/FoodProduct';
-import './index.css';
+import { Button, Col, Row, Tooltip, Typography } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Restaurant from "../home/FoodProduct";
+import "./index.css";
 
 export default function SearchResult({
   spinning,
@@ -10,21 +10,18 @@ export default function SearchResult({
   pagination,
 }) {
   return (
-    <Row
-      style={{
-        marginTop: 50,
-      }}
-    >
+    <Row>
       <InfiniteScroll
         className="ant-row "
+        style={{ paddingTop: 0 }}
         dataLength={result.length}
         next={fetchData}
         endMessage={
           <Row
             justify="center"
             style={{
-              margin: '20px 0px',
-              width: '100%',
+              margin: "20px 0px",
+              width: "100%",
             }}
           >
             <Col>
@@ -54,12 +51,12 @@ export default function SearchResult({
       <Row
         justify="center"
         style={{
-          width: '100%',
+          width: "100%",
           paddingTop: 32,
         }}
       >
         <Col>
-          {' '}
+          {" "}
           <Button
             type="primary"
             onClick={fetchData}

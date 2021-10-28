@@ -1,6 +1,6 @@
-import axios from 'axios';
-import config from 'config';
-import { JwtService } from 'services/jwtServiceClient';
+import axios from "axios";
+import config from "config";
+import { JwtService } from "services/jwtServiceClient";
 
 // let api = axios;
 let api = axios.create({
@@ -14,27 +14,27 @@ const guestHeader = {
 };
 
 const url = {
-  auth_client: '/api/client',
-  food_and_beverage: '/api/food-and-beverage',
-  restaurant: '/api/restaurant',
-  food: '/api/food',
-  community: '/api/community-forum',
-  image: '/api/imageUpload',
-  contact_message: '/api/contact-message',
-  dashbaord: '/api/dashboard',
-  restaurantPackage: '/api/restaurant-package',
-  foodCategory: '/api/food-category',
-  region: '/api/restaurant-region',
-  cart: '/api/cart',
-  cartGuest: '/api/cart-guest',
-  order: '/api/order',
-  orderGuest: '/api/order-guest',
-  address: '/api/deliveryAddress',
-  rider: '/api/rider/auth',
-  terms_and_condition: '/api/terms-and-condition',
-  review: '/api/review',
-  vehicle_type: '/api/settings/vehicle-type',
-  featured_restaurant: '/api/featured'
+  auth_client: "/api/client",
+  food_and_beverage: "/api/food-and-beverage",
+  restaurant: "/api/restaurant",
+  food: "/api/food",
+  community: "/api/community-forum",
+  image: "/api/imageUpload",
+  contact_message: "/api/contact-message",
+  dashbaord: "/api/dashboard",
+  restaurantPackage: "/api/restaurant-package",
+  foodCategory: "/api/food-category",
+  region: "/api/restaurant-region",
+  cart: "/api/cart",
+  cartGuest: "/api/cart-guest",
+  order: "/api/order",
+  orderGuest: "/api/order-guest",
+  address: "/api/deliveryAddress",
+  rider: "/api/rider/auth",
+  terms_and_condition: "/api/terms-and-condition",
+  review: "/api/review",
+  vehicle_type: "/api/settings/vehicle-type",
+  featured_restaurant: "/api/featured",
 };
 
 const parse_res = (api) =>
@@ -47,7 +47,7 @@ const generateParams = (query, params) => {
   if (params) {
     const appendString = Object.keys(params)
       .map((currKey) => `${currKey}=${params[currKey]}`)
-      .join('&');
+      .join("&");
     if (appendString) query += `/?${appendString}`;
   }
   return query;
@@ -100,9 +100,11 @@ export default {
   },
   auth: {
     resendOTP: (body) => api.put(`${url.auth_client}/resend-pin`, body),
-    resendOtpUpdatePhone: (body) => api.put(`${url.auth_client}/resend-pin-update-phone`, body),
+    resendOtpUpdatePhone: (body) =>
+      api.put(`${url.auth_client}/resend-pin-update-phone`, body),
     verifyOTP: (body) => api.put(`${url.auth_client}/validate-pin`, body),
-    verifyOtpAndUpdatePhone: (body) => api.put(`${url.auth_client}/update-phone`, body),
+    verifyOtpAndUpdatePhone: (body) =>
+      api.put(`${url.auth_client}/update-phone`, body),
     linkGoogle: (tokenId) =>
       api.post(`${url.auth_client}/link-google`, {
         tokenId,
@@ -136,7 +138,7 @@ export default {
       ),
     resetPassword: (password, token) => {
       const headers = {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
       return parse_res(
@@ -174,6 +176,8 @@ export default {
     readRestaurantNearMe: (lat, lng) =>
       parse_res(api.get(`${url.restaurant}/near-me/${lat}/${lng}`)),
     dietary_plan: () => parse_res(api.get(`/api/dietary-plan/`)),
+    featured_restaurant: () =>
+      parse_res(api.get(`${url.featured_restaurant}/`)),
   },
   food: {
     read: (itemId) => parse_res(api.get(`${url.food}/id/${itemId}`)),
@@ -188,7 +192,15 @@ export default {
       parse_res(
         api.get(`${url.restaurantPackage}/food-with-group/${restaurantId}`)
       ),
-    readAll: (params) => parse_res(api.get(generateParams(`${url.restaurantPackage}`,{...params, region: JwtService.getRegion()}))),
+    readAll: (params) =>
+      parse_res(
+        api.get(
+          generateParams(`${url.restaurantPackage}`, {
+            ...params,
+            region: JwtService.getRegion(),
+          })
+        )
+      ),
   },
   food_category: {
     read: (itemId) => parse_res(api.get(`${url.foodCategory}/id/${itemId}`)),
@@ -223,7 +235,8 @@ export default {
     changeQuantity: (cartId, quantity) =>
       parse_res(api.put(`${url.cart}/change-quantity/${cartId}/${quantity}`)),
     checkout: (data) => parse_res(api.post(`${url.cart}/checkout`, data)),
-    reOrder: (data) => parse_res(api.post(`${url.cart}/re-order-add-to-cart`, data)),
+    reOrder: (data) =>
+      parse_res(api.post(`${url.cart}/re-order-add-to-cart`, data)),
   },
   cartGuest: {
     add: (cartBody) =>
@@ -272,7 +285,7 @@ export default {
     commission: getAPIList(url.commission),
     fare: getAPIList(url.fare),
     vehicle_type: getAPIList(url.vehicle_type),
-    vehicle_type_auth_no_required: getAPIList(url.vehicle_type+'/user'),
+    vehicle_type_auth_no_required: getAPIList(url.vehicle_type + "/user"),
   },
   saveContactMessage: (message) =>
     parse_res(api.post(`${url.contact_message}/`, message)),

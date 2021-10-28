@@ -3,7 +3,7 @@ import * as QueryString from "query-string";
 import NoSearchQuery from "./NoSearchQuery";
 import { Link } from "react-router-dom";
 import routeURL from "config/routeURL";
-import { Col, Layout, Row, Spin, Typography } from "antd";
+import { Col, Layout, Row, Spin, Typography, Card, Button } from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
 import { default as useBreakpoint } from "services/Breakpoint";
@@ -12,9 +12,12 @@ import { handleError } from "services/util";
 import EmptyResult from "./EmptyResult";
 import BannerContainer from "app/web/components/Banner/Banner.jsx";
 import api from "app/web/api";
+import config from "config";
 import { useHistory } from "react-router-dom";
+import { CaretLeftFilled } from "@ant-design/icons";
 
 const { Sider, Content } = Layout;
+const { Title, Paragraph } = Typography;
 
 const BannerSection = () => {
   return (
@@ -41,11 +44,17 @@ export default function Search(props) {
   const params = QueryString.parse(props.location.search);
 
   const [searchResult, setSearchResult] = useState([]);
+  const [featuredRestaurant, setFeaturedRestaurant] = useState([]);
   const [spinning, setSpinning] = useState(false);
   const [pagination, setPagination] = useState({
     hasMore: true,
     page: 1,
   });
+  useEffect(() => {
+    api.restaurant.featured_restaurant().then(({ data }) => {
+      setFeaturedRestaurant([...data]);
+    });
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
     setSpinning(true);
@@ -116,6 +125,39 @@ export default function Search(props) {
     <>
       <BannerSection />
       <Container>
+        <Row style={{ marginTop: "4rem" }}>
+          <Col xs={12}>
+            <Title>Get your Deal?</Title>
+            <Paragraph>Search for your cuisine or dishes!</Paragraph>
+          </Col>
+          <Col xs={12}>
+            <Card
+              style={{ width: "100%" }}
+              cover={
+                <img
+                  alt="example"
+                  src={
+                    featuredRestaurant.length !== 0
+                      ? `${config.API_HOST}/api/imageUpload/image/${featuredRestaurant[0].restaurant.image[0]}`
+                      : `https://api.rarafoods.com.au/api/imageUpload/image/restaurant_1635277493.jpg`
+                  }
+                  height="200px"
+                  style={{ objectFit: "cover" }}
+                />
+              }
+            >
+              <Button
+                type="primary"
+                size="middle"
+                shape="round"
+                icon={<CaretLeftFilled />}
+                href={`${routeURL.web.home()}`}
+              >
+                Get this Deal
+              </Button>
+            </Card>
+          </Col>
+        </Row>
         <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
           <Sider
             style={{
