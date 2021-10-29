@@ -25,7 +25,7 @@ const ClientLoginLayout = (props) => {
   return (
     <Layout
       style={{
-        maxHeight: "100vh",
+        minHeight: "100vh",
       }}
     >
       <Content style={{ overflow: "hidden" }}>
