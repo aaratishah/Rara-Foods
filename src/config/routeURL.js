@@ -113,9 +113,10 @@ export const routeURL = {
     email_campaign: () => "/admin/email-campaign",
     email_campaign_add: () => "/admin/email-campaign/add",
 
-    promotion: () => '/admin/promotion',
-    promotion_add: () => '/admin/promotion/add',
-    promotion_edit: (itemId) => `/admin/promotion/edit/${itemId ? itemId : ':itemId'}`,
+    promotion: () => "/admin/promotion",
+    promotion_add: () => "/admin/promotion/add",
+    promotion_edit: (itemId) =>
+      `/admin/promotion/edit/${itemId ? itemId : ":itemId"}`,
 
     vehicle_type: () => "/admin/vehicle-type",
     vehicle_type_add: () => `/admin/vehicle-type/add`,
@@ -213,7 +214,10 @@ export const routeURL = {
     pending_ride: () => "/admin/pending-history",
     active_ride: () => "/admin/active-history",
 
-    blog: () => '/admin/blog',
+    blog: () => "admin/blog",
+    blog_active: () => "/admin/blog/active",
+    blog_edit: () => "/admin/blog/edit",
+    blog_add: () => "/admin/blog/add",
   },
   web: {
     search: () => `/search`,

@@ -6,7 +6,7 @@ export default {
   routes: [
     {
       auth: true,
-      path: routeURL.cms.blog(),
+      path: routeURL.cms.blog_add(),
       component: HomePage,
     },
   ],

@@ -10,17 +10,11 @@ const rowStyle = {
   width: "100%",
 };
 
-export default function Restaurant() {
+export default function ActiveBlog() {
   const columns = [
-    StringColumn("Name", "name"),
-    StringColumn("Phone Number", "phoneNumber"),
-    StringColumn(
-      "Address",
-      "address",
-      (address) => `${address?.street}, ${address?.city}`
-    ),
-    StringColumn("Email", "email"),
-    StringColumn("Website", "website", (url) => (
+    StringColumn("Title", "name"),
+    StringColumn("Author", "author"),
+    StringColumn("Link", "website", (url) => (
       <div
         style={{
           whiteSpace: "pre-line",
@@ -38,6 +32,11 @@ export default function Restaurant() {
         </Link>
       </div>
     )),
+    // StringColumn(
+    //   "Address",
+    //   "address",
+    //   (address) => `${address?.street}, ${address?.city}`
+    // ),
     DateColumn("Created At", "createdDateTime"),
   ];
   return (
@@ -48,23 +47,19 @@ export default function Restaurant() {
       }}
     >
       <ListTable
-        title="Restaurant"
+        title="Active Blog"
         breadCrumb={[
           {
             title: "Home",
             url: routeURL.cms.home(),
           },
           {
-            title: "Restaurant",
+            title: "Active",
             url: false,
           },
         ]}
-        // addButton={{
-        //   title: 'Add Restaurant',
-        //   url: routeURL.cms.restaurant_add(),
-        // }}
         edit={{
-          url: routeURL.cms.restaurant_edit,
+          url: routeURL.cms.blog_edit,
         }}
         columnData={columns}
         apiURL={{
