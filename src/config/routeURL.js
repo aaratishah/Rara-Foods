@@ -212,6 +212,8 @@ export const routeURL = {
     cancelled_ride: () => "/admin/cancelled-ride",
     pending_ride: () => "/admin/pending-history",
     active_ride: () => "/admin/active-history",
+
+    blog: () => '/admin/blog',
   },
   web: {
     search: () => `/search`,

@@ -187,7 +187,21 @@ export default function ListTable({
   const syncData = (data) => {
     setRowsData(
       data
-        .map((each, idx) => ({ key: idx, ...each }))
+      .map((each, idx) => {
+        if (each.locationDetail) {
+          each.locationDetail = each.locationDetail.geo.country;
+        }
+        if (each.by) {
+          each.by = each.by.email;
+        }
+        if(each.restaurant){
+          each.name = each.restaurant.name
+          each.address = each.restaurant.address
+        }
+        let data = { key: idx, ...each };
+        console.log('feature', data);
+        return data;
+      })
         .sort(
           (a, b) =>
             moment(b.createdDateTime)

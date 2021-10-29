@@ -549,6 +549,14 @@ const sidebar = [
     auth: [PRIVILEGE_ADMIN],
     children: [
       {
+        key: 'blog',
+        route: routeURL.cms.blog(),
+        label: 'Blog',
+        icon: <Icon component={EmailOpenIcon}/>,
+        auth: [PRIVILEGE_ADMIN],
+
+      },
+      {
         key: 'commission',
         route: routeURL.cms.commission(),
         label: 'Commission',

@@ -3,10 +3,12 @@ import commissionConfig from './commission/route';
 import fareConfig from './fare/route';
 import vehicleTypeConfig from './vehicle_type/route';
 import settingsConfig from './settings/route';
+import blogConfig from './blog/route';
 
 export default [
     commissionConfig,
     fareConfig,
     vehicleTypeConfig,
     settingsConfig,
+    blogConfig
 ];
