@@ -32,7 +32,13 @@ export default function ItemAdd(props) {
   const [spinning, setSpinning] = useState(false);
 
   const onSaveForm = (values) => {
-    console.log(values);
+    const body = convertToHTML(descriptionState.getCurrentContent());
+    var jsonData = {
+      ...values,
+      blogDesc: body,
+    };
+
+    console.log(jsonData);
     // validate here
     // if (true) {
     //   const body = convertToHTML(descriptionState.getCurrentContent());
@@ -112,12 +118,10 @@ export default function ItemAdd(props) {
           >
             <Form layout="vertical" onFinish={onSaveForm}>
               <AddBlog
-                props={{
-                  descriptionState,
-                  setDescriptionState,
-                  rowStyle,
-                  title,
-                }}
+                title={title}
+                rowStyle={rowStyle}
+                descriptionState={descriptionState}
+                setDescriptionState={setDescriptionState}
               />
               <Divider orientation="left" />
               <Meta />
