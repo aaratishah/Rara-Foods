@@ -10,11 +10,11 @@ const rowStyle = {
   width: "100%",
 };
 
-export default function ActiveBlog() {
+export default function ActiveBlog(props) {
   const columns = [
-    StringColumn("Title", "name"),
+    StringColumn("Title", "title"),
     StringColumn("Author", "author"),
-    StringColumn("Link", "website", (url) => (
+    StringColumn("Link", "links", (url) => (
       <div
         style={{
           whiteSpace: "pre-line",
@@ -32,11 +32,6 @@ export default function ActiveBlog() {
         </Link>
       </div>
     )),
-    // StringColumn(
-    //   "Address",
-    //   "address",
-    //   (address) => `${address?.street}, ${address?.city}`
-    // ),
     DateColumn("Created At", "createdDateTime"),
   ];
   return (
@@ -63,10 +58,10 @@ export default function ActiveBlog() {
         }}
         columnData={columns}
         apiURL={{
-          get: api.restaurant.readAll,
-          delete: api.restaurant.delete,
-          deleteMany: api.restaurant.deleteMany,
-          toggle: api.restaurant.toggle,
+          get: api.blog.read_active,
+          delete: api.blog.delete,
+          deleteMany: api.blog.deleteMany,
+          toggle: api.blog.toggle,
         }}
       />
     </Row>

@@ -2,7 +2,7 @@ import { Button, Col, Divider, Form, Row } from "antd";
 import api from "app/dashboard/api";
 import AddPageLayout from "app/dashboard/components/ListTable/AddPageLayout";
 import { notificationSuccess } from "app/dashboard/components/notification";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import routeURL from "config/routeURL";
 import { convertToHTML } from "draft-convert";
 import { ContentState, EditorState } from "draft-js";
@@ -25,38 +25,49 @@ const pageTitle = "Blog";
 	
 	*/
 export default function ItemAdd(props) {
+  const {
+    match: {
+      params: { itemId },
+    },
+  } = props;
+
+  console.log("HHHHHH", itemId);
+
   const [title, setTitle] = useState("");
   const [descriptionState, setDescriptionState] = useState(
     EditorState.createEmpty()
   );
   const [spinning, setSpinning] = useState(false);
+  const formRef = useRef();
 
   const onSaveForm = (values) => {
     const body = convertToHTML(descriptionState.getCurrentContent());
-    var jsonData = {
-      ...values,
-      blogDesc: body,
+    const { blogTitle, metaDesc, author, metaTag, metaTitle } = values;
+
+    const jsonData = {
+      title: blogTitle,
+      description: body,
+      links: "http:test.com",
+      images: ["image1.jpg", "image2.jpg"],
+      author,
+      metaDescription: {
+        title: metaTitle,
+        description: metaDesc,
+        tags: metaTag.split(",").map((item) => item.trim()),
+      },
     };
 
-    console.log(jsonData);
-    // validate here
-    // if (true) {
-    //   const body = convertToHTML(descriptionState.getCurrentContent());
-    //   var jsonData = {
-    //     body,
-    //     title,
-    //   };
-    //   // convert editorText to html to save into html;
-    //   setSpinning(true);
-    //   api.terms
-    //     .save_terms_condition(jsonData)
-    //     .then((data) => {
-    //       notificationSuccess(data.message);
-    //       //   props.history.push(backUrl);
-    //     })
-    //     .catch(handleError)
-    //     .finally(() => setSpinning(false));
-    // }
+    setSpinning(true);
+    api.blog
+      .save_blog(jsonData)
+      .then((data) => {
+        notificationSuccess(data.message);
+        formRef.current.resetFields();
+        setDescriptionState(EditorState.createEmpty());
+        //   props.history.push(backUrl);
+      })
+      .catch(handleError)
+      .finally(() => setSpinning(false));
   };
 
   const fillForm = (data) => {
@@ -72,18 +83,20 @@ export default function ItemAdd(props) {
   };
 
   useEffect(() => {
-    setSpinning(true);
-    api.terms
-      .read()
-      .then(({ data }) => fillForm(data))
-      .catch(handleError)
-      .finally(() => setSpinning(false));
-  }, []);
+    if (itemId) {
+      setSpinning(true);
+      api.blog
+        .read(itemId)
+        .then(({ data }) => fillForm(data))
+        .catch(handleError)
+        .finally(() => setSpinning(false));
+    }
+  }, [itemId]);
 
   return (
     <Row style={{ ...rowStyle, padding: "24px 40px" }}>
       <AddPageLayout
-        title={"Add New"}
+        title={pageTitle}
         breadCrumb={[
           {
             title: "Home",
@@ -116,7 +129,7 @@ export default function ItemAdd(props) {
               padding: 30,
             }}
           >
-            <Form layout="vertical" onFinish={onSaveForm}>
+            <Form layout="vertical" onFinish={onSaveForm} ref={formRef}>
               <AddBlog
                 title={title}
                 rowStyle={rowStyle}

@@ -1,57 +1,57 @@
-import axios from 'axios';
-import config from 'config';
+import axios from "axios";
+import config from "config";
 
 let api = axios.create({
   baseURL: config.API_HOST,
 });
 
 const url = {
-  client_logging: '/api/clientLogging',
-  auth_admin: '/api/admin',
-  auth_restaurant: '/api/restaurant-admin',
-  region: '/api/restaurant-region',
-  restaurant: '/api/restaurant',
-  food: '/api/food',
-  food_category: '/api/food-category',
-  dietary_plan: '/api/dietary-plan',
-  food_group_restaurant: '/api/food-group-restaurant',
-  food_and_beverage: '/api/food-and-beverage',
-  community: '/api/community-forum',
-  image: '/api/imageUpload',
-  log: '/api/log',
-  contact_message: '/api/contact-message',
-  dashbaord: '/api/dashboard',
-  client: '/api/client',
-  send_email: '/api/email',
-  food_speciality: '/api/food-speciality',
-  restaurant_package: '/api/restaurant-package',
-  rider: '/api/rider/auth',
-  order: '/api/order',
-  orderGuest: '/api/order-guest',
-  shipping_charge: '/api/shipping-charge',
-  tax: '/api/tax',
-  terms_and_condition: '/api/terms-and-condition',
-  privacy_policy: '/api/privacy-policy',
-  coupon: '/api/coupon',
-  commission: '/api/settings/commission',
-  fare: '/api/settings/fare',
-  vehicle_type: '/api/settings/vehicle-type',
-  settings: '/api/settings/configuration',
-  sms: '/api/settings/sms',
-  email: '/api/settings/emailCamp',
-  customer_notification: '/api/customer/notification',
-  rider_notification: '/api/rider/notification',
-  customer_review: '/api/customer/review',
-  rider_review: '/api/rider/review',
-  customer_query: '/api/customer/query',
-  rider_query: '/api/rider/query',
-  withdraw: '/api/rider/withdraw',
-  payment: '/api/ride/payment',
-  restaurant_withdraw: '/api/restaurant/withdraw',
-  rider_payment_method: '/api/rider/payment-method',
-  ride: '/api/ride',
-  promotion: '/api/featured',
-
+  client_logging: "/api/clientLogging",
+  auth_admin: "/api/admin",
+  auth_restaurant: "/api/restaurant-admin",
+  region: "/api/restaurant-region",
+  restaurant: "/api/restaurant",
+  food: "/api/food",
+  food_category: "/api/food-category",
+  dietary_plan: "/api/dietary-plan",
+  food_group_restaurant: "/api/food-group-restaurant",
+  food_and_beverage: "/api/food-and-beverage",
+  community: "/api/community-forum",
+  image: "/api/imageUpload",
+  log: "/api/log",
+  contact_message: "/api/contact-message",
+  dashbaord: "/api/dashboard",
+  client: "/api/client",
+  send_email: "/api/email",
+  food_speciality: "/api/food-speciality",
+  restaurant_package: "/api/restaurant-package",
+  rider: "/api/rider/auth",
+  order: "/api/order",
+  orderGuest: "/api/order-guest",
+  shipping_charge: "/api/shipping-charge",
+  tax: "/api/tax",
+  terms_and_condition: "/api/terms-and-condition",
+  privacy_policy: "/api/privacy-policy",
+  coupon: "/api/coupon",
+  commission: "/api/settings/commission",
+  fare: "/api/settings/fare",
+  vehicle_type: "/api/settings/vehicle-type",
+  settings: "/api/settings/configuration",
+  sms: "/api/settings/sms",
+  email: "/api/settings/emailCamp",
+  customer_notification: "/api/customer/notification",
+  rider_notification: "/api/rider/notification",
+  customer_review: "/api/customer/review",
+  rider_review: "/api/rider/review",
+  customer_query: "/api/customer/query",
+  rider_query: "/api/rider/query",
+  withdraw: "/api/rider/withdraw",
+  payment: "/api/ride/payment",
+  restaurant_withdraw: "/api/restaurant/withdraw",
+  rider_payment_method: "/api/rider/payment-method",
+  ride: "/api/ride",
+  promotion: "/api/featured",
+  blog: "api/blogs",
 };
 
 const parse_res = (api) =>
@@ -60,7 +60,7 @@ const parse_res = (api) =>
   });
 
 const generateParams = (params) => {
-  let query = '';
+  let query = "";
   if (params) {
   }
   return query;
@@ -80,11 +80,22 @@ export default {
   baseAxios: api,
   terms: {
     read: () => parse_res(api.get(`${url.terms_and_condition}/`)),
-    save_terms_condition: (body) => parse_res(api.post(`${url.terms_and_condition}/`,body)),
+    save_terms_condition: (body) =>
+      parse_res(api.post(`${url.terms_and_condition}/`, body)),
+  },
+  blog: {
+    read: (itemId) => parse_res(api.get(`${url.blog}/id/${itemId}`)),
+    read_active: () => parse_res(api.get(`${url.blog}/active`)),
+    save_blog: (body) => parse_res(api.post(`${url.blog}/`, body)),
+    delete: (postId) => parse_res(api.delete(`${url.blog}/${postId}`)),
+    deleteMany: (ids) => parse_res(api.post(`${url.blog}/many`, { ids })),
+    toggle: (itemId, toggleStatus) =>
+      parse_res(api.put(`${url.blog}/toggle/${itemId}/${toggleStatus}`)),
   },
   privacy_policy: {
     read: () => parse_res(api.get(`${url.privacy_policy}/`)),
-    save_privacy_policy: (body) => parse_res(api.post(`${url.privacy_policy}/`,body)),
+    save_privacy_policy: (body) =>
+      parse_res(api.post(`${url.privacy_policy}/`, body)),
   },
   systemData: {
     commission: getAPIList(url.commission),
@@ -115,10 +126,13 @@ export default {
   },
   order: {
     addFood: (data) => parse_res(api.put(`${url.order}/add`, data)),
-    removeFood: (orderId, foodCartId) => parse_res(api.put(`${url.order}/remove`, {
-      orderId,
-      cartFoodId: foodCartId,
-    })),
+    removeFood: (orderId, foodCartId) =>
+      parse_res(
+        api.put(`${url.order}/remove`, {
+          orderId,
+          cartFoodId: foodCartId,
+        })
+      ),
     read: (itemId) => parse_res(api.get(`${url.order}/id/${itemId}`)),
     addRemark: (itemId, remarks) =>
       parse_res(
@@ -180,10 +194,10 @@ export default {
       ),
   },
   dashbaord: {
-      countService: () => parse_res(api.get(`${url.dashbaord}/count`)),
-      ecommerce: () => parse_res(api.get(`${url.dashbaord}/ecommerce`)),
-      orderDetail: () => parse_res(api.get(`${url.dashbaord}/order-detail`)),
-    },
+    countService: () => parse_res(api.get(`${url.dashbaord}/count`)),
+    ecommerce: () => parse_res(api.get(`${url.dashbaord}/ecommerce`)),
+    orderDetail: () => parse_res(api.get(`${url.dashbaord}/order-detail`)),
+  },
   email: {
     send: (emailData) =>
       parse_res(api.post(`${url.send_email}/send`, emailData)),
@@ -295,66 +309,100 @@ export default {
         api.get(`${url.restaurant}/is-unique/${uniqueKey}/${value}/${itemId}`)
       ),
     resetPassword: (restaurant) =>
-      parse_res(api.put(`${url.restaurant}/reset-password`, {
-        restaurant
-      })),
+      parse_res(
+        api.put(`${url.restaurant}/reset-password`, {
+          restaurant,
+        })
+      ),
     foodWithGroup: (restaurantId) =>
       parse_res(api.get(`${url.restaurant}/food-with-group/${restaurantId}`)),
 
     read_pending: () => parse_res(api.get(`${url.restaurant}/status/pending`)),
-    read_rejected: () => parse_res(api.get(`${url.restaurant}/status/rejected`)),
+    read_rejected: () =>
+      parse_res(api.get(`${url.restaurant}/status/rejected`)),
     read_suspend: () => parse_res(api.get(`${url.restaurant}/status/suspend`)),
-    accept_restaurant_request: (itemId) => parse_res(api.put(`${url.restaurant}/status/accept/${itemId}`)),
-    suspend_restaurant_request: (itemId, data) => parse_res(api.put(`${url.restaurant}/suspend/${itemId}`,data)),
-    reject_restaurant_request: (itemId) => parse_res(api.put(`${url.restaurant}/status/reject/${itemId}`)),
-    pending_restaurant_request: (itemId) => parse_res(api.put(`${url.restaurant}/status/pending/${itemId}`)),
-    document_incomplete_restaurant_request: (itemId, body) => parse_res(api.put(`${url.restaurant}/status/insufficient-information/${itemId}`, body)),
-    wallet: () =>parse_res(api.get(`${url.restaurant}/wallet/user`)),
+    accept_restaurant_request: (itemId) =>
+      parse_res(api.put(`${url.restaurant}/status/accept/${itemId}`)),
+    suspend_restaurant_request: (itemId, data) =>
+      parse_res(api.put(`${url.restaurant}/suspend/${itemId}`, data)),
+    reject_restaurant_request: (itemId) =>
+      parse_res(api.put(`${url.restaurant}/status/reject/${itemId}`)),
+    pending_restaurant_request: (itemId) =>
+      parse_res(api.put(`${url.restaurant}/status/pending/${itemId}`)),
+    document_incomplete_restaurant_request: (itemId, body) =>
+      parse_res(
+        api.put(
+          `${url.restaurant}/status/insufficient-information/${itemId}`,
+          body
+        )
+      ),
+    wallet: () => parse_res(api.get(`${url.restaurant}/wallet/user`)),
   },
   rider: {
     ...getAPIList(url.rider),
-      add: (data) => parse_res(api.post(`${url.rider}/add`, data)),
-      edit: (riderId, data) => parse_res(api.post(`${url.rider}/edit/?rider=${riderId}`, data)),
-      read: (itemId) => parse_res(api.get(`${url.rider}/info/${itemId}`)),
-      readAll: () => parse_res(api.get(`${url.rider}/`)),
-      read_pending: () => parse_res(api.get(`${url.rider}/status/pending`)),
-      read_rejected: () => parse_res(api.get(`${url.rider}/status/rejected`)),
-      read_suspend: () => parse_res(api.get(`${url.rider}/status/suspend`)),
-      accept_rider_request: (riderId) => parse_res(api.put(`${url.rider}/status/accept/${riderId}`)),
-      suspend_rider_request: (riderId, data) => parse_res(api.put(`${url.rider}/suspend/${riderId}`,data)),
-      reject_rider_request: (riderId) => parse_res(api.put(`${url.rider}/status/reject/${riderId}`)),
-      pending_rider_request: (riderId) => parse_res(api.put(`${url.rider}/status/pending/${riderId}`)),
-      document_incomplete_rider_request: (riderId, body) => parse_res(api.put(`${url.rider}/status/insufficient-information/${riderId}`, body)),
-      validate_rider: (riderId) => parse_res(api.get(`${url.rider}/validate/${riderId}`)),
-      search_rider: (searchBody) => parse_res(api.put(`${url.rider}/search`, searchBody)),
-      paymentMethod: (riderId) => parse_res(api.get(`${url.rider_payment_method}/user/?rider=${riderId}`)),
-      withdraw: (riderId) => parse_res(api.get(`/api/rider/withdraw/user/?rider=${riderId}`)),
-      review: (riderId) => parse_res(api.get(`${url.rider_review}/all/${riderId}`)),
-      wallet: (riderId) => parse_res(api.get(`/api/rider/wallet/user/?rider=${riderId}`)),
-      walletLoad: (riderId) => parse_res(api.get(`/api/rider/wallet/user/all-load/?rider=${riderId}`)),
-      query: (riderId) => parse_res(api.get(`/api/rider/query/user/?rider=${riderId}`)),
-      expiring_document: () => parse_res(api.get('/api/rider/auth/expiring-document'))
+    add: (data) => parse_res(api.post(`${url.rider}/add`, data)),
+    edit: (riderId, data) =>
+      parse_res(api.post(`${url.rider}/edit/?rider=${riderId}`, data)),
+    read: (itemId) => parse_res(api.get(`${url.rider}/info/${itemId}`)),
+    readAll: () => parse_res(api.get(`${url.rider}/`)),
+    read_pending: () => parse_res(api.get(`${url.rider}/status/pending`)),
+    read_rejected: () => parse_res(api.get(`${url.rider}/status/rejected`)),
+    read_suspend: () => parse_res(api.get(`${url.rider}/status/suspend`)),
+    accept_rider_request: (riderId) =>
+      parse_res(api.put(`${url.rider}/status/accept/${riderId}`)),
+    suspend_rider_request: (riderId, data) =>
+      parse_res(api.put(`${url.rider}/suspend/${riderId}`, data)),
+    reject_rider_request: (riderId) =>
+      parse_res(api.put(`${url.rider}/status/reject/${riderId}`)),
+    pending_rider_request: (riderId) =>
+      parse_res(api.put(`${url.rider}/status/pending/${riderId}`)),
+    document_incomplete_rider_request: (riderId, body) =>
+      parse_res(
+        api.put(`${url.rider}/status/insufficient-information/${riderId}`, body)
+      ),
+    validate_rider: (riderId) =>
+      parse_res(api.get(`${url.rider}/validate/${riderId}`)),
+    search_rider: (searchBody) =>
+      parse_res(api.put(`${url.rider}/search`, searchBody)),
+    paymentMethod: (riderId) =>
+      parse_res(api.get(`${url.rider_payment_method}/user/?rider=${riderId}`)),
+    withdraw: (riderId) =>
+      parse_res(api.get(`/api/rider/withdraw/user/?rider=${riderId}`)),
+    review: (riderId) =>
+      parse_res(api.get(`${url.rider_review}/all/${riderId}`)),
+    wallet: (riderId) =>
+      parse_res(api.get(`/api/rider/wallet/user/?rider=${riderId}`)),
+    walletLoad: (riderId) =>
+      parse_res(api.get(`/api/rider/wallet/user/all-load/?rider=${riderId}`)),
+    query: (riderId) =>
+      parse_res(api.get(`/api/rider/query/user/?rider=${riderId}`)),
+    expiring_document: () =>
+      parse_res(api.get("/api/rider/auth/expiring-document")),
   },
   ride: {
     history: {
-      readAll: () => parse_res(api.get(`${url.ride}/history`))
+      readAll: () => parse_res(api.get(`${url.ride}/history`)),
     },
     pending: {
-      readAll: () => parse_res(api.get(`${url.ride}/pending`))
+      readAll: () => parse_res(api.get(`${url.ride}/pending`)),
     },
     active: {
-      readAll: () => parse_res(api.get(`${url.ride}/active`))
+      readAll: () => parse_res(api.get(`${url.ride}/active`)),
     },
     cancelled: {
-      readAll: () => parse_res(api.get(`${url.ride}/cancelled`))
+      readAll: () => parse_res(api.get(`${url.ride}/cancelled`)),
     },
   },
   payment: {
-    earning_list: (from, to) => parse_res(api.get(`${url.payment}/earning/list/?from=${from}&to=${to}`)),
-    sweat_coin: (from, to) => parse_res(api.get(`${url.payment}/rider-wallet/list/?from=${from}&to=${to}`))
+    earning_list: (from, to) =>
+      parse_res(api.get(`${url.payment}/earning/list/?from=${from}&to=${to}`)),
+    sweat_coin: (from, to) =>
+      parse_res(
+        api.get(`${url.payment}/rider-wallet/list/?from=${from}&to=${to}`)
+      ),
   },
   withdraw: {
-    request:  {
+    request: {
       ...getAPIList(url.withdraw),
       readAll: () => parse_res(api.get(`${url.withdraw}/request`)),
       accept: (itemId) =>
@@ -366,7 +414,7 @@ export default {
     cancelled: () => parse_res(api.get(`${url.withdraw}/cancelled`)),
   },
   restaurant_withdraw: {
-    request:  {
+    request: {
       ...getAPIList(url.restaurant_withdraw),
       readAll: () => parse_res(api.get(`${url.restaurant_withdraw}/request`)),
       accept: (itemId) =>
@@ -398,8 +446,8 @@ export default {
   coupon: {
     coupon_code: {
       ...getAPIList(url.coupon),
-      isUnique: (code, itemId=undefined) => parse_res(api.get(`${url.coupon}/is-unique/${code}/${itemId}`)),
-
+      isUnique: (code, itemId = undefined) =>
+        parse_res(api.get(`${url.coupon}/is-unique/${code}/${itemId}`)),
     },
     coupon_usage: null,
   },

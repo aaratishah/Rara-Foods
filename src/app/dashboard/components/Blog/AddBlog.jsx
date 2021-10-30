@@ -36,7 +36,7 @@ const AddBlog = ({
           <Row>
             <Col xs={10}>
               <Form.Item
-                name="select"
+                name="category"
                 label="Category"
                 hasFeedback
                 rules={[

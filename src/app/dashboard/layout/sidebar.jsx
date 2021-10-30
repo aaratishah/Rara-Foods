@@ -709,7 +709,7 @@ const Sidebar = (props) => {
       >
         {sidebar.map((item) => {
           const auth = item.auth;
-          console.log(role, "auth", auth);
+          // console.log(role, "auth", auth);
           if (
             (typeof auth === "boolean" && auth) ||
             (Array.isArray(auth) && auth.includes(role))
