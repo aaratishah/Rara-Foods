@@ -1,17 +1,22 @@
-import React, { Fragment } from "react";
-import { Row, Form, Col, Input, Select, Upload, Button } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import React, { Fragment, useState } from "react";
+import { Row, Form, Col, Input, Select } from "antd";
+import GalleryUpload from "app/dashboard/components/GalleryUpload";
+// import { UploadOutlined } from "@ant-design/icons";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const { Option } = Select;
+const imageTitle = "blog";
 
 const AddBlog = ({
   rowStyle,
   title,
   descriptionState,
   setDescriptionState,
+  onImageUpload,
 }) => {
+  const { fileNames, setFileNames } = onImageUpload;
+
   return (
     <Fragment>
       <Row style={rowStyle} gutter={24}>
@@ -73,16 +78,12 @@ const AddBlog = ({
             </Col>
           </Row>
 
-          <Form.Item
-            name="upload"
-            label="Choose Image"
-            valuePropName="fileList"
-            // getValueFromEvent={normFile}
-            extra="**limit 1 image"
-          >
-            <Upload name="logo" action="/upload.do" listType="picture">
-              <Button icon={<UploadOutlined />}>Click to upload</Button>
-            </Upload>
+          <Form.Item name="upload" label="Blog Image" valuePropName="fileList">
+            <GalleryUpload
+              fileNames={fileNames}
+              title={imageTitle}
+              setFileNames={setFileNames}
+            />
           </Form.Item>
         </Col>
       </Row>

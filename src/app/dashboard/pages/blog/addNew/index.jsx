@@ -31,12 +31,11 @@ export default function ItemAdd(props) {
     },
   } = props;
 
-  console.log("HHHHHH", itemId);
-
   const [title, setTitle] = useState("");
   const [descriptionState, setDescriptionState] = useState(
     EditorState.createEmpty()
   );
+  const [fileNames, setFileNames] = useState([]);
   const [spinning, setSpinning] = useState(false);
   const formRef = useRef();
 
@@ -48,7 +47,7 @@ export default function ItemAdd(props) {
       title: blogTitle,
       description: body,
       links: "http:test.com",
-      images: ["image1.jpg", "image2.jpg"],
+      images: fileNames,
       author,
       metaDescription: {
         title: metaTitle,
@@ -80,6 +79,10 @@ export default function ItemAdd(props) {
         )
       );
     }
+  };
+
+  const handleImageUpload = (value) => {
+    console.log(value);
   };
 
   useEffect(() => {
@@ -135,6 +138,7 @@ export default function ItemAdd(props) {
                 rowStyle={rowStyle}
                 descriptionState={descriptionState}
                 setDescriptionState={setDescriptionState}
+                onImageUpload={{ fileNames, setFileNames }}
               />
               <Divider orientation="left" />
               <Meta />
