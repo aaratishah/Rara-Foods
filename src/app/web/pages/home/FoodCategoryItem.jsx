@@ -8,15 +8,17 @@ export default function FoodCategoryItem({ item }) {
 		<div
 			className="product circle"
 			style={{
-				width: 201.5,
+				width: 140,
 				marginRight: 30,
 			}}
 		>
 			<Link
 				className="product-image"
-				to={routeURL.web.restaurant_list(`category=${item._id}`)}
+				// to={routeURL.web.restaurant_list(`category=${item._id}`)}
+				to = {routeURL.params(routeURL.web.search(),`q=${item.name}`)}
 			>
 				<img
+				// width = {120}
 					src={
 						Array.isArray(item.images) && item.images.length > 0
 							? config.getImageHost(item.images[0])
@@ -27,7 +29,7 @@ export default function FoodCategoryItem({ item }) {
 			</Link>
 			<div className="product-container text-center">
 				<h2 className="product-title">
-					<Link to={routeURL.web.restaurant_list(`category=${item._id}`)}>
+					<Link to = {routeURL.params(routeURL.web.search(),`q=${item.name}`)}>
 						{item.name}
 					</Link>
 				</h2>

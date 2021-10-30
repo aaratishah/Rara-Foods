@@ -1,7 +1,7 @@
 export default function EmptyResult() {
     return (
         <div>
-            Empty
+            No Restaurants Found
         </div>
     )
 }

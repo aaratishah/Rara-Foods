@@ -1,61 +1,78 @@
 .social-icon {
 	transition: background-color ease-in 0.3s;
-}
-
-.insta:hover {
+  }
+  
+  .insta:hover {
 	background-color: dodgerblue;
-}
-
-.facebook:hover {
+  }
+  
+  .facebook:hover {
 	background-color: cornflowerblue;
-}
-
-.header-sticky {
+  }
+  
+  .header-sticky {
 	-webkit-animation: slide 0.5s forwards;
 	-webkit-animation-delay: 2s;
 	animation: slide 0.5s forwards;
 	animation-delay: 2s;
-}
-
-@-webkit-keyframes slide {
+  }
+  
+  .signin-btn {
+	/* -moz-box-shadow: 3px 3px 5px 6px #ccc;
+	-webkit-box-shadow: 3px 3px 5px 6px #ccc; */
+	/* box-shadow: 3px 3px red; */
+	/* background-color: red; */
+	margin-right: 8;
+	cursor: pointer;
+	border: none;
+	color: #000;
+	padding: 8px 16px;
+	font-size: 18px;
+	font-weight: 500;
+	border-radius: 500px;
+	font-family: sans-serif;
+	align-items: center;
+  }
+  
+  @-webkit-keyframes slide {
 	100% {
-		top: 0;
+	  top: 0;
 	}
-}
-
-@keyframes slide {
+  }
+  
+  @keyframes slide {
 	100% {
-		top: 45px;
+	  top: 45px;
 	}
-}
-
-.sticky-header {
+  }
+  
+  .sticky-header {
 	position: fixed !important;
 	top: 0 !important;
-}
-
-.non-sticky-header {
+  }
+  
+  .non-sticky-header {
 	position: absolute;
 	top: 45px;
 	left: 0;
-}
-/* try taking sticky to the div wrapped both header and content so that both scroll along */
-
-.top-header-info:hover {
+  }
+  /* try taking sticky to the div wrapped both header and content so that both scroll along */
+  
+  .top-header-info:hover {
 	color: #ccc !important;
-}
-
-.header-menu:hover {
+  }
+  
+  .header-menu:hover {
 	color: #ff5a5f;
-}
-
-@media screen and (max-width: 1199px) {
+  }
+  
+  @media screen and (max-width: 1199px) {
 	.navbar {
-		padding: 0px 0 !important;
+	  padding: 0px 0 !important;
 	}
-}
-
-.sign-in {
+  }
+  
+  .sign-in {
 	cursor: pointer;
 	block-size: 20px;
 	border-block-end-color: rgb(0, 0, 0);
@@ -81,9 +98,9 @@
 	border: 0px none rgb(0, 0, 0);
 	font: 16px / 20px UberMoveText-Medium, sans-serif;
 	outline: rgb(0, 0, 0) none 0px;
-}
-
-.sign-in :after {
+  }
+  
+  .sign-in :after {
 	border-block-end-color: rgb(0, 0, 0);
 	border-block-start-color: rgb(0, 0, 0);
 	border-inline-end-color: rgb(0, 0, 0);
@@ -97,9 +114,9 @@
 	border: 0px none rgb(0, 0, 0);
 	font: 16px / 20px UberMoveText-Medium, sans-serif;
 	outline: rgb(0, 0, 0) none 0px;
-} /*sign-in :after*/
-
-.sign-in :before {
+  } /*sign-in :after*/
+  
+  .sign-in :before {
 	border-block-end-color: rgb(0, 0, 0);
 	border-block-start-color: rgb(0, 0, 0);
 	border-inline-end-color: rgb(0, 0, 0);
@@ -113,10 +130,9 @@
 	border: 0px none rgb(0, 0, 0);
 	font: 16px / 20px UberMoveText-Medium, sans-serif;
 	outline: rgb(0, 0, 0) none 0px;
-} /*sign-in :before*/
-
-
-.preloader {
+  } /*sign-in :before*/
+  
+  .preloader {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -240,34 +256,34 @@
 	transform: translate3d(0, -100%, 0);
   }
   .mobile-nav-link {
-	  cursor: pointer;
-	  width: 100%;
+	cursor: pointer;
+	width: 100%;
   }
   .mobile-nav-link:hover {
-	  background-color: #ccc !important;
+	background-color: #ccc !important;
   }
-
-
-/* Demo 2 */
-#demo-2 input[type=search] {
+  
+  /* Demo 2 */
+  #demo-2 input[type="search"] {
 	width: 15px;
 	padding-left: 10px;
 	color: transparent;
 	cursor: pointer;
-}
-#demo-2 input[type=search]:hover {
+  }
+  #demo-2 input[type="search"]:hover {
 	background-color: #fff;
-}
-#demo-2 input[type=search]:focus {
+  }
+  #demo-2 input[type="search"]:focus {
 	width: 130px;
 	padding-left: 32px;
 	color: #000;
 	background-color: #fff;
 	cursor: auto;
-}
-#demo-2 input:-moz-placeholder {
+  }
+  #demo-2 input:-moz-placeholder {
 	color: transparent;
-}
-#demo-2 input::-webkit-input-placeholder {
+  }
+  #demo-2 input::-webkit-input-placeholder {
 	color: transparent;
-}
+  }
+  

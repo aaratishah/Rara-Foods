@@ -500,6 +500,16 @@ export default {
     toggle: (itemId, toggleStatus) =>
       parse_res(api.put(`${url.client}/toggle/${itemId}/${toggleStatus}`)),
   },
+  promotion: {
+    readPromotion: () => parse_res(api.get(`${url.promotion}/`)),
+    sendPromotion: (data) => parse_res(api.post(`${url.promotion}/`, data)),
+    deletePromotion: (itemId) =>
+      parse_res(api.delete(`${url.promotion}/id/${itemId}`)),
+    deleteManyPromotion: (data) =>
+      parse_res(api.delete(`${url.promotion}/delete/many`, { ids: data })),
+    toggle: (itemId, toggleStatus) =>
+      parse_res(api.put(`${url.promotion}/toggle/${itemId}/${toggleStatus}`)),
+  },
   settings: {
     update: (data) => parse_res(api.post(`${url.settings}/`, data)),
     read: () => parse_res(api.get(`${url.settings}/`)),
@@ -507,8 +517,6 @@ export default {
     sendSMS: (data) => parse_res(api.post(`${url.sms}/`, data)),
     readEmail: () => parse_res(api.get(`${url.email}/`)),
     sendEmail: (data) => parse_res(api.post(`${url.email}/`, data)),
-    readPromotion: () => parse_res(api.get(`${url.promotion}/`)),
-    sendPromotion: (data) => parse_res(api.post(`${url.promotion}/`, data))
   },
   constant: (constant) => parse_res(api.get(`/api/constant/${constant}`)),
 };

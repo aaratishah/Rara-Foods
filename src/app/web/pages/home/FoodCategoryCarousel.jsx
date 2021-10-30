@@ -60,7 +60,7 @@ export default function FoodCategoryCarousel({ title, items, children }) {
 					</header>
 					<Carousel
 						ref={caraouselRef}
-						itemPadding={[10, 50]}
+						itemPadding={[0, 0]}
 						itemsToScroll={2}
 						itemsToShow={2}
 						breakPoints={breakPoints}

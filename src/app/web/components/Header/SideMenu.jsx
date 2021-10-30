@@ -16,7 +16,7 @@ import {
 import { FaLocationArrow } from "react-icons/fa";
 import { useState } from "react";
 import logoImage from "image/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import routeURL from "config/routeURL";
 import config from "config";
 import defaultProfile from "image/user.png";
@@ -82,10 +82,16 @@ export const AppleLink = () => (
 );
 
 const SideMenu = ({ isAuth, onLogout, profile }) => {
+  const history = useHistory();
+
   const [visible, setVisible] = useState(false);
 
   const toogle = () => {
     setVisible((value) => !value);
+  };
+
+  const handleSignupClick = () => {
+    return history.push(routeURL.web.client_login());
   };
 
   return (
@@ -162,7 +168,7 @@ const SideMenu = ({ isAuth, onLogout, profile }) => {
                 Wishlist
               </Link>
             </div>
-            <div
+            {/* <div
               style={{ fontWeight: "bold", marginTop: 25, cursor: "pointer" }}
             >
               <Link
@@ -172,7 +178,8 @@ const SideMenu = ({ isAuth, onLogout, profile }) => {
                 <FaLocationArrow style={{ marginRight: 10, fontSize: 20 }} />
                 Address
               </Link>
-            </div>
+            </div> */}
+            {/* <Link to={routeURL.web.client_login()}> */}
             <Button
               size="large"
               shape="round"
@@ -181,14 +188,26 @@ const SideMenu = ({ isAuth, onLogout, profile }) => {
             >
               SignOut
             </Button>
+            {/* </Link> */}
             <div
               style={{ height: "1px", backgroundColor: "gray", marginTop: 30 }}
             ></div>
           </Col>
         ) : (
-          <Button size="large" shape="round">
-            Signup
-          </Button>
+          <Link to={routeURL.web.client_login()}>
+            <button
+              className="signin-btn"
+              style={{
+                backgroundColor: "#eeeeee",
+                color: "#000",
+                marginRight: 8,
+                cursor: "pointer",
+                border: "none",
+              }}
+            >
+              Sign in
+            </button>
+          </Link>
         )}
 
         <Row

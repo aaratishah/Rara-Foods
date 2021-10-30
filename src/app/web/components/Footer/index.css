@@ -1,11 +1,6 @@
-/** {*/
-/*	margin: 0;*/
-/*	padding: 0;*/
-/*}*/
-/*a {*/
-/*	color: #fff;*/
-/*	text-decoration: none;*/
-/*}*/
+div{
+	font-size: medium;
+}
 .pg-footer {
 	font-family: 'Roboto', sans-serif;
 }
@@ -29,11 +24,11 @@
 	fill: #fffff2;
 }
 
-.footer-content {
+.footer-contents {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 1230px;
-	padding: 40px 15px 450px;
+	padding: 40px 15px 50px;
 	position: relative;
 }
 
@@ -81,7 +76,7 @@
 .footer-call-to-action-description {
 	color: #fffff2;
 	margin-top: 10px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 .footer-call-to-action-button:hover {
 	background-color: #fffff2;
@@ -100,7 +95,7 @@
 	letter-spacing: .1em;
 	line-height: 18px;
 	padding: 12px 30px;
-	margin: 0 10px 10px 0;
+	margin: 0 10px 0px 0;
 	text-decoration: none;
 	text-transform: uppercase;
 	transition: background-color .2s;
@@ -108,7 +103,7 @@
 	position: relative;
 }
 .footer-call-to-action {
-	margin-top: 30px;
+	margin-top: 8px;
 }
 .footer-call-to-action-title {
 	color: #fffff2;
@@ -139,7 +134,6 @@
 	bottom: 0;
 	height: 54px;
 	position: absolute;
-	right: 0;
 	width: 236px;
 }
 
@@ -195,7 +189,7 @@
 .footer-social-link.twitter {
 	height: 28px;
 	left: 62px;
-	top: 3px;
+	top: 12px;
 	width: 28px;
 }
 
@@ -209,12 +203,11 @@
 .footer-social-link.github {
 	height: 34px;
 	left: 172px;
-	top: 7px;
+	top: 12px;
 	width: 34px;
 }
 
 .footer-copyright {
-	background-color: #f44336;
 	color: #fff;
 	padding: 15px 30px;
 	text-align: center;

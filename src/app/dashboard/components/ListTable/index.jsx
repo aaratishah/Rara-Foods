@@ -10,7 +10,7 @@ import { handleError } from 'services/util';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 const rowStyle = {
-  width: '100%',
+  width: '100%'
 };
 
 export default function ListTable({
@@ -22,10 +22,10 @@ export default function ListTable({
   preview = false,
   columnData,
   apiURL,
-  actions = false,
+  actions = false
 }) {
   const [refreshShortcut, setRefreshShortcut] = useState(false);
-  useHotkeys('r', () => setRefreshShortcut(value => !value));
+  useHotkeys('r', () => setRefreshShortcut((value) => !value));
   const [filteredInfo, setFilteredInfo] = useState(null);
   const [rowsData, setRowsData] = useState([]);
   const [tempData, setTempData] = useState([]);
@@ -83,26 +83,26 @@ export default function ListTable({
   if (columnData) {
     initialColumn = [...columnData];
     apiURL.toggle &&
-    initialColumn.push({
-      width: 80,
-      title: 'Status',
-      dataIndex: 'activeStatus',
-      filterMultiple: false,
-      filteredValue: filteredInfo ? filteredInfo.activeStatus : null,
-      filters: [
-        {
-          text: 'on',
-          value: true,
-        },
-        {
-          text: 'off',
-          value: false,
-        },
-      ],
-      onFilter: (value, record) => record.activeStatus === value,
-      render: renderStatus,
-    });
-    let width = 70;
+      initialColumn.push({
+        width: 80,
+        title: 'Status',
+        dataIndex: 'activeStatus',
+        filterMultiple: false,
+        filteredValue: filteredInfo ? filteredInfo.activeStatus : null,
+        filters: [
+          {
+            text: 'on',
+            value: true
+          },
+          {
+            text: 'off',
+            value: false
+          }
+        ],
+        onFilter: (value, record) => record.activeStatus === value,
+        render: renderStatus
+      });
+    let width = 90;
     if (actions) width += 100;
     if (edit) width += 50;
     if (preview) width += 50;
@@ -124,10 +124,10 @@ export default function ListTable({
                         flexDirection: 'row',
                         alignItems: 'center',
                         cursor: 'pointer',
-                        color: '#40a9ff',
+                        color: '#40a9ff'
                       }}
                     >
-                      <EyeFilled style={{ marginRight: 5 }}/>
+                      <EyeFilled style={{ marginRight: 5 }} />
                       View
                     </div>
                   </Link>
@@ -142,10 +142,10 @@ export default function ListTable({
                         flexDirection: 'row',
                         alignItems: 'center',
                         cursor: 'pointer',
-                        color: '#40a9ff',
+                        color: '#40a9ff'
                       }}
                     >
-                      <EditFilled style={{ marginRight: 5 }}/>
+                      <EditFilled style={{ marginRight: 5 }} />
                       {edit.title || 'Edit'}
                     </div>
                   </Link>
@@ -156,7 +156,7 @@ export default function ListTable({
                   <Popconfirm
                     title={`Are you sure delete this ${title}?`}
                     onConfirm={() => {
-                      onDeleteRow(rowId);
+                      onDeleteRow(row.restaurant ? row.restaurant._id : rowId);
                     }}
                   >
                     <div
@@ -165,10 +165,10 @@ export default function ListTable({
                         flexDirection: 'row',
                         alignItems: 'center',
                         cursor: 'pointer',
-                        color: 'red',
+                        color: 'red'
                       }}
                     >
-                      <DeleteFilled style={{ marginRight: 5 }}/>
+                      <DeleteFilled style={{ marginRight: 5 }} />
                       Delete
                     </div>
                   </Popconfirm>
@@ -176,7 +176,7 @@ export default function ListTable({
               )}
             </Row>
           );
-        },
+        }
       });
     }
 
@@ -187,26 +187,24 @@ export default function ListTable({
   const syncData = (data) => {
     setRowsData(
       data
-      .map((each, idx) => {
-        if (each.locationDetail) {
-          each.locationDetail = each.locationDetail.geo.country;
-        }
-        if (each.by) {
-          each.by = each.by.email;
-        }
-        if(each.restaurant){
-          each.name = each.restaurant.name
-          each.address = each.restaurant.address
-        }
-        let data = { key: idx, ...each };
-        console.log('feature', data);
-        return data;
-      })
+        .map((each, idx) => {
+          if (each.locationDetail) {
+            each.locationDetail = each.locationDetail.geo.country;
+          }
+          if (each.by) {
+            each.by = each.by.email;
+          }
+          if(each.restaurant && typeof(each.restaurant) === 'object' && each.restaurant !== null){
+            each.name = each.restaurant.name
+            each.address = each.restaurant.address
+          }
+          let data = { key: idx, ...each };
+          console.log('feature', data);
+          return data;
+        })
         .sort(
           (a, b) =>
-            moment(b.createdDateTime)
-              .unix() - moment(a.createdDateTime)
-              .unix()
+            moment(b.createdDateTime).unix() - moment(a.createdDateTime).unix()
         )
     );
     setTempData(
@@ -214,9 +212,7 @@ export default function ListTable({
         .map((each, idx) => ({ key: idx, ...each }))
         .sort(
           (a, b) =>
-            moment(b.createdDateTime)
-              .unix() - moment(a.createdDateTime)
-              .unix()
+            moment(b.createdDateTime).unix() - moment(a.createdDateTime).unix()
         )
     );
   };
@@ -264,17 +260,18 @@ export default function ListTable({
   };
 
   const onDeleteRows = () => {
-    console.log('adminids', selectedRowsKey.map(each => each._id));
+    let ids = selectedRowsKey.map((each) => each._id);
+    console.log('ids', ids);
     setSpinning(true);
     apiURL.deleteMany &&
-    apiURL
-      .deleteMany(selectedRowsKey.map(each => each._id))
-      .then((res) => {
-        onRefreshData();
-        message.success(res.message);
-      })
-      .catch(handleError)
-      .finally(() => setSpinning(false));
+      apiURL
+        .deleteMany(ids)
+        .then((res) => {
+          onRefreshData();
+          message.success(res.message);
+        })
+        .catch(handleError)
+        .finally(() => setSpinning(false));
   };
 
   const onSearch = (searchText) => {
@@ -282,22 +279,23 @@ export default function ListTable({
       searchText.length === 0
         ? rowsData
         : _.filter(rowsData, (item) => {
-          let isMatch = false;
-          for (const eachColumn of columnData) {
-            if (
-              item &&
-              eachColumn.dataIndex &&
-              item[eachColumn.dataIndex] &&
-              typeof item[eachColumn.dataIndex]?.toString() === 'string' &&
-              item[eachColumn.dataIndex]?.toString()
-                ?.toLowerCase()
-                .includes(searchText.toLowerCase())
-            ) {
-              isMatch = true;
+            let isMatch = false;
+            for (const eachColumn of columnData) {
+              if (
+                item &&
+                eachColumn.dataIndex &&
+                item[eachColumn.dataIndex] &&
+                typeof item[eachColumn.dataIndex]?.toString() === 'string' &&
+                item[eachColumn.dataIndex]
+                  ?.toString()
+                  ?.toLowerCase()
+                  .includes(searchText.toLowerCase())
+              ) {
+                isMatch = true;
+              }
             }
-          }
-          return isMatch;
-        })
+            return isMatch;
+          })
     );
   };
 
@@ -323,35 +321,38 @@ export default function ListTable({
         breadCrumb={breadCrumb}
         addButton={addButton}
         deleteRows={{
-          selectedKeys: selectedRowsKey.map(each => each.key),
+          selectedKeys: selectedRowsKey.map((each) => each.key),
           onDeleteRows: onDeleteRows,
-          deleteMany: apiURL.deleteMany,
+          deleteMany: apiURL.deleteMany
         }}
         onSearch={onSearch}
         onReset={onReset}
         spinning={spinning}
-        onRefresh={() => setRefreshShortcut(value => value)}
+        onRefresh={() => setRefreshShortcut((value) => value)}
       >
-        <Row style={{
-          ...rowStyle,
-          marginTop: 40
-        }}>
+        <Row
+          style={{
+            ...rowStyle,
+            marginTop: 40
+          }}
+        >
           <Spin spinning={spinning}>
             <Table
               style={{ whiteSpace: 'pre' }}
               rowSelection={
                 apiURL.deleteMany && {
-                  selectedRowKeys: selectedRowsKey.map(each => each.key),
+                  selectedRowKeys: selectedRowsKey.map((each) => each.key),
                   type: 'checkbox',
                   onChange: (_, _data) => {
-                  	console.log('data', _data);
-										setSelectedRowsKey(
-											_data.map(each => ({
-												key: each?.key,
-												_id: each?._id?.toString()
-											}))
-										);
-									}
+                    console.log('many data', _data);
+                    setSelectedRowsKey(
+                      _data.map((each) => ({
+                        key: each?.key,
+                        // _id: each?._id?.toString()
+                        _id: each.restaurant ? each.restaurant._id.toString() : each._id.toString()
+                      }))
+                    );
+                  }
                 }
               }
               columns={initialColumn}

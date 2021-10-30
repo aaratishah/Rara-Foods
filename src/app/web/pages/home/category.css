@@ -7,7 +7,7 @@
 	background-color: #fff;
 	-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	overflow: hidden;
 }
 .product:hover .product-image img {
@@ -20,7 +20,8 @@
 }
 .product.circle .product-image {
 	padding-top: 100%;
-	border-radius: 50%;
+	/* border-radius: 50%; */
+	border-radius: 10px;
 }
 .product .product-image {
 	display: block;

@@ -1,7 +1,7 @@
-import Icon, { ShoppingCartOutlined } from '@ant-design/icons';
-import { Tag } from 'antd';
-import { ShopContext } from 'context';
-import { useContext } from 'react';
+import Icon, { ShoppingCartOutlined } from "@ant-design/icons";
+import { Tag } from "antd";
+import { ShopContext } from "context";
+import { useContext } from "react";
 export default function Cart({ isMobile, ...props }) {
   const {
     cart: { items: carts, cartVisible, setCartVisible },
@@ -14,9 +14,12 @@ export default function Cart({ isMobile, ...props }) {
           setCartVisible(!cartVisible);
         }}
       >
-        <ShoppingCartOutlined style={{
-          fontSize: 32
-        }} /> Cart
+        <ShoppingCartOutlined
+          style={{
+            fontSize: 32,
+          }}
+        />{" "}
+        Cart
         <Tag
           color="green"
           style={{
@@ -35,35 +38,53 @@ export default function Cart({ isMobile, ...props }) {
         setCartVisible(!cartVisible);
       }}
       style={{
-        cursor: 'pointer',
+        cursor: "pointer",
+        backgroundColor: "#000",
+        border: "none",
+        color: "#fff",
+        padding: "6px 13px",
+        fontWeight: "500",
+        borderRadius: "500px",
+        fontFamily: "sans-serif",
+        // alignSelf: 'flex-end'
       }}
     >
-      <Icon
+      {/* <Icon
         component={() => (
           <svg
             width="24px"
             height="24px"
-            fill="none"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+            // fill="none"
+            viewBox="0 0 16 16"
+            // xmlns="http://www.w3.org/2000/svg"
+            className = 'c9 ca bz cb'  
             aria-hidden="true"
             focusable="false"
           >
-            <path
-              d="M17.8333 7.83325V2.83325H6.16665V7.83325H2.83331V16.1666C2.83331 18.9166 5.08331 21.1666 7.83331 21.1666H16.1666C18.9166 21.1666 21.1666 18.9166 21.1666 16.1666V7.83325H17.8333ZM8.66665 5.33325H15.3333V7.83325H8.66665V5.33325Z"
-              fill="#05A357"
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M3.666 11.333h10.333l1.334-8h-11l-.267-2h-3.4v2h1.667l1.333 8zm1.333 3.334A1.333 1.333 0 105 12a1.333 1.333 0 000 2.667zm9.334-1.334a1.333 1.333 0 11-2.667 0 1.333 1.333 0 012.667 0z"
             />
           </svg>
         )}
+      /> */}
+      <ShoppingCartOutlined
+        style={{
+          fontSize: 18,
+          color: "#fff",
+        }}
       />
       <span
         style={{
-          color: '#05A357',
-          marginLeft: 4,
+          color: "#fff",
+          marginLeft: '3px',
+          fontSize: 16,
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        {carts && carts.length}
+       cart • {carts && carts.length}
       </span>
+      {/* {carts && carts.length} */}
     </div>
   );
 }

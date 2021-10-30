@@ -128,6 +128,7 @@ export default function Cart({ ...props }) {
             className="cart-product-btn"
             style={{
               backgroundColor: '#fff',
+              zIndex: 2,
             }}
           >
             <Link

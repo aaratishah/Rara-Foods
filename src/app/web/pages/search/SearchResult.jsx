@@ -12,8 +12,8 @@ export default function SearchResult({
   return (
     <Row>
       <InfiniteScroll
-        className="ant-row "
         style={{ paddingTop: 0 }}
+        className="ant-row "
         dataLength={result.length}
         next={fetchData}
         endMessage={

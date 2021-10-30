@@ -1,4 +1,4 @@
-import Icon, { HeartFilled, HeartOutlined } from '@ant-design/icons';
+import Icon, { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -12,36 +12,36 @@ import {
   Tag,
   Tooltip,
   Typography,
-} from 'antd';
-import api from 'app/web/api';
-import Container from 'app/web/components/Container';
-import Loader from 'app/web/components/Loader';
-import { notificationError } from 'app/web/components/notification';
-import config from 'config';
-import HeroImage from 'image/demo/hero-002.jpg';
-import { useContext, useEffect, useRef, useState } from 'react';
-import './index.css';
-import NoRestaurantFound from './NoRestaurantFound';
-import MapViewer from 'app/dashboard/components/MapViewer';
-import { MarkerAlt, EmailOpenIcon } from 'image/icon-svg';
-import moment from 'moment';
-import FoodDetailModal from './FoodDetailModal';
-import { UserContext, UserLoginContext } from 'context';
-import { handleError, isRestaurantOpenNow } from 'services/util';
-import { HEADER_HEIGHT } from 'app/web/components/Header';
-import DOMPurify from 'dompurify';
-import ReviewList from './ReviewList';
-import clsx from 'clsx';
-import RestaurantRating from './RestaurantRating';
+} from "antd";
+import api from "app/web/api";
+import Container from "app/web/components/Container";
+import Loader from "app/web/components/Loader";
+import { notificationError } from "app/web/components/notification";
+import config from "config";
+import HeroImage from "image/demo/hero-002.jpg";
+import { useContext, useEffect, useRef, useState } from "react";
+import "./index.css";
+import NoRestaurantFound from "./NoRestaurantFound";
+import MapViewer from "app/dashboard/components/MapViewer";
+import { MarkerAlt, EmailOpenIcon } from "image/icon-svg";
+import moment from "moment";
+import FoodDetailModal from "./FoodDetailModal";
+import { UserContext, UserLoginContext } from "context";
+import { handleError, isRestaurantOpenNow } from "services/util";
+import { HEADER_HEIGHT } from "app/web/components/Header";
+import DOMPurify from "dompurify";
+import ReviewList from "./ReviewList";
+import clsx from "clsx";
+import RestaurantRating from "./RestaurantRating";
 
 const days = [
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday',
-  'sunday',
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
 ];
 var headerPosition = null;
 function capitalizeFirstLetter(string) {
@@ -50,12 +50,12 @@ function capitalizeFirstLetter(string) {
 const getPrice = (food) => {
   let { price, discountType, discountAmount, discountPercent } = food;
   switch (discountType) {
-    case 'percent':
+    case "percent":
       if (discountPercent > 0 && discountPercent <= 100) {
         price = price - (price * discountPercent) / 100;
       }
       break;
-    case 'amount':
+    case "amount":
       if (discountAmount > 0 && discountAmount <= price) {
         price = price - discountAmount;
       }
@@ -68,29 +68,27 @@ const getPrice = (food) => {
 };
 
 const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
-  const timeFormat = 'hh:mm a';
+  const timeFormat = "hh:mm a";
   const getOpeningTimeUI = (openingTime) => {
     if (openingTime.isSameTimeEveryDay) {
       const opentimeDay = openingTime?.everyday;
       return (
         <Row
           style={{
-            width: '100%',
+            width: "100%",
             marginTop: 8,
           }}
           gutter={16}
         >
           <Col>EveryDay</Col>
           <Col>
-            {`${moment(opentimeDay?.startTime).format(
-                timeFormat
-              )}-${moment(opentimeDay?.endTime).format(timeFormat)}`}
+            {`${moment(opentimeDay?.startTime).format(timeFormat)}-${moment(
+              opentimeDay?.endTime
+            ).format(timeFormat)}`}
           </Col>
         </Row>
       );
-    }
-
-    else
+    } else
       return (
         <Row
           style={{
@@ -103,7 +101,7 @@ const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
             return (
               <Row
                 style={{
-                  width: '100%',
+                  width: "100%",
                   marginTop: 8,
                 }}
                 gutter={16}
@@ -111,7 +109,7 @@ const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
                 <Col>{capitalizeFirstLetter(day)}</Col>
                 <Col>
                   {isClosed
-                    ? 'Closed'
+                    ? "Closed"
                     : `${moment(opentimeDay.startTime).format(
                         timeFormat
                       )}-${moment(opentimeDay.endTime).format(timeFormat)}`}
@@ -123,11 +121,15 @@ const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
       );
   };
   let restaurantGeo = null;
-  if(Array.isArray(data?.geo?.coordinates) && data?.geo?.coordinates[1] && data?.geo?.coordinates[0]) {
+  if (
+    Array.isArray(data?.geo?.coordinates) &&
+    data?.geo?.coordinates[1] &&
+    data?.geo?.coordinates[0]
+  ) {
     restaurantGeo = {
       latitude: data?.geo?.coordinates[1],
       longitude: data?.geo?.coordinates[0],
-    }
+    };
   }
   return (
     <Modal
@@ -145,21 +147,23 @@ const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
           marginBottom: 10,
         }}
       >
-        {restaurantGeo && <MapViewer
-          activeMarker={{
-            ...restaurantGeo,
-            name: data.name,
-          }}
-          height={400}
-          options={{
-            zoom: 12,
-            disableDefaultUI: true,
-          }}
-        />}
+        {restaurantGeo && (
+          <MapViewer
+            activeMarker={{
+              ...restaurantGeo,
+              name: data.name,
+            }}
+            height={400}
+            options={{
+              zoom: 12,
+              disableDefaultUI: true,
+            }}
+          />
+        )}
       </div>
       <div
         style={{
-          padding: '5px 20px 10px',
+          padding: "5px 20px 10px",
         }}
       >
         <Typography.Text
@@ -178,7 +182,7 @@ const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
           }}
         >
           <Col>
-            <Icon component={MarkerAlt} />{' '}
+            <Icon component={MarkerAlt} />{" "}
           </Col>
           <Col>
             <Typography.Text>
@@ -187,17 +191,16 @@ const RestaurantDetailModal = ({ data, detailPreview, setDetailPreview }) => {
           </Col>
         </Row>
         <Collapse
-          defaultActiveKey={[data?.openTime?.isSameTimeEveryDay ?  "1" : "0"]}
+          defaultActiveKey={[data?.openTime?.isSameTimeEveryDay ? "1" : "0"]}
           // onChange={callback}
-          expandIconPosition={'right'}
+          expandIconPosition={"right"}
         >
           <Collapse.Panel
-
             key="1"
             header={
               <Row align="middle" gutter={8}>
                 <Col>
-                  <Icon component={EmailOpenIcon} />{' '}
+                  <Icon component={EmailOpenIcon} />{" "}
                 </Col>
                 <Col>
                   <Typography.Text
@@ -229,6 +232,12 @@ const HeroSection = ({
 }) => {
   const [detailPreview, setDetailPreview] = useState(false);
 
+  const createMarkup = (html) => {
+    return {
+      __html: DOMPurify.sanitize(html),
+    };
+  };
+
   return (
     <div
       className="hero-section page-banner"
@@ -253,7 +262,7 @@ const HeroSection = ({
         />
         <Container
           outerStyle={{
-            position: 'absolute',
+            position: "absolute",
             top: 40,
           }}
         >
@@ -266,7 +275,7 @@ const HeroSection = ({
               >
                 <Tag
                   style={{
-                    color: '#fff',
+                    color: "#fff",
                     // transform: 'rotate(20deg)',
                   }}
                   color="#cd201f"
@@ -276,10 +285,10 @@ const HeroSection = ({
               </span>
             )}
             <h1>
-              {data.name}® ({data.address && data.address.street}){' '}
+              {data.name}® ({data.address && data.address.street}){" "}
               <Tooltip
                 title={
-                  wishlistStatus ? 'Remove from Favorites' : 'Make it Favorite'
+                  wishlistStatus ? "Remove from Favorites" : "Make it Favorite"
                 }
               >
                 <span onClick={addToWishlist}>
@@ -287,16 +296,16 @@ const HeroSection = ({
                     <HeartFilled
                       style={{
                         fontSize: 18,
-                        color: '#f50057',
-                        cursor: 'pointer',
+                        color: "#f50057",
+                        cursor: "pointer",
                       }}
                     />
                   ) : (
                     <HeartOutlined
                       style={{
-                        color: '#f50057',
+                        color: "#f50057",
                         fontSize: 18,
-                        cursor: 'pointer',
+                        cursor: "pointer",
                       }}
                     />
                   )}
@@ -324,6 +333,12 @@ const HeroSection = ({
                 More info
               </Button>
             </p>
+            <p
+              style = {{margin: 0}}
+              dangerouslySetInnerHTML={createMarkup(
+                data.description
+              )}
+            />
           </div>
           {/* <div className="button-group">
 					<button className="button btn btn-light">
@@ -354,37 +369,35 @@ const Food = ({ data, restaurantDetail, isOpen }) => {
           style={{
             width: 150,
             borderRadius: 10,
-            cursor: isOpen && 'pointer',
+            cursor: isOpen && "pointer",
             // filter: isOpen || 'grayscale(50%)',
           }}
           onClick={() =>
             isOpen
               ? setFoodDetail(true)
               : notificationError(
-              'Restaurant is currently closed. Please visit later.',
-              'Closed',
-              'bottomRight'
-              )
+                  "Restaurant is currently closed. Please visit later.",
+                  "Closed",
+                  "bottomRight"
+                )
           }
           src={config.getImageHost(data.activeImage)}
           alt
         />
         <div className="product-container">
           <span
-            style={{
-
-            }}
+            style={{}}
             onClick={() =>
               isOpen
                 ? setFoodDetail(true)
                 : notificationError(
-                    'Restaurant is currently closed. Please visit later.',
-                    'Closed',
-                    'bottomRight'
+                    "Restaurant is currently closed. Please visit later.",
+                    "Closed",
+                    "bottomRight"
                   )
             }
             style={{
-              cursor: isOpen && 'pointer',
+              cursor: isOpen && "pointer",
             }}
             className="product-title"
           >
@@ -393,7 +406,7 @@ const Food = ({ data, restaurantDetail, isOpen }) => {
           <div
             className="product-meta"
             style={{
-              transform: 'unset',
+              transform: "unset",
             }}
           >
             <span className="shipping">
@@ -417,9 +430,12 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
       >
         <h2 className="section-title">{data.name}</h2>
       </header>
-      <Row className="product-list" style={{
-        width: '100%'
-      }}>
+      <Row
+        className="product-list"
+        style={{
+          width: "100%",
+        }}
+      >
         {data.foods.length > 0 ? (
           data.foods.map((food) => (
             <Food
@@ -429,14 +445,15 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
             />
           ))
         ) : (
-          <div className="product product-container"
+          <div
+            className="product product-container"
             style={{
-              backgroundColor: '#e2e2e2',
+              backgroundColor: "#e2e2e2",
             }}
           >
             <h3
               style={{
-                cursor: isOpen && 'pointer',
+                cursor: isOpen && "pointer",
               }}
               className="product-title"
             >
@@ -462,7 +479,7 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
   };
 
   let onScroll = (event) => {
-    var header = document.getElementById('spy-nav');
+    var header = document.getElementById("spy-nav");
     var sticky = header && header.getBoundingClientRect();
     if (!sticky) return;
     const { top, height } = sticky;
@@ -470,17 +487,17 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
     const pageYOffset = event.srcElement.scrollTop;
     getVisibleGroup(height);
     if (top <= 0 && pageYOffset > headerPosition) {
-      header.classList.add('sticky');
+      header.classList.add("sticky");
     } else {
-      header.classList.remove('sticky');
+      header.classList.remove("sticky");
     }
   };
   useEffect(() => {
     if (window) {
-      window.addEventListener('scroll', onScroll, true);
+      window.addEventListener("scroll", onScroll, true);
     }
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [data]);
 
@@ -498,7 +515,7 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
               <Menu.Item className="nav-item" key={foodGroup._id}>
                 <a
                   style={{
-                    padding: 'unset',
+                    padding: "unset",
                   }}
                   href={`#${foodGroup._id}`}
                 >
@@ -541,7 +558,7 @@ export default function RestaurantDetail(props) {
   const [reviewSpinning, setReviewSpinning] = useState(false);
   const [foodGroups, setFoodGroups] = useState([]);
   const [spinning, setSpinning] = useState(false);
-  const [tabValue, setTabValue] = useState('description');
+  const [tabValue, setTabValue] = useState("description");
 
   useEffect(() => {
     if (isAuth) {
@@ -555,7 +572,7 @@ export default function RestaurantDetail(props) {
   }, [itemId, isAuth]);
 
   const showLoginModal = () => {
-    setTab('1');
+    setTab("1");
     setVisible(true);
   };
 
@@ -570,7 +587,7 @@ export default function RestaurantDetail(props) {
           .then(({ data }) => setWishlistStatus(data))
           .catch(handleError);
       } else {
-        notificationError('Invalid Product');
+        notificationError("Invalid Product");
       }
     }
   };
@@ -619,8 +636,8 @@ export default function RestaurantDetail(props) {
   };
   const isOpen = isRestaurantOpenNow(restaurantDetail?.openTime);
   const scrollToBottom = () => {
-    reviewRef.current.scrollIntoView({ behavior: 'smooth' });
-    setTabValue('review');
+    reviewRef.current.scrollIntoView({ behavior: "smooth" });
+    setTabValue("review");
   };
 
   return spinning ? (
@@ -654,7 +671,7 @@ export default function RestaurantDetail(props) {
               <Tabs
                 centered
                 style={{
-                  width: '100%',
+                  width: "100%",
                 }}
                 activeKey={tabValue}
                 onChange={(activeKey) => setTabValue(activeKey)}
@@ -664,12 +681,12 @@ export default function RestaurantDetail(props) {
                   tab={
                     <span
                       className={clsx(
-                        'nav-item nav-link pr-4 pl-4'
+                        "nav-item nav-link pr-4 pl-4"
                         // active === tab.title && 'active'
                       )}
                       role="tab"
                     >
-                      <i className={clsx('pr-2')} />
+                      <i className={clsx("pr-2")} />
                       Description
                     </span>
                   }
@@ -677,11 +694,11 @@ export default function RestaurantDetail(props) {
                 >
                   <div className="">
                     <div
-  className="preview"
-  dangerouslySetInnerHTML={createMarkup(
-    restaurantDetail.description
-  )}
-  />
+                      className="preview"
+                      dangerouslySetInnerHTML={createMarkup(
+                        restaurantDetail.description
+                      )}
+                    />
                   </div>
                 </Tabs.TabPane>
                 <Tabs.TabPane
@@ -689,7 +706,7 @@ export default function RestaurantDetail(props) {
                   tab={
                     <span
                       className={clsx(
-                        'nav-item nav-link pr-4 pl-4'
+                        "nav-item nav-link pr-4 pl-4"
                         // active === tab.title && 'active'
                       )}
                       role="tab"

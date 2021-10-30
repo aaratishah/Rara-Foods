@@ -4,7 +4,7 @@ import ListTable from 'app/dashboard/components/ListTable';
 import routeURL from 'config/routeURL';
 import React from 'react';
 import './index.css';
-import { DateColumn, NumberColumn, StringColumn, } from 'app/dashboard/components/column/index';
+import { DateColumn, NumberColumn, StringColumn, BoolColumn} from 'app/dashboard/components/column/index';
 
 const rowStyle = {
   width: "100%",
@@ -13,8 +13,8 @@ const rowStyle = {
 const title = "Promotion";
 export default function Promotion() {
   const columns = [
-    NumberColumn("Campaign", "campaignName"),
-    StringColumn("Message", "message"),
+    StringColumn("Name", "name"),
+    StringColumn('Address','address',(address)=>`${address?.street}, ${address?.city}`),
     DateColumn("Created At", "createdDateTime"),
   ];
   return (
@@ -31,14 +31,19 @@ export default function Promotion() {
             url: false,
           },
         ]}
-        // actions={true}
         addButton={{
           title: `Add Promotion`,
           url: routeURL.cms.promotion_add,
         }}
+        // edit={{
+        //   url: (itemId) => routeURL.cms.promotion_edit(itemId),
+        // }}
         columnData={columns}
         apiURL={{
-          get: api.settings.readPromotion,
+          get: api.promotion.readPromotion,
+          delete: api.promotion.deletePromotion,
+          deleteMany: api.promotion.deleteManyPromotion,
+          toggle: api.promotion.toggle
         }}
       />
     </Row>

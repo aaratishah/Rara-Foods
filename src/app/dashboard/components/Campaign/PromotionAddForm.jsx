@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import routeURL from "config/routeURL";
-import api from 'app/dashboard/api';
+import api from "app/dashboard/api";
 import {
   Button,
   Col,
@@ -13,21 +13,27 @@ import {
   Typography,
 } from "antd";
 import AddPageLayout from "../ListTable/AddPageLayout";
-import { handleError, riderRequestStatus } from 'services/util';
-import { notificationSuccess } from 'app/web/components/notification';
+import { handleError, riderRequestStatus } from "services/util";
+import { notificationSuccess } from "app/web/components/notification";
 import { Link } from "react-router-dom";
 
-const slug = 'promotion';
+const slug = "promotion";
 const backUrl = routeURL.cms[slug]();
 
-const ItemAddForm = ({ ItemId, history, pageTitle="Add Promotion", rowStyle }) => {
+const ItemAddForm = ({
+  ItemId,
+  history,
+  pageTitle = "Add Promotion",
+  rowStyle,
+}) => {
   var formRef = useRef();
   const [spinning, setSpinning] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
   const campaignName = pageTitle.split(" ")[1];
 
   const fillForm = (data) => {
     formRef.current.setFieldsValue({
-        restaurant: data
+      restaurant: data,
     });
   };
 
@@ -35,23 +41,28 @@ const ItemAddForm = ({ ItemId, history, pageTitle="Add Promotion", rowStyle }) =
     if (ItemId) {
       setSpinning(true);
       api[slug]
-        .read(ItemId)
+        .readPromotion(ItemId)
         .then(({ data }) => fillForm(data))
         .catch(handleError)
         .finally(() => setSpinning(false));
     }
-  }, [ItemId]);
+    api.restaurant.readAll().then(({ data }) => {
+      setRestaurants(data)
+      console.log("Restaurants", restaurants);
+    });
+  }, [ItemId, spinning]);
 
   const onSaveForm = (value) => {
     // validate here
     if (true) {
       var jsonData = {
-        restaurant: value.promotion
+        restaurant: value.restaurantSelector,
       };
       // if (ItemId) jsonData._id = ItemId;
       setSpinning(true);
 
-      api.settings.sendPromotion(jsonData)
+      api.promotion
+        .sendPromotion(jsonData)
         .then((data) => {
           console.log(data);
           notificationSuccess(data.message);
@@ -62,13 +73,11 @@ const ItemAddForm = ({ ItemId, history, pageTitle="Add Promotion", rowStyle }) =
     }
   };
 
-//   const [regions, setRegions] = useState([]);  
-
   const [formDataa, setFormDataa] = useState({});
-  const onFormChange = (name) => (value) =>
+  const onFormChange = (id) => (value) =>
     setFormDataa((formDataa) => ({
       ...formDataa,
-      [name]: value,
+      [id]: value,
     }));
 
   return (
@@ -123,226 +132,24 @@ const ItemAddForm = ({ ItemId, history, pageTitle="Add Promotion", rowStyle }) =
                 <Col xs={24} lg={16}>
                   <Col xs={24}>
                     <Form.Item
-                      name="promotion"
-                      label="Restaurant Id"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the campaign title!",
-                        },
-                      ]}
+                      name="restaurantSelector"
+                      label="Select Restaurant"
                     >
-                      <Input />
+                      <Select
+                        defaultValue="Select Your Restaurant"
+                        value={formDataa?.restaurantSelector || "none"}
+                        onChange={onFormChange}
+                      >
+                        {restaurants && restaurants.map((restaurant, idx) => {
+                          return <Select.Option value = {restaurant._id}>{restaurant.name}</Select.Option>
+                        })}
+                      </Select>
                     </Form.Item>
                   </Col>
-                  {/* <Col xs={24}>
-                    <Form.Item
-                      name="message"
-                      label="Message Body (60 character per page)"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the message body!",
-                        },
-                      ]}
-                    >
-                      <Input.TextArea />
-                    </Form.Item>
-                  </Col> */}
                 </Col>
-                {/* <Col xs={24} lg={8}>
-                  
-                  <Typography.Text>
-                    {`You can use {{name}} to use the name and {{phone}} to use phone number.`}
-                  </Typography.Text>
-                </Col> */}
               </Row>
 
               <Divider></Divider>
-              {/* <Row gutter={[16, 16]}>
-                <Col xs={24} lg={12}>
-                  <Form.Item
-                    name="restaurantSelector"
-                    label={`Send ${campaignName} To Restaurant `}
-                  >
-                    <Select
-                      defaultValue="none"
-                      value={formDataa?.restaurantSelector || "none"}
-                      onChange={onFormChange("restaurantSelector")}
-                    >
-                      <Select.Option value="none">No Restaurant</Select.Option>
-                      <Select.Option value="All">All Restaurants</Select.Option>
-                      <Select.Option value="few">
-                        Some Restaurants
-                      </Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} lg={12}>
-                  <Form.Item
-                    name="restaurantConditional"
-                    label={`Send ${campaignName} to some restaurant of `}
-                  >
-                    <Select
-                      mode="multiple"
-                      disabled={formDataa?.restaurantSelector !== "few"}
-                      value={formDataa?.restaurantConditional || []}
-                      onChange={onFormChange("restaurantConditional")}
-                    >
-                      <Select.Option value="region">Region</Select.Option>
-                      <Select.Option value="status">
-                        Approve Status
-                      </Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                {formDataa?.restaurantConditional &&
-                  formDataa?.restaurantConditional?.includes("region") && (
-                    <Col xs={24} lg={12}>
-                      <Form.Item
-                        name="restaurantRegion"
-                        label="Select restaurant region "
-                      >
-                        <Select
-                          mode="multiple"
-                          value={formDataa?.restaurantRegion || []}
-                          onChange={onFormChange("restaurantRegion")}
-                        >
-                          {regions.map((each) => (
-                            <Select.Option value={each?._id?.toString()}>
-                              {each?.name}
-                            </Select.Option>
-                          ))}
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                  )}
-                {formDataa?.restaurantConditional &&
-                  formDataa?.restaurantConditional?.includes("status") && (
-                    <Col xs={24} lg={12}>
-                      <Form.Item
-                        name="restaurantStatus"
-                        label="Select restaurant status "
-                      >
-                        <Select
-                          mode="multiple"
-                          value={formDataa?.restaurantStatus || []}
-                          onChange={onFormChange("restaurantStatus")}
-                        >
-                          {riderRequestStatus.map((each) => (
-                            <Select.Option value={each?.value.toString()}>
-                              {each?.label}
-                            </Select.Option>
-                          ))}
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                  )}
-              </Row>
-
-              <Divider>Rider</Divider>
-              <Row gutter={[16, 16]}>
-                <Col xs={24} lg={12}>
-                  <Form.Item name="riderSelector" label={`Send ${campaignName} To Rider`}>
-                    <Select
-                      defaultValue="none"
-                      value={formDataa?.riderSelector || "none"}
-                      onChange={onFormChange("riderSelector")}
-                    >
-                      <Select.Option value="none">No Rider</Select.Option>
-                      <Select.Option value="All">All Rider</Select.Option>
-                      <Select.Option value="few">Some Rider</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} lg={12}>
-                  <Form.Item
-                    name="riderConditional"
-                    label={`Send ${campaignName} to some restaurant of `}
-                  >
-                    <Select
-                      mode="multiple"
-                      disabled={formDataa?.riderSelector !== "few"}
-                      value={formDataa?.riderConditional || []}
-                      onChange={onFormChange("riderConditional")}
-                    >
-                      <Select.Option value="vehicle">
-                        Vehicle Type
-                      </Select.Option>
-                      <Select.Option value="status">
-                        Approve Status
-                      </Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                {formDataa?.riderConditional &&
-                  formDataa?.riderConditional?.includes("vehicle") && (
-                    <Col xs={24} lg={12}>
-                      <Form.Item
-                        name="riderVehicle"
-                        label="Select rider Vehicle "
-                      >
-                        <Select
-                          mode="multiple"
-                          value={formDataa?.riderVehicle || []}
-                          onChange={onFormChange("riderVehicle")}
-                        >
-                          {vehicleTypes.map((each) => (
-                            <Select.Option value={each?._id?.toString()}>
-                              {each?.name}
-                            </Select.Option>
-                          ))}
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                  )}
-                {formDataa?.riderConditional &&
-                  formDataa?.riderConditional?.includes("status") && (
-                    <Col xs={24} lg={12}>
-                      <Form.Item
-                        name="riderStatus"
-                        label="Select rider status "
-                      >
-                        <Select
-                          mode="multiple"
-                          value={formDataa?.riderStatus || []}
-                          onChange={onFormChange("riderStatus")}
-                        >
-                          {riderRequestStatus.map((each) => (
-                            <Select.Option value={each?.value.toString()}>
-                              {each?.label}
-                            </Select.Option>
-                          ))}
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                  )}
-              </Row>
-
-              <Divider>Customer</Divider>
-              <Row gutter={[16, 16]}>
-                <Col xs={24}>
-                  <Form.Item
-                    name="customerSelector"
-                    label={`Send ${campaignName} To Customer`}
-                  >
-                    <Select
-                      defaultValue="none"
-                      value={formDataa?.customerSelector || "none"}
-                      onChange={onFormChange("customerSelector")}
-                    >
-                      <Select.Option value="none">No Customer</Select.Option>
-                      <Select.Option value="All">All Customers</Select.Option>
-                      <Select.Option value="ordered">
-                        Customers who ordered once
-                      </Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-              </Row> */}
-
               <Row
                 style={{
                   ...rowStyle,

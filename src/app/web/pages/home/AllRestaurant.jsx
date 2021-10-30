@@ -13,7 +13,6 @@ import SearchOption from "../search/SearchOption";
 import EmptyResult from "../search/EmptyResult";
 import SearchResult from "../search/SearchResult";
 import { JwtService } from "services/jwtServiceClient";
-
 const perPageLimit = 15;
 const { Content, Sider } = Layout;
 export default function AllRestaurant(props) {
@@ -100,18 +99,56 @@ export default function AllRestaurant(props) {
     );
   };
 
+  // return (
+  //   <Container>
+  //     <Layout style={{ backgroundColor: "#fff", padding: "20px" }}>
+  //       <Sider
+  //         style={{ backgroundColor: "#fff", borderRight: "2px solid #f5f5f5" }}
+  //       >
+  //         <Col xs={24} style={{ padding: "20px" }}>
+  //           <SearchOption onSearch={onSearch} query={params} />
+  //         </Col>
+  //       </Sider>
+  //       <Content>
+  //         <Col xs={24} style={{ padding: "20px" }}>
+  //           {spinning ? (
+  //             <Row
+  //               align="middle"
+  //               justify="center"
+  //               style={{
+  //                 minHeight: 300,
+  //               }}
+  //             >
+  //               <Spin />
+  //             </Row>
+  //           ) : searchResult.length === 0 ? (
+  //             <EmptyResult />
+  //           ) : (
+  //             <SearchResult
+  //               spinning={spinning}
+  //               query={params.q}
+  //               fetchData={fetchMoreData}
+  //               pagination={pagination}
+  //               result={searchResult}
+  //             />
+  //           )}
+  //         </Col>
+  //       </Content>
+  //     </Layout>
+  //   </Container>
+  // );
   return (
     <Container>
       <Layout style={{ backgroundColor: "#fff", padding: "20px" }}>
-        <Sider
+        {/* <Sider
           style={{ backgroundColor: "#fff", borderRight: "2px solid #f5f5f5" }}
         >
           <Col xs={24} style={{ padding: "20px" }}>
             <SearchOption onSearch={onSearch} query={params} />
           </Col>
-        </Sider>
+        </Sider> */}
         <Content>
-          <Col xs={24} style={{ padding: "20px" }}>
+          {/* <Col xs={24} style={{ padding: "20px" }}>
             {spinning ? (
               <Row
                 align="middle"
@@ -133,7 +170,7 @@ export default function AllRestaurant(props) {
                 result={searchResult}
               />
             )}
-          </Col>
+          </Col> */}
         </Content>
       </Layout>
     </Container>

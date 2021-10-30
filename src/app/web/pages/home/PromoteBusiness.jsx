@@ -1,5 +1,5 @@
 import React from 'react';
-import addAsBusiness from 'image/add_as_business.jpg';
+import addAsBusiness from 'image/pizza_maker.jpg';
 import addAsRestaurant from 'image/add_as_restaurant.jpg';
 import addAsRider from 'image/add_as_rider.jpg';
 import { Col, Row, Typography } from 'antd';
@@ -29,16 +29,16 @@ const items = [
 ];
 const PromoteBusiness = () => {
 
-  return <Row className="container-fluid">
+  return <Row className="container-fluid" >
     <Row style={{
-      margin: 0,
-      width: '100%'
+      marginTop: 40,
+      width: '100%',
     }} justify="space-between" align="stretch" gutter={32}>
       {items?.map(item =>
         <Col xs={20} md={7}>
-          <Row justify="start">
+          <Row>
             <Col xs={20}>
-              <Link style={{ width: '100%' }} to={item.link}>
+              <Link style={{ width: '100%',}} to={item.link}>
                 <img src={item.image} alt={`rara ${item.title}`} style={{
                   width: '100%',
                   // height: 250
@@ -50,10 +50,10 @@ const PromoteBusiness = () => {
     </Row>
     <Row justify="space-between" align="middle" style={{
       width: '100%',
-      margin: '16px 0px 0px 0px'
+      margin: '18px 0px 0px 0px'
     }} gutter={32}>
       {items?.map(item => <Col xs={20} md={7}>
-        <Typography.Title level={4}>
+        <Typography.Title level={3}>
           {item.title}
         </Typography.Title>
       </Col>)}
@@ -64,7 +64,7 @@ const PromoteBusiness = () => {
     }} gutter={32}>
       {items?.map(item => <Col xs={24} md={7}>
         <Link style={{ width: '100%' }} to={item.link}>
-          <Typography.Title level={5}>
+          <Typography.Title level={5} underline>
             {item.subTitle}
           </Typography.Title></Link>
       </Col>)}

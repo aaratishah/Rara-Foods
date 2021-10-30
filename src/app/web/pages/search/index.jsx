@@ -3,6 +3,7 @@ import * as QueryString from "query-string";
 import NoSearchQuery from "./NoSearchQuery";
 import { Link } from "react-router-dom";
 import routeURL from "config/routeURL";
+import bannerImage from "image/background.png";
 import { Col, Layout, Row, Spin, Typography, Card, Button } from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
@@ -15,6 +16,8 @@ import api from "app/web/api";
 import config from "config";
 import { useHistory } from "react-router-dom";
 import { CaretLeftFilled } from "@ant-design/icons";
+import FoodCategoryCarousel from "../home/FoodCategoryCarousel";
+import FoodCategoryItem from "../home/FoodCategoryItem";
 
 const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -46,6 +49,7 @@ export default function Search(props) {
   const [searchResult, setSearchResult] = useState([]);
   const [featuredRestaurant, setFeaturedRestaurant] = useState([]);
   const [spinning, setSpinning] = useState(false);
+  const [restaurantPackage, setRestaurantPackage] = useState([]);
   const [pagination, setPagination] = useState({
     hasMore: true,
     page: 1,
@@ -54,6 +58,11 @@ export default function Search(props) {
     api.restaurant.featured_restaurant().then(({ data }) => {
       setFeaturedRestaurant([...data]);
     });
+  }, []);
+  useEffect(() => {
+    api.restaurant_package
+      .readAll()
+      .then(({ data }) => setRestaurantPackage([...data]));
   }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -135,7 +144,7 @@ export default function Search(props) {
               style={{ width: "100%" }}
               cover={
                 <img
-                  alt="example"
+                  alt="Featured Restaurant"
                   src={
                     featuredRestaurant.length !== 0
                       ? `${config.API_HOST}/api/imageUpload/image/${featuredRestaurant[0].restaurant.image[0]}`
@@ -170,6 +179,14 @@ export default function Search(props) {
             </Col>
           </Sider>
           <Content>
+            {restaurantPackage.map((item, idx) => {
+              return (
+                <FoodCategoryCarousel items={item} title = {item.name}>
+                  {(_item, key) => <FoodCategoryItem item={_item} key={key} />}
+                </FoodCategoryCarousel>
+              );
+            })}
+
             <Col xs={24} style={{ padding: "20px" }}>
               {spinning ? (
                 <Row
