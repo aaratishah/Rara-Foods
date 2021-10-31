@@ -19,11 +19,12 @@ export default function Cart({ isMobile, ...props }) {
             fontSize: 32,
           }}
         />{" "}
-        Cart
         <Tag
           color="green"
           style={{
             marginLeft: 4,
+            verticalAlign: "5px",
+            fontSize: "16px",
           }}
         >
           {carts ? carts.length : 0}
@@ -76,13 +77,13 @@ export default function Cart({ isMobile, ...props }) {
       <span
         style={{
           color: "#fff",
-          marginLeft: '3px',
+          marginLeft: "3px",
           fontSize: 16,
-          alignItems: 'center',
-          justifyContent: 'center'
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-       cart • {carts && carts.length}
+        cart • {carts && carts.length}
       </span>
       {/* {carts && carts.length} */}
     </div>

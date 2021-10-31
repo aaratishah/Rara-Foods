@@ -267,10 +267,10 @@ const HeaderHome = ({ isHomePage }) => {
                   icon={<SearchOutlined />}
                   size="large"
                   style={{
-                    width: "100%",
+                    width: isMobileDevice() ? "200px" : "100%",
                     marginRight: isMobileDevice() ? 8 : 0,
                     marginLeft: isMobileDevice() ? 12 : 0,
-                    zIndex: 3
+                    zIndex: 3,
                   }}
                 >
                   <input
@@ -293,7 +293,11 @@ const HeaderHome = ({ isHomePage }) => {
                       }
                     }}
                     type="text"
-                    placeholder="Search foods/restaurants"
+                    placeholder={
+                      isMobileDevice()
+                        ? "Foods/restaurants"
+                        : "Search foods/restaurants"
+                    }
                     onChange={({ target: { value } }) => setSearchText(value)}
                   />
                 </Button>

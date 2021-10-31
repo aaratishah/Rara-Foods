@@ -63,7 +63,7 @@ const DesktopMenu = ({ isAuth, onLogout, profile, visibleSearch }) => {
       </Col> */}
 
       <Cart
-        isMobile={false}
+        isMobile={isMobileDevice() ? true : false}
         style={{
           marginLeft: 32,
         }}
