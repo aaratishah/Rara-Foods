@@ -1,7 +1,7 @@
 import FacebookLoginButton from "react-facebook-login/dist/facebook-login-render-props";
 import { useContext } from "react";
 import { FacebookIcon } from "image/icon-svg";
-import Icon from "@ant-design/icons";
+// import Icon from "@ant-design/icons";
 import { JwtService } from "services/jwtServiceClient";
 import { LOGIN_USER_CLIENT, UserContext, UserLoginContext } from "context";
 import {

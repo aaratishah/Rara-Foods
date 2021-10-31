@@ -161,7 +161,12 @@ const LoginForm = ({ history }) => {
             </Select>
           </Form.Item>
         </Col>
-        <Col xs={16}>
+        <Col
+          xs={16}
+          style={{
+            padding: "3.5px 6px",
+          }}
+        >
           <Form.Item
             name="phone"
             rules={[
@@ -172,9 +177,6 @@ const LoginForm = ({ history }) => {
             ]}
           >
             <Input
-              style={{
-                flex: 1,
-              }}
               size="large"
               className="site-form-item-icon"
               placeholder="Mobile Number"
