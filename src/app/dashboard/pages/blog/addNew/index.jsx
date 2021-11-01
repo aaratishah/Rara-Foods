@@ -40,6 +40,7 @@ export default function ItemAdd(props) {
   const formRef = useRef();
 
   const onSaveForm = (values) => {
+    console.log("Values");
     const body = convertToHTML(descriptionState.getCurrentContent());
     const { blogTitle, metaDesc, author, metaTag, metaTitle } = values;
 
@@ -52,7 +53,10 @@ export default function ItemAdd(props) {
       metaDescription: {
         title: metaTitle,
         description: metaDesc,
-        tags: metaTag.split(",").map((item) => item.trim()),
+        tags:
+          typeof metaTag === "object"
+            ? metaTag
+            : metaTag.split(",").map((item) => item.trim()),
       },
     };
 
