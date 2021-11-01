@@ -63,26 +63,44 @@ export default function ItemAdd(props) {
         notificationSuccess(data.message);
         formRef.current.resetFields();
         setDescriptionState(EditorState.createEmpty());
-        //   props.history.push(backUrl);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
   };
 
   const fillForm = (data) => {
-    if (data.title) setTitle(data.title);
-    if (data.body) {
-      const blocksFromHTML = htmlToDraft(data.body).contentBlocks;
+    if (data && data.title) {
+      const { author, title, images, links, description } = data;
+      let mTag, mTitle, mDesc;
+      mTag = mTitle = mDesc = "";
+      if (data.metaDescription) {
+        const { title, tags, description } = data.metaDescription;
+        mTag = tags;
+        mTitle = title;
+        mDesc = description;
+      }
+
+      const blocksFromHTML = htmlToDraft(description).contentBlocks;
       setDescriptionState(
         EditorState.createWithContent(
           ContentState.createFromBlockArray(blocksFromHTML)
         )
       );
-    }
-  };
 
-  const handleImageUpload = (value) => {
-    console.log(value);
+      formRef.current.setFieldsValue({
+        author,
+        blogDesc: descriptionState,
+        blogTitle: title,
+        category: undefined,
+        links,
+        metaDesc: mDesc,
+        metaTag: mTag,
+        metaTitle: mTitle,
+        upload: images,
+      });
+    }
+
+    if (data.images) setFileNames(data.images);
   };
 
   useEffect(() => {

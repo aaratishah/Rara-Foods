@@ -87,8 +87,9 @@ export default {
     read: (itemId) => parse_res(api.get(`${url.blog}/id/${itemId}`)),
     read_active: () => parse_res(api.get(`${url.blog}/active`)),
     save_blog: (body) => parse_res(api.post(`${url.blog}/`, body)),
-    delete: (postId) => parse_res(api.delete(`${url.blog}/${postId}`)),
-    deleteMany: (ids) => parse_res(api.post(`${url.blog}/many`, { ids })),
+    delete: (postId) => parse_res(api.delete(`${url.blog}/id/${postId}`)),
+    deleteMany: (ids) =>
+      parse_res(api.post(`${url.blog}/delete/many`, { ids })),
     toggle: (itemId, toggleStatus) =>
       parse_res(api.put(`${url.blog}/toggle/${itemId}/${toggleStatus}`)),
   },

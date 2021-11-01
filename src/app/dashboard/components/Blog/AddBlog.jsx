@@ -33,8 +33,8 @@ const AddBlog = ({
           >
             <Input
               placeholder="Blog Title"
-              value={title}
-              // onChange={}
+              // value={myVal}
+              // onChange={(e) => setMyVal(e.target.value)}
             />
           </Form.Item>
 
@@ -44,14 +44,14 @@ const AddBlog = ({
                 name="category"
                 label="Category"
                 hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select a cateogry",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please select a cateogry",
+                //   },
+                // ]}
               >
-                <Select placeholder="Choose Category">
+                <Select placeholder="Choose Category" defaultValue="value-2">
                   <Option value="value-1">Value1</Option>
                   <Option value="value-2">Value2</Option>
                 </Select>

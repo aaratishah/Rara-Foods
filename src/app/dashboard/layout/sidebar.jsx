@@ -32,7 +32,6 @@ import {
   EmailOpenIcon,
   food_and_beverage_icon,
   RestaurantIcon,
-  rider_icon,
   terms_and_condition_icon,
   WebIcon,
   BlogIcon,
