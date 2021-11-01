@@ -4,7 +4,16 @@ import NoSearchQuery from "./NoSearchQuery";
 import { Link } from "react-router-dom";
 import routeURL from "config/routeURL";
 import bannerImage from "image/background.png";
-import { Col, Layout, Row, Spin, Typography, Card, Button } from "antd";
+import {
+  Col,
+  Layout,
+  Row,
+  Spin,
+  Typography,
+  Card,
+  Button,
+  Carousel,
+} from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
 import { default as useBreakpoint } from "services/Breakpoint";
@@ -140,31 +149,38 @@ export default function Search(props) {
             <Paragraph>Search for your cuisine or dishes!</Paragraph>
           </Col>
           <Col xs={12}>
-            <Card
-              style={{ width: "100%" }}
-              cover={
-                <img
-                  alt="Featured Restaurant"
-                  src={
-                    featuredRestaurant.length !== 0
-                      ? `${config.API_HOST}/api/imageUpload/image/${featuredRestaurant[0].restaurant.image[0]}`
-                      : `https://api.rarafoods.com.au/api/imageUpload/image/restaurant_1635277493.jpg`
+            <Carousel dots={false} autoplay>
+              {featuredRestaurant.map((restItem) => (
+                <Card
+                  style={{ width: "100%" }}
+                  cover={
+                    <img
+                      alt="Featured Restaurant"
+                      src={
+                        featuredRestaurant.length !== 0
+                          ? `${config.API_HOST}/api/imageUpload/image/${restItem.restaurant.image[0]}`
+                          : `https://api.rarafoods.com.au/api/imageUpload/image/restaurant_1635277493.jpg`
+                      }
+                      height="200px"
+                      style={{
+                        objectFit: "cover",
+                        border: "1px solid #f5f5f5",
+                      }}
+                    />
                   }
-                  height="200px"
-                  style={{ objectFit: "cover" }}
-                />
-              }
-            >
-              <Button
-                type="primary"
-                size="middle"
-                shape="round"
-                icon={<CaretLeftFilled />}
-                href={`${routeURL.web.home()}`}
-              >
-                Get this Deal
-              </Button>
-            </Card>
+                >
+                  <Button
+                    type="primary"
+                    size="middle"
+                    shape="round"
+                    icon={<CaretLeftFilled />}
+                    href={`${routeURL.web.home()}`}
+                  >
+                    Get this Deal
+                  </Button>
+                </Card>
+              ))}
+            </Carousel>
           </Col>
         </Row>
         <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
@@ -181,7 +197,7 @@ export default function Search(props) {
           <Content>
             {restaurantPackage.map((item, idx) => {
               return (
-                <FoodCategoryCarousel items={item} title = {item.name}>
+                <FoodCategoryCarousel items={item} title={item.name}>
                   {(_item, key) => <FoodCategoryItem item={_item} key={key} />}
                 </FoodCategoryCarousel>
               );
