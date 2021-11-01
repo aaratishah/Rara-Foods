@@ -40,7 +40,6 @@ export default function ItemAdd(props) {
   const formRef = useRef();
 
   const onSaveForm = (values) => {
-    console.log("Values");
     const body = convertToHTML(descriptionState.getCurrentContent());
     const { blogTitle, metaDesc, author, metaTag, metaTitle } = values;
 
