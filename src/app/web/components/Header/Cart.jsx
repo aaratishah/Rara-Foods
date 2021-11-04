@@ -16,15 +16,17 @@ export default function Cart({ isMobile, ...props }) {
       >
         <ShoppingCartOutlined
           style={{
-            fontSize: 32,
+            fontSize: 28,
           }}
         />{" "}
         <Tag
-          color="green"
+          color="yellow"
           style={{
-            marginLeft: 4,
-            verticalAlign: "5px",
-            fontSize: "16px",
+            marginLeft: -10,
+            verticalAlign: "0px",
+            fontSize: "18px",
+            border: 'none',
+            backgroundColor: 'transparent'
           }}
         >
           {carts ? carts.length : 0}

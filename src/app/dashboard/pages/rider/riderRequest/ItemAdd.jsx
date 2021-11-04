@@ -19,6 +19,7 @@ import { handleError } from "services/util";
 import {notificationError, notificationSuccess} from "../../../components/notification";
 import GalleryUpload from "../../../components/GalleryUpload";
 import moment from "moment";
+import webApi from 'app/web/api/index'
 
 const rowStyle = {
   width: "100%",
@@ -47,6 +48,21 @@ export default function ItemAdd(props) {
     insurance: [],
     agreementDoc: [],
   });
+
+  const [cities, setCities] = useState([])
+
+  useEffect(() => {
+    setSpinning(true);
+    webApi.region
+      .readAll()
+      .then(({ data }) => {
+        return setCities(data);
+        console.log(data);
+      })
+      // .then(({ data }) => console.log("places", data))
+      .catch(handleError)
+      .finally(() => setSpinning(false));
+  }, []);
 
   const setPhoto = (name) => (images) =>
     setPhotoImage((value) => ({
@@ -506,8 +522,8 @@ export default function ItemAdd(props) {
                   0
                 }
               >
-                {constants?.stateList?.map((item) => (
-                  <Select.Option value={item.value}>{item.label}</Select.Option>
+                {cities?.map((item) => (
+                  <Select.Option value={item._id}>{item.name}</Select.Option>
                 ))}
               </Select>
             </Form.Item>

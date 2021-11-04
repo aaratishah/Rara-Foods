@@ -18,12 +18,16 @@ import {
 } from 'antd';
 import { notificationError } from 'app/dashboard/components/notification';
 import api from 'app/web/api';
+import PrimaryButton from 'app/web/components/Button/PrimaryButton';
 import { notificationSuccess } from 'app/web/components/notification';
 import config from 'config';
+import routeURL from 'config/routeURL';
 import { ShopContext, UserContext, UserLoginContext } from 'context';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useHistory, Redirect } from 'react-router';
 import { handleError } from 'services/util';
 import './index.css';
+
 const radioStyle = {
   display: 'block',
   height: '30px',
@@ -36,6 +40,7 @@ export default function FoodDetailModal({
   preview,
   setPreview,
 }) {
+  const history = useHistory()
   const [isVisible, setVisible, tab, setTab] = useContext(UserLoginContext);
 
   const {
@@ -346,6 +351,9 @@ export default function FoodDetailModal({
           alignItems: 'center',
           display: 'flex',
           boxSizing: 'border-box',
+          borderRadius: '500px',
+          fontWeight: "500",
+          // padding: '20px'
         }}
       >
         <Row
@@ -388,9 +396,11 @@ export default function FoodDetailModal({
       <Popconfirm
         title="Login to add the product or add to guest cart?"
         onCancel={onAddToOrder}
-        onConfirm={showLoginModal}
+        onConfirm={() => history.push('/login')}
         okText="Login"
         cancelText="Guest Cart"
+        // okButtonProps = {history.push(routeURL.web.home)}
+        
       >
         {ButtonUI}
       </Popconfirm>
@@ -398,7 +408,7 @@ export default function FoodDetailModal({
       <div
         className="quick-cart"
         style={{
-          background: quantity < data.minQuantity ? '#424242' : '#000000',
+          // background: quantity < data.minQuantity ? '#424242' : '#000000',
           cursor: quantity < data.minQuantity ? 'not-allowed' : '#pointer',
         }}
         disabled={quantity < data.minQuantity}

@@ -11,6 +11,7 @@ import {
   withGoogleMap,
   Marker,
 } from "react-google-maps";
+import { default as useBreakpoint } from "services/Breakpoint";
 
 const styles = {
   li: {
@@ -23,6 +24,9 @@ export default function RestaurantByLocation() {
   const [regions, setRegions] = useState([]);
   const [position, setPosition] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const point = useBreakpoint();
+  const isMobileDevice = () => ["xs", "sm"].includes(point);
 
   useEffect(() => {
     setSpinning(true);
@@ -57,10 +61,10 @@ export default function RestaurantByLocation() {
     console.log('positions', position);
     return (
       <GoogleMap
-        defaultZoom={5}
-        defaultCenter={{ lat: 27.5178453, lng: 85.31362179999999 }}
+        defaultZoom={10}
+        defaultCenter={{ lat: -33.865143, lng: 151.209900 }}
       >
-            <Marker  position={{ lat: 27.5178453, lng: 85.31362179999999 }} />
+            <Marker  position={{ lat: -33.865143, lng: 151.209900 }} />
         
         {/* {position.map((pos) => {
           
@@ -79,14 +83,11 @@ export default function RestaurantByLocation() {
           <h2 className="section-title" onClick={() => console.log(regions)}>
             Cities Near Me
           </h2>
-          {/* <a href="#" className="view-all-link">
-						View all {regions.length > 50 ? "50+" : regions.length} regions
-					</a> */}
         </header>
         <div className="location-wrapper">
-          <ul className="list-unstyled" style={{ columns: "4 auto" }}>
+          <ul className="list-unstyled" style={{ columns: isMobileDevice() ? 2 : 4 }}>
             {regions.slice(0,20).map((region) => (
-              <li>
+              <li onClick = {() => window.localStorage.setItem('user_selected_region', region._id)}>
                 <Link
                   className="link-blue"
                   style={styles.li}

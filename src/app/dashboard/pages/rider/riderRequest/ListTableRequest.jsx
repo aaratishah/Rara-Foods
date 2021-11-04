@@ -190,7 +190,7 @@ export default function ListTableRequest({
         onFilter: (value, record) => record.activeStatus === value,
         render: renderStatus,
       });
-    let width = 70;
+    let width = 90;
     if (actions) width += 100;
     if (edit) width += 50;
     if (preview) width += 50;

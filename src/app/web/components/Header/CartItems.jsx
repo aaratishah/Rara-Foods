@@ -1,11 +1,11 @@
-import { CloseOutlined } from '@ant-design/icons';
-import { Col, Divider, Row, Typography } from 'antd';
-import routeURL from 'config/routeURL';
-import { ShopContext, UserContext } from 'context';
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import './cartItem.css';
-import CartItem from './Item';
+import { CloseOutlined } from "@ant-design/icons";
+import { Col, Divider, Row, Typography } from "antd";
+import routeURL from "config/routeURL";
+import { ShopContext, UserContext } from "context";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import "./cartItem.css";
+import CartItem from "./Item";
 
 export default function Cart({ ...props }) {
   const {
@@ -20,28 +20,29 @@ export default function Cart({ ...props }) {
       <Row
         style={{
           width: 300,
-          backgroundColor: '#ffffff',
-          position: 'absolute',
+          backgroundColor: "#ffffff",
+          position: "absolute",
           top: 80,
           right: 10,
-          maxHeight: 'calc(100vw - 80px)',
+          maxHeight: "calc(100vw - 80px)",
           // transform: "translateX(-100%)",
           zIndex: 1,
           padding: 10,
+          position: "fixed",
         }}
       >
         <div
           style={{
-            position: 'relative',
-            width: '100%',
-            backgroundColor: '#fff',
+            position: "relative",
+            width: "100%",
+            backgroundColor: "#fff",
           }}
         >
           <Row justify="space-between">
             <Typography.Title level={4}>Your Order</Typography.Title>
             <CloseOutlined
               style={{
-                color: '#000000',
+                color: "#000000",
                 fontSize: 16,
               }}
               onClick={() => setCartVisible(!cartVisible)}
@@ -51,17 +52,17 @@ export default function Cart({ ...props }) {
           {cartRestaurant && cartRestaurant.name && (
             <div
               style={{
-                color: 'rgb(84, 84, 84)',
+                color: "rgb(84, 84, 84)",
                 fontSize: 14,
-                backgroundColor: '#fff',
+                backgroundColor: "#fff",
               }}
             >
-              From {''}
+              From {""}
               <span
                 style={{
-                  color: '#05A357',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
+                  color: "#05A357",
+                  cursor: "pointer",
+                  textDecoration: "underline",
                 }}
               >
                 {cartRestaurant && cartRestaurant.name}
@@ -70,12 +71,12 @@ export default function Cart({ ...props }) {
           )}
           <Row
             style={{
-              width: '100%',
+              width: "100%",
               marginTop: 15,
               marginBottom: 15,
-              overflowY: 'scroll',
+              overflowY: "scroll",
               maxHeight: 250,
-              backgroundColor: '#fff',
+              backgroundColor: "#fff",
             }}
           >
             {items &&
@@ -92,7 +93,7 @@ export default function Cart({ ...props }) {
               justify="center"
               style={{
                 marginTop: 8,
-                backgroundColor: '#fff',
+                backgroundColor: "#fff",
                 padding: 8,
               }}
             >
@@ -101,13 +102,13 @@ export default function Cart({ ...props }) {
           ) : (
             <div
               style={{
-                backgroundColor: '#fff',
+                backgroundColor: "#fff",
               }}
             >
               <Divider />
               <Row
                 style={{
-                  width: '100%',
+                  width: "100%",
                   marginTop: 8,
                 }}
                 justify="space-between"
@@ -127,14 +128,15 @@ export default function Cart({ ...props }) {
           <div
             className="cart-product-btn"
             style={{
-              backgroundColor: '#fff',
-              zIndex: 2,
+              backgroundColor: "#fff",
+              // borderRadius: '500px'
             }}
           >
             <Link
               onClick={() => setCartVisible(false)}
               to={routeURL.web.cart()}
               className="main-btn btn-block"
+              style={{ borderRadius: "500px", backgroundColor: "#000" }}
             >
               View cart
             </Link>
@@ -142,6 +144,7 @@ export default function Cart({ ...props }) {
               onClick={() => setCartVisible(false)}
               to={routeURL.web.checkout()}
               className="main-btn btn-block"
+              style={{ borderRadius: "500px", backgroundColor: "#000" }}
             >
               Checkout
             </Link>

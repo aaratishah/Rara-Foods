@@ -24,7 +24,7 @@ const DesktopMenu = ({ isAuth, onLogout, profile, visibleSearch }) => {
   };
 
   return (
-    <Row align="middle" gutter={20}>
+    <Row align="middle" >
       {!isAuth && !isMobileDevice() ? (
         <button
           // size="large"
@@ -65,7 +65,7 @@ const DesktopMenu = ({ isAuth, onLogout, profile, visibleSearch }) => {
       <Cart
         isMobile={isMobileDevice() ? true : false}
         style={{
-          marginLeft: 32,
+          marginLeft: isMobileDevice() ? 5 : 32,
         }}
       />
     </Row>

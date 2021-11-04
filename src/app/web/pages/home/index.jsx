@@ -11,6 +11,8 @@ import {
   Card,
 } from "antd";
 import api from "app/web/api";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import routeURL from "config/routeURL";
 import Container from "app/web/components/Container";
 import { notificationError } from "app/web/components/notification";
 import HeroImg from "image/banner/home_bg.png";
@@ -37,6 +39,9 @@ import { Content } from "antd/lib/layout/layout";
 import { default as useBreakpoint } from "services/Breakpoint";
 import logoImage from "image/logo.png";
 import { AndroidLink, AppleLink } from "app/web/components/Header/SideMenu";
+import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
+
+const { Option } = Select;
 
 function randomRange(myMin, myMax) {
   return Math.floor(
@@ -46,10 +51,14 @@ function randomRange(myMin, myMax) {
 const heroImageIndex = randomRange(0, svgImage.length - 1);
 
 const HeroSection = ({ fetchPackage }) => {
+  const history = useHistory();
   const point = useBreakpoint();
   const isMobileDevice = () => ["xs", "sm"].includes(point);
+  // const isCustomDevice = () => ["sm".includes(point)]
+  const isTabletDevice = () => ["md"].includes(point);
   const [regions, setRegions] = useState([]);
   const [regionSpinning, setRegionSpinning] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     setRegionSpinning(true);
@@ -74,106 +83,202 @@ const HeroSection = ({ fetchPackage }) => {
 
   return (
     <Content style={{ position: "relative" }}>
-      <Carousel autoplay dotPosition="bottom">
-        <div>
-          <div
-            style={{
-              height: "90vh",
-              backgroundImage: `url(${HomeImg})`,
-              backgroundSize: "cover",
-              marginTop: 80,
-            }}
-          ></div>
-        </div>
-        <div>
-          <div
-            style={{
-              height: "90vh",
-              backgroundImage: `url(${HomeImg2})`,
-              backgroundSize: "cover",
-              marginTop: 80,
-            }}
-          ></div>
-        </div>
-        <div>
-          <div
-            style={{
-              height: "90vh",
-              backgroundImage: `url(${HeroImg})`,
-              backgroundSize: "cover",
-              marginTop: 80,
-            }}
-          ></div>
-        </div>
-      </Carousel>
+      <div>
+        <Carousel autoplay dotPosition="bottom">
+          <div>
+            <div
+              style={{
+                height: "90vh",
+                backgroundImage: `url(${HomeImg})`,
+                backgroundSize: "cover",
+                marginTop: 80,
+                opacity: 0.5,
+              }}
+            ></div>
+          </div>
+          <div>
+            <div
+              style={{
+                height: "90vh",
+                backgroundImage: `url(${HomeImg2})`,
+                backgroundSize: "cover",
+                marginTop: 80,
+                opacity: 0.5,
+              }}
+            ></div>
+          </div>
+          <div>
+            <div
+              style={{
+                height: "90vh",
+                backgroundImage: `url(${HeroImg})`,
+                backgroundSize: "cover",
+                marginTop: 80,
+                opacity: 0.7,
+                backgroundColor: "#000",
+              }}
+            ></div>
+          </div>
+        </Carousel>
+      </div>
       {!!JwtService.getRegion() || <SelectRegion fetchPackage={fetchPackage} />}
       <h1
         style={{
           color: "#424242",
-          fontSize: "min(6vw, 48px)",
+          fontSize: isMobileDevice() ? "25px" : "min(6vw, 48px)",
           margin: 0,
           position: "absolute",
-          bottom: "350px",
+          bottom: isMobileDevice() ? "315px" : "350px",
           marginLeft: isMobileDevice() ? "100px" : "280px",
           marginRight: isMobileDevice() ? "100px" : "280px",
         }}
       >
         Your favorite food, delivered with RARA
       </h1>
-      <Typography
-        style={{
-          marginTop: 16,
-          marginBottom: 8,
-          color: "#272C34",
-          position: "absolute",
-          bottom: "300px",
-          marginLeft: isMobileDevice() ? "100px" : "280px",
-          marginRight: isMobileDevice() ? "100px" : "280px",
-        }}
-      >
-        Select your nearest region
-      </Typography>
-
-      <Row
-        style={{
-          position: "absolute",
-          bottom: "250px",
-          width: "55%",
-          marginLeft: isMobileDevice() ? "100px" : "280px",
-          marginRight: isMobileDevice() ? "100px" : "280px",
-        }}
-      >
-        <Col flex="1 1 100px">
-          <Select
-            style={{
-              width: "100%",
-            }}
-            size="large"
-            value={
-              regions && regions.length > 0 ? JwtService.getRegion() : undefined
-            }
-            onChange={(value) => {
-              JwtService.assignRegion(value);
-              fetchPackage();
-            }}
-            showSearch
-            placeholder="Select region"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {regions &&
-              regions.length > 0 &&
-              regions.map((each) => (
-                <Select.Option value={each._id}>{each.name}</Select.Option>
-              ))}
-          </Select>
+      {/* {isMobileDevice() ? (
+        <Col
+          style={{
+            position: "absolute",
+            bottom: isMobileDevice() ? "120px" : "250px",
+            marginLeft: isMobileDevice() ? "100px" : "280px",
+            marginRight: isMobileDevice() ? "100px" : "280px",
+          }}
+        >
+          <Row>
+            <input
+              style={{
+                borderWidth: 0,
+                // marginLeft: 5,
+                // marginRight: 10,
+                width: isMobileDevice() ? "100%" : "100%",
+                backgroundColor: "#eeeeee",
+                height: "55px",
+                padding: "10px",
+              }}
+              value={searchText}
+              onKeyDown={({ key }) => {
+                if (searchText && key === "Enter") {
+                  history.push(
+                    routeURL.params(routeURL.web.search(), `q=${searchText}`)
+                  );
+                  setSearchText("");
+                }
+              }}
+              type="text"
+              placeholder="Search foods/restaurants"
+              onChange={({ target: { value } }) => setSearchText(value)}
+            ></input>
+          </Row>
+          <Row>
+            <Select
+              style={{
+                backgroundColor: "#000",
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                color: "#fff",
+                border: "#000",
+                height: "55px",
+                // marginRight: "3px",
+                // marginLeft: "10px",
+                width: "100%",
+                marginTop: "10px",
+              }}
+              // size="large"
+              // onClick={() => {
+              //   history.push(
+              //     routeURL.params(routeURL.web.search(), `q=${searchText}`)
+              //   );
+              //   setSearchText("");
+              // }}
+            >
+              <Option value="lucy">Lucy</Option>
+              <Option value="lucy">Lucy</Option>
+            </Select>
+          </Row>
+          <Row>
+            <Button
+              style={{
+                backgroundColor: "#000",
+                // borderRadius: "5px",
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                color: "#fff",
+                border: "#000",
+                height: "55px",
+                width: "100%",
+                marginTop: "10px",
+              }}
+              size="large"
+              onClick={() => {
+                history.push(
+                  routeURL.params(routeURL.web.search(), `q=${searchText}`)
+                );
+                setSearchText("");
+              }}
+            >
+              Find Food
+            </Button>
+          </Row>
         </Col>
-        <Col flex="0 1 75px">
-          <Button size="large">Find Food</Button>
-        </Col>
-      </Row>
+      ) : ( */}
+        <Row
+          style={{
+            position: "absolute",
+            bottom: isMobileDevice() ? "240px" : "250px",
+            width: isMobileDevice() ? "55%" : "55%",
+            marginLeft: isMobileDevice() ? "100px" : "280px",
+            marginRight: isMobileDevice() ? "100px" : "280px",
+          }}
+        >
+          <Col flex="1 1 100px">
+            <input
+              style={{
+                borderWidth: 0,
+                marginLeft: 5,
+                // marginRight: 10,
+                width: isMobileDevice() ? "100%" : "100%",
+                backgroundColor: "#eeeeee",
+                height: "55px",
+                padding: "10px",
+              }}
+              value={searchText}
+              onKeyDown={({ key }) => {
+                if (searchText && key === "Enter") {
+                  history.push(
+                    routeURL.params(routeURL.web.search(), `q=${searchText}`)
+                  );
+                  setSearchText("");
+                }
+              }}
+              type="text"
+              placeholder="Search foods/restaurants"
+              onChange={({ target: { value } }) => setSearchText(value)}
+            ></input>
+          </Col>
+          <Col flex="0 1 75px">
+            <Button
+              style={{
+                backgroundColor: "#000",
+                // borderRadius: "5px",
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                color: "#fff",
+                border: "#000",
+                height: "55px",
+              }}
+              size="large"
+              onClick={() => {
+                history.push(
+                  routeURL.params(routeURL.web.search(), `q=${searchText}`)
+                );
+                setSearchText("");
+              }}
+            >
+              Find Food
+            </Button>
+          </Col>
+        </Row>
+      {/* )} */}
     </Content>
   );
 };
@@ -186,13 +291,14 @@ function HomePage({ isGeolocationAvailable, coords, location }) {
 
   const point = useBreakpoint();
   const isMobileDevice = () => ["xs", "sm"].includes(point);
+  const isTabletDevice = () => ["md"].includes(point);
 
   useEffect(() => {
     setSpinning(true);
     api.restaurant_package
       .readAll()
       .then(({ data }) => {
-        console.log("data", data);
+        console.log("restaurant data", data);
         // promoIndex = data?.length >= 2 ? Math.floor(data?.length/2) :
         if (data.length > 1) {
           const tempData = [...data];
@@ -230,45 +336,47 @@ function HomePage({ isGeolocationAvailable, coords, location }) {
           alignItems: "center",
         }}
       >
-        <Card style = {{borderRadius: '10px'}}>
-          <Row align="middle">
-            <Col xs={6}>
+        <Card style={{ borderRadius: "10px", border: "none", width: "500px" }}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div>
               <img
                 style={{
                   marginRight: 8,
                   marginLeft: 8,
-                  width: "50px",
+                  width: "80px",
                 }}
                 src={logoImage}
                 alt={"logo RaraFoods rara foods"}
               />
-            </Col>
-
-            <Col offset={2} xs={24 - 8}>
-              <span
+            </div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <div>
+                <span
+                  style={{
+                    fontWeight: 600,
+                    fontSize: 16,
+                    paddingRight: 8,
+                  }}
+                >
+                  There's more to love in the app.
+                </span>
+              </div>
+              <div
                 style={{
-                  fontWeight: 600,
-                  fontSize: 16,
-                  paddingRight: 8,
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "10px",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                There's more to love in the app.
-              </span>
-            </Col>
-          </Row>
-          <Row align = 'middle'
-            gutter={8}
-            style={{
-              marginTop: 16,
-            }}
-          >
-            <Col>
-              <AppleLink />
-            </Col>
-            <Col>
-              <AndroidLink />
-            </Col>
-          </Row>
+                <AppleLink />
+                <AndroidLink />
+              </div>
+            </div>
+          </div>
         </Card>
       </Row>
       {/* <Divider /> */}
@@ -308,10 +416,6 @@ function HomePage({ isGeolocationAvailable, coords, location }) {
       <AllRestaurant location={location} />
       <RestaurantByLocation />
       <hr />
-
-      <FoodCategoryCarousel items={foodCategory} title="Popular on Rara">
-        {(item, key) => <FoodCategoryItem item={item} key={key} />}
-      </FoodCategoryCarousel>
     </>
   );
 }

@@ -4,16 +4,7 @@ import NoSearchQuery from "./NoSearchQuery";
 import { Link } from "react-router-dom";
 import routeURL from "config/routeURL";
 import bannerImage from "image/background.png";
-import {
-  Col,
-  Layout,
-  Row,
-  Spin,
-  Typography,
-  Card,
-  Button,
-  Carousel,
-} from "antd";
+import { Col, Layout, Row, Spin, Typography, Card, Button } from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
 import { default as useBreakpoint } from "services/Breakpoint";
@@ -27,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import { CaretLeftFilled } from "@ant-design/icons";
 import FoodCategoryCarousel from "../home/FoodCategoryCarousel";
 import FoodCategoryItem from "../home/FoodCategoryItem";
+import Carousel from "react-elastic-carousel";
 
 const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -63,20 +55,22 @@ export default function Search(props) {
     hasMore: true,
     page: 1,
   });
+  const [allpackage, setAllPackage] = useState([]);
+  const [allPackagePAgination, setAllPackagePagination] = useState({
+    hasMore: true,
+    page: 1,
+  });
   useEffect(() => {
     api.restaurant.featured_restaurant().then(({ data }) => {
       setFeaturedRestaurant([...data]);
     });
   }, []);
-  useEffect(() => {
-    api.restaurant_package
-      .readAll()
-      .then(({ data }) => setRestaurantPackage([...data]));
-  }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     setSpinning(true);
     setSearchResult([]);
+    console.log("params", params);
     const paramQuery = {};
     if (params.q) paramQuery.keyword = params.q;
     if (params.popularity) paramQuery.popularity = params.popularity;
@@ -93,6 +87,34 @@ export default function Search(props) {
           hasMore,
           page: 2,
         });
+        // console.log("restaurant By region", data);
+      })
+      .catch(handleError)
+      .finally(() => setSpinning(false));
+  }, [params.q, params.popularity, params.dietary, params.price]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setSpinning(true);
+    setSearchResult([]);
+    console.log("params", params);
+    const paramQuery = {};
+    // if (params.q) paramQuery.keyword = params.q;
+    // if (params.popularity) paramQuery.popularity = params.popularity;
+    // if (params.price) paramQuery.price = params.price;
+    // if (params.dietary) paramQuery.dietary = params.dietary;
+    paramQuery.page = 1;
+    paramQuery.size = perPageLimit;
+    paramQuery.result_type = "restaurant";
+    api.restaurant_package
+      .readAll(paramQuery)
+      .then(({ data, hasMore }) => {
+        setAllPackage(data);
+        setAllPackagePagination({
+          hasMore,
+          page: 2,
+        });
+        console.log("All package", data);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
@@ -112,6 +134,7 @@ export default function Search(props) {
           hasMore,
           page: pagination.page + 1,
         });
+        // console.log("restaurant By region", data);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
@@ -143,44 +166,40 @@ export default function Search(props) {
     <>
       <BannerSection />
       <Container>
+        <FoodCategoryCarousel items={allpackage}>
+          {(item, key) => <FoodCategoryItem item={item} key={key} />}
+        </FoodCategoryCarousel>
         <Row style={{ marginTop: "4rem" }}>
           <Col xs={12}>
             <Title>Get your Deal?</Title>
             <Paragraph>Search for your cuisine or dishes!</Paragraph>
           </Col>
           <Col xs={12}>
-            <Carousel dots={false} autoplay>
-              {featuredRestaurant.map((restItem) => (
-                <Card
-                  style={{ width: "100%" }}
-                  cover={
-                    <img
-                      alt="Featured Restaurant"
-                      src={
-                        featuredRestaurant.length !== 0
-                          ? `${config.API_HOST}/api/imageUpload/image/${restItem.restaurant.image[0]}`
-                          : `https://api.rarafoods.com.au/api/imageUpload/image/restaurant_1635277493.jpg`
-                      }
-                      height="200px"
-                      style={{
-                        objectFit: "cover",
-                        border: "1px solid #f5f5f5",
-                      }}
-                    />
+            <Card
+              style={{ width: "100%" }}
+              cover={
+                <img
+                  alt="Featured Restaurant"
+                  src={
+                    featuredRestaurant.length !== 0
+                      ? `${config.API_HOST}/api/imageUpload/image/${featuredRestaurant[0].restaurant.image[0]}`
+                      : `https://api.rarafoods.com.au/api/imageUpload/image/restaurant_1635277493.jpg`
                   }
-                >
-                  <Button
-                    type="primary"
-                    size="middle"
-                    shape="round"
-                    icon={<CaretLeftFilled />}
-                    href={`${routeURL.web.home()}`}
-                  >
-                    Get this Deal
-                  </Button>
-                </Card>
-              ))}
-            </Carousel>
+                  height="200px"
+                  style={{ objectFit: "cover" }}
+                />
+              }
+            >
+              <Button
+                type="primary"
+                size="middle"
+                shape="round"
+                icon={<CaretLeftFilled />}
+                href={`${routeURL.web.home()}`}
+              >
+                Get this Deal
+              </Button>
+            </Card>
           </Col>
         </Row>
         <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
@@ -195,14 +214,6 @@ export default function Search(props) {
             </Col>
           </Sider>
           <Content>
-            {restaurantPackage.map((item, idx) => {
-              return (
-                <FoodCategoryCarousel items={item} title={item.name}>
-                  {(_item, key) => <FoodCategoryItem item={_item} key={key} />}
-                </FoodCategoryCarousel>
-              );
-            })}
-
             <Col xs={24} style={{ padding: "20px" }}>
               {spinning ? (
                 <Row

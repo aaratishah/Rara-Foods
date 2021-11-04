@@ -226,7 +226,9 @@ export default function CartPage() {
                   float: 'right',
                 }}
               >
-                <Link to={routeURL.web.home('arrival')} className="main-btn">
+                <Link to={routeURL.web.home('arrival')} className="main-btn" style = {{
+                  borderRadius: '500px', backgroundColor: '#000'
+                }}>
                   Continue Shopping
                 </Link>
               </div>

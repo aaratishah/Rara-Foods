@@ -1,14 +1,15 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Row, Typography } from 'antd';
-import api from 'app/web/api';
-import { notificationError } from 'app/web/components/notification';
-import clsx from 'clsx';
-import { UserContext, UserLoginContext } from 'context';
-import { useContext, useEffect, useState } from 'react';
-import { handleError } from 'services/util';
-import './review.css';
+import { Row, Typography } from "antd";
+import api from "app/web/api";
+import PrimaryButton from "app/web/components/Button/PrimaryButton";
+import { notificationError } from "app/web/components/notification";
+import clsx from "clsx";
+import { UserContext, UserLoginContext } from "context";
+import { useContext, useEffect, useState } from "react";
+import { handleError } from "services/util";
+import "./review.css";
 
 export default function ReviewPost({
   restaurantId,
@@ -21,7 +22,7 @@ export default function ReviewPost({
   const isAuth = clientStore.isAuthenticated;
   const [isVisible, setVisible, tab, setTab] = useContext(UserLoginContext);
   const [ratingValue, setRating] = useState(-1);
-  const [reviewValue, setReview] = useState('');
+  const [reviewValue, setReview] = useState("");
   const [spinning, setSpinning] = useState(false);
   const [canIRate, setCanIRate] = useState(false);
 
@@ -44,19 +45,19 @@ export default function ReviewPost({
   }, [isAuth]);
 
   const showLoginModal = () => {
-    setTab('1');
+    setTab("1");
     setVisible(true);
   };
 
   const onRate = () => {
     if (!ratingValue || ratingValue > 5 || ratingValue < 0) {
-      return notificationError('Rating is Required');
+      return notificationError("Rating is Required");
     }
     if (!isAuth) {
       return showLoginModal();
     }
     if (!canIRate) {
-      return notificationError('Order Food before revewing the restaurant.');
+      return notificationError("Order Food before revewing the restaurant.");
     }
     const jsonData = {
       rating: ratingValue,
@@ -75,11 +76,11 @@ export default function ReviewPost({
     <Row>
       <Typography.Title
         style={{
-          width: '100%',
+          width: "100%",
           fontWeight: 400,
-          color: '#232324',
+          color: "#232324",
           fontSize: 20,
-          fontFamily: 'Poppins,sans-serif',
+          fontFamily: "Poppins,sans-serif",
         }}
       >
         Add a review
@@ -87,7 +88,7 @@ export default function ReviewPost({
       <div
         className="product-review"
         style={{
-          width: '100%',
+          width: "100%",
         }}
       >
         <div className="review-form">
@@ -99,10 +100,10 @@ export default function ReviewPost({
                 href="javascript:void(0)"
                 className={clsx(
                   ` star-${each + 1}`,
-                  each + 1 === ratingValue && 'active'
+                  each + 1 === ratingValue && "active"
                 )}
                 style={{
-                  textDecoration: 'none',
+                  textDecoration: "none",
                 }}
               />
             ))}
@@ -115,13 +116,20 @@ export default function ReviewPost({
             />
           </div>
           <div className="review-btn">
-            <button
+            <PrimaryButton
+              title="submit"
+              classname="main-btn"
+              handleClick={onRate}
+              disabled={reviewSpinning || spinning}
+            />
+
+            {/* <button
               className="main-btn"
               onClick={onRate}
               disabled={reviewSpinning || spinning}
             >
               Submit
-            </button>
+            </button> */}
           </div>
           {/* <div className="review-checkbok">
               <input type="checkbox" id="checkbox" />
@@ -134,7 +142,7 @@ export default function ReviewPost({
 
       <Row
         style={{
-          width: '100%',
+          width: "100%",
         }}
       ></Row>
     </Row>
@@ -152,7 +160,7 @@ export default function ReviewPost({
         </div>
         <div className="review-textarea">
           <label>Your Review *</label>
-          <textarea defaultValue={''} />
+          <textarea defaultValue={""} />
         </div>
         <div className="review-btn">
           <a href="#" className="main-btn">
