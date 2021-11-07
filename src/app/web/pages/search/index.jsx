@@ -211,8 +211,6 @@ export default function Search(props) {
                       }}
                     />
                   }
-                  height="200px"
-                  style={{ objectFit: "cover" }}
                 >
                   <Button
                     type="primary"
