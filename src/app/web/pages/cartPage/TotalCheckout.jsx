@@ -87,6 +87,9 @@ export default function TotalCheckout({
           disabled={submitting}
           onClick={submitting ? ()=>{} : onCheckout}
           className="main-btn btn-block"
+          style = {{
+            borderRadius: '500px', backgroundColor: '#000'
+          }}
         >
           {submitting && <LoadingOutlined spin={submitting} style={{
             marginRight: 8

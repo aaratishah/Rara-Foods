@@ -69,6 +69,9 @@ export const CheckoutForm = ({ onHandleSubmit }) => {
               onClick={handleSubmit}
               className="pay-button"
               disabled={isPaymentLoading}
+              style = {{
+                borderRadius: '500px', backgroundColor: '#000'
+              }}
             >
               {isPaymentLoading ? 'Loading...' : 'Pay'}
             </button>

@@ -2,7 +2,7 @@ import {
   ArrowLeftOutlined,
   DeleteFilled,
   FieldTimeOutlined,
-  HistoryOutlined,
+  HistoryOutlined
 } from '@ant-design/icons';
 import {
   Button,
@@ -16,25 +16,25 @@ import {
   Row,
   Spin,
   Tabs,
-  Tag,
-} from "antd";
-import api from "app/web/api";
-import { notificationError } from "app/web/components/notification";
-import routeURL from "config/routeURL";
-import { UserContext } from "context";
-import bannerImage from "image/background.png";
-import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { handleError } from "services/util";
-import moment from "moment";
-import "./index.css";
-import StripeContainer from "./stripe/StripeContainer";
+  Tag
+} from 'antd';
+import api from 'app/web/api';
+import { notificationError } from 'app/web/components/notification';
+import routeURL from 'config/routeURL';
+import { UserContext } from 'context';
+import bannerImage from 'image/background.png';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { handleError } from 'services/util';
+import moment from 'moment';
+import './index.css';
+import StripeContainer from './stripe/StripeContainer';
 import OrderSuccess from 'app/web/pages/checkoutPage/OrderSuccess';
 
 const radioStyle = {
-  display: "block",
-  height: "30px",
-  lineHeight: "30px",
+  display: 'block',
+  height: '30px',
+  lineHeight: '30px'
 };
 
 const paymentMethods = [
@@ -56,10 +56,10 @@ const paymentMethods = [
   //   description: 'Pay with cash upon delivery.',
   // },
   {
-    value: "STRIPE",
-    label: "Stripe",
-    description: "Pay via Stripe; you can pay with your credit card or Visa.",
-  },
+    value: 'STRIPE',
+    label: 'Stripe',
+    description: 'Pay via Stripe; you can pay with your credit card or Visa.'
+  }
 ];
 
 const Banner = () => (
@@ -84,8 +84,8 @@ const Banner = () => (
 function disabledDate(current) {
   // Can not select days before today and today
   return (
-    (current && current < moment().startOf("day")) ||
-    current > moment().add(2, "days")
+    (current && current < moment().startOf('day')) ||
+    current > moment().add(2, 'days')
   );
 }
 
@@ -101,14 +101,14 @@ function disabledDateTime() {
   let current = moment();
   return {
     disabledHours: () => range(0, (moment().hour() + 1) % 23),
-    disabledMinutes: () => range(0, moment().minute()),
+    disabledMinutes: () => range(0, moment().minute())
   };
 }
 
 export default function Checkout() {
   const [scheduleType, setScheduleType] = useState({}); //now
   const [scheduleTime, setScheduleLater] = useState({}); //moment().add(1, 'hour')
-  const [specialNote, setSpecialNote] = useState({});
+  const [specialNote, setSpecialNote] = useState();
   const [grandTotalPrice, setTotalPrice] = useState(0);
   const [totalTax, setTotalTax] = useState(0);
   const [totalShipCharge, setTotalShipCharge] = useState(0);
@@ -120,35 +120,37 @@ export default function Checkout() {
   const [spinning, setSpinning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("STRIPE");
+  const [paymentMethod, setPaymentMethod] = useState('STRIPE');
   const [shippingCharge, setShippingCharge] = useState({});
+  const [location, setLocationId] = useState([]);
 
   const onShippingVehicleChange = (orderId, shipDetail) => {
-    setShippingCharge(shipCharge => ({ ...shipCharge,
+    setShippingCharge((shipCharge) => ({
+      ...shipCharge,
       [orderId?.toString()]: shipDetail
-    // {
-    //   _id: shipId,
-    //     fare: shipFare
-    // }
+      // {
+      //   _id: shipId,
+      //     fare: shipFare
+      // }
     }));
-  }
+  };
   useEffect(() => {
     let totalShipCharge = 0;
-    Object.keys(shippingCharge)?.map(eachOrderId => {
+    Object.keys(shippingCharge)?.map((eachOrderId) => {
       let shipCharge = shippingCharge[eachOrderId];
-      if(shipCharge) shipCharge = JSON.parse(shipCharge);
-      if(shipCharge) shipCharge = shipCharge?.fare;
-      if(shipCharge) totalShipCharge += parseFloat(shipCharge || 0);
+      if (shipCharge) shipCharge = JSON.parse(shipCharge);
+      if (shipCharge) shipCharge = shipCharge?.fare;
+      if (shipCharge) totalShipCharge += parseFloat(shipCharge || 0);
     });
     setTotalShipCharge(totalShipCharge);
   }, [shippingCharge]);
   const [successData, setSuccessData] = useState({});
   const onPlaceOrder = (paymentToken) => {
     if (!paymentMethod) {
-      return notificationError("Please Select Payment Method");
+      return notificationError('Please Select Payment Method');
     }
-    if (paymentMethod === "STRIPE" && !paymentMethod) {
-      return notificationError("Please complete payment first");
+    if (paymentMethod === 'STRIPE' && !paymentMethod) {
+      return notificationError('Please complete payment first');
     }
     if (isAuth === undefined) {
       return false;
@@ -160,11 +162,13 @@ export default function Checkout() {
         scheduleTime,
         scheduleType,
         shippingCharge,
+        location
       };
-      if (paymentMethod === "STRIPE" && paymentToken) {
+      console.log("submitting", jsonData);
+      if (paymentMethod === 'STRIPE' && paymentToken) {
         jsonData.paymentToken = paymentToken;
       }
-      api[isAuth ? "checkout" : "checkoutGuest"]
+      api[isAuth ? 'checkout' : 'checkoutGuest']
         .placeOrder(jsonData)
         .then(({ data }) => {
           setSuccessData(data);
@@ -182,20 +186,20 @@ export default function Checkout() {
       if (id) {
         onPlaceOrder(id);
       } else {
-        notificationError("Cannot initialize Payment");
+        notificationError('Cannot initialize Payment');
       }
     } else {
-      notificationError(response, "Payment Failed");
+      notificationError(response, 'Payment Failed');
     }
   };
 
   const onDeleteOrder = (orderId) => {
-    if (!orderId) return notificationError("Please select order to delete");
+    if (!orderId) return notificationError('Please select order to delete');
     if (isAuth === undefined) {
-      return notificationError("Authentication error");
+      return notificationError('Authentication error');
     }
     setSubmitting(true);
-    api[isAuth ? "checkout" : "checkoutGuest"]
+    api[isAuth ? 'checkout' : 'checkoutGuest']
       .delete(orderId)
       .then(({ data }) => {
         fetchItems();
@@ -205,36 +209,40 @@ export default function Checkout() {
   };
   const fetchItems = () => {
     setSpinning(true);
-    api[isAuth ? "checkout" : "checkoutGuest"]
+    api[isAuth ? 'checkout' : 'checkoutGuest']
       .get()
       .then(({ data }) => {
         if (Array.isArray(data)) {
+          console.log('data', data);
           const shippingCharge = {};
           const scheduleTypeTemp = {};
           const scheduleTimeTemp = {};
-          setTotalTax(data.reduce((acc, cur) => acc + cur.tax, 0))
+          const locationIds = [];
+          setTotalTax(data.reduce((acc, cur) => acc + cur.tax, 0));
           setTotalPrice(
             data.reduce((acc, curr) => {
-              if(curr?.deliveryType === 'homedelivery') {
+              if (curr?.deliveryType === 'homedelivery') {
                 let ship = curr?.deliveryCharges;
-                if(ship) ship = ship[0]
-                if(ship) {
+                if (ship) ship = ship[0];
+                if (ship) {
                   shippingCharge[curr?._id?.toString()] = JSON.stringify({
                     _id: ship?._id,
                     fare: ship?.fare
                   });
                 }
-
               }
-              scheduleTypeTemp[curr._id?.toString()] = "now";
-              scheduleTimeTemp[curr._id?.toString()] = moment().add(1, "hour");
-
+              scheduleTypeTemp[curr._id?.toString()] = 'now';
+              scheduleTimeTemp[curr._id?.toString()] = moment().add(1, 'hour');
+              if (curr.location) {
+                locationIds.push(curr.location._id);
+              }
               return acc + curr.totalPrice;
             }, 0)
           );
           setScheduleType(scheduleTypeTemp);
           setScheduleLater(scheduleTimeTemp);
           setShippingCharge(shippingCharge);
+          setLocationId(locationIds);
           setItems(data);
         }
       })
@@ -249,16 +257,18 @@ export default function Checkout() {
   const buildOrderDetail = () => {
     return (
       <>
-        <Collapse defaultActiveKey={["order-0"]}>
-          {items.map((item, index) => {
+        <Collapse defaultActiveKey={['order-0']}>
+          {items && items.map((item, index) => {
             let subTotalPrice = item.totalPrice;
             let tax = item.tax;
             let shipCharge = 0;
-            if(shippingCharge[item?._id]?.toString()) {
-              shipCharge = parseFloat(JSON.parse(shippingCharge[item?._id])?.fare || 0);
+            if (shippingCharge[item?._id]?.toString()) {
+              shipCharge = parseFloat(
+                JSON.parse(shippingCharge[item?._id])?.fare || 0
+              );
             }
             let totalPrice = parseFloat(
-              subTotalPrice + shipCharge + tax
+              subTotalPrice  + tax
             ).toFixed(2);
             // item is eachOrder
             return (
@@ -267,7 +277,7 @@ export default function Checkout() {
                 header={
                   <Row
                     style={{
-                      width: "100%",
+                      width: '100%'
                     }}
                     justify="space-between"
                     align="middle"
@@ -277,7 +287,7 @@ export default function Checkout() {
                       <ArrowLeftOutlined />
                     </Col>
                     <Col>
-                      <i className="fas fa-exclamation-circle" /> Order:{" "}
+                      <i className="fas fa-exclamation-circle" /> Order:{' '}
                       <span>{item.orderId}</span>
                     </Col>
                     <Col>
@@ -292,38 +302,38 @@ export default function Checkout() {
               >
                 <div>
                   <tbody>
-                  <tr>
-                    <td
-                      className="Product-name"
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Food
-                    </td>
-                    <td
-                      className="Product-price"
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Total
-                    </td>
-                  </tr>
-                  {item.foods &&
-                  item.foods.map((food, index) => {
-                    return (
-                      <tr>
-                        <td className="Product-name">
-                          <p>
-                            {food.orginalFood.name} ×{" "}
-                            {food.cartFood.quantity}
-                            <span
-                              style={{
-                                width: "100%",
-                                fontSize: 10,
-                              }}
-                            >
+                    <tr>
+                      <td
+                        className="Product-name"
+                        style={{
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        Food
+                      </td>
+                      <td
+                        className="Product-price"
+                        style={{
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        Total
+                      </td>
+                    </tr>
+                    {item.foods &&
+                      item.foods.map((food, index) => {
+                        return (
+                          <tr>
+                            <td className="Product-name">
+                              <p>
+                                {food.orginalFood.name} ×{' '}
+                                {food.cartFood.quantity}
+                                <span
+                                  style={{
+                                    width: '100%',
+                                    fontSize: 10
+                                  }}
+                                >
                                   {food.cartFood.addon.map((eachAddon) => {
                                     return eachAddon.value ? (
                                       <Tag>
@@ -332,189 +342,190 @@ export default function Checkout() {
                                     ) : null;
                                   })}
                                 </span>
-                          </p>
-                        </td>
-                        <td className="Product-price">
-                          <p>
-                            {process.env.REACT_APP_CURRENCY_SYMBOL}
-                            {food.cartFood.subTotalPrice}
-                          </p>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                              </p>
+                            </td>
+                            <td className="Product-price">
+                              <p>
+                                {process.env.REACT_APP_CURRENCY_SYMBOL}
+                                {food.cartFood.subTotalPrice}
+                              </p>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                   <tfoot>
-                  <tr>
-                    <td className="Product-name">
-                      <p>Sub total</p>
-                    </td>
-                    <td className="Product-price">
-                      <p>
-                        {process.env.REACT_APP_CURRENCY_SYMBOL}
-                        {subTotalPrice}
-                      </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="Product-name">
-                      <p>TAX</p>
-                    </td>
-                    <td className="Product-price">
-                      <p>
-                        {process.env.REACT_APP_CURRENCY_SYMBOL}
-                        {tax?.toFixed(2)}
-                      </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="Product-name">
-                      <p>Shipping</p>
-                    </td>
-                    {item.deliveryType === "pickup" ? (
+                    <tr>
+                      <td className="Product-name">
+                        <p>Sub total</p>
+                      </td>
                       <td className="Product-price">
-                        <p>Pickup by User</p>
-                        <span
-                          className="Product-price"
-                          style={{
-                            width: 100,
-                            maxWidth: "100%",
-                          }}
-                        >
+                        <p>
+                          {process.env.REACT_APP_CURRENCY_SYMBOL}
+                          {subTotalPrice}
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="Product-name">
+                        <p>TAX</p>
+                      </td>
+                      <td className="Product-price">
+                        <p>
+                          {process.env.REACT_APP_CURRENCY_SYMBOL}
+                          {tax?.toFixed(2)}
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="Product-name">
+                        <p>Shipping</p>
+                      </td>
+                      {item.deliveryType === 'pickup' ? (
+                        <td className="Product-price">
+                          <p>Pickup by User</p>
+                          <span
+                            className="Product-price"
+                            style={{
+                              width: 100,
+                              maxWidth: '100%'
+                            }}
+                          >
                             <p>
                               {process.env.REACT_APP_CURRENCY_SYMBOL}
                               {item.deliveryCharge}
                             </p>
                           </span>
-                      </td>
-                    ) : (
-                      <td className="Product-price">
-                        <ul className="shipping-list">
-                          <li className="radio">
-                            <label>
-                              <span />{" "}
-                              {item.location &&
-                              item.location.address &&
-                              item.location.address.street}
-                            </label>
-                            <br />
-                            <label>
-                              <span />{" "}
-                              {item.location &&
-                              item.location.address &&
-                              item.location.address.city}{" "}
-                              {item.location &&
-                              item.location.address &&
-                              item.location.address.state}
-                            </label>
-                            {/*{item.location && (*/}
-                            {/*  <label>*/}
-                            {/*    <span />*/}
-                            {/*   {item.location.nearbyLocation}*/}
-                            {/*  </label>*/}
-                            {/*)}*/}
-                            {/*<span*/}
-                            {/*  className="Product-price"*/}
-                            {/*  style={{*/}
-                            {/*    width: 100,*/}
-                            {/*    maxWidth: "100%",*/}
-                            {/*  }}*/}
-                            {/*>*/}
-                            {/*    <p>*/}
-                            {/*      {process.env.REACT_APP_CURRENCY_SYMBOL}*/}
-                            {/*      {item.deliveryCharge}*/}
-                            {/*    </p>*/}
-                            {/*  </span>*/}
-                          </li>
-                        </ul>
-                      </td>
-                    )}
-                  </tr>
-                  {item.deliveryType === "pickup" || (
+                        </td>
+                      ) : (
+                        <td className="Product-price">
+                          <ul className="shipping-list">
+                            <li className="radio">
+                              <label>
+                                <span />{' '}
+                                {item.location &&
+                                  item.location.address &&
+                                  item.location.address.street}
+                              </label>
+                              <br />
+                              <label>
+                                <span />{' '}
+                                {item.location &&
+                                  item.location.address &&
+                                  item.location.address.city}{' '}
+                                {item.location &&
+                                  item.location.address &&
+                                  item.location.address.state}
+                              </label>
+                              {/*{item.location && (*/}
+                              {/*  <label>*/}
+                              {/*    <span />*/}
+                              {/*   {item.location.nearbyLocation}*/}
+                              {/*  </label>*/}
+                              {/*)}*/}
+                              {/*<span*/}
+                              {/*  className="Product-price"*/}
+                              {/*  style={{*/}
+                              {/*    width: 100,*/}
+                              {/*    maxWidth: "100%",*/}
+                              {/*  }}*/}
+                              {/*>*/}
+                              {/*    <p>*/}
+                              {/*      {process.env.REACT_APP_CURRENCY_SYMBOL}*/}
+                              {/*      {item.deliveryCharge}*/}
+                              {/*    </p>*/}
+                              {/*  </span>*/}
+                            </li>
+                          </ul>
+                        </td>
+                      )}
+                    </tr>
+                    {/* {item.deliveryType === 'pickup' || (
+                      <tr>
+                        <td
+                          className="Product-name"
+                          style={{
+                            width: 300,
+                            maxWidth: '100%'
+                          }}
+                        >
+                          <p>Shipping Through</p>
+                        </td>
+                        <td
+                          className="Product-price"
+                          style={{
+                            width: 100,
+                            maxWidth: '100%'
+                          }}
+                        >
+                          <Radio.Group
+                            value={shippingCharge&& shippingCharge[item?._id]}
+                            onChange={(e) =>
+                              onShippingVehicleChange(item?._id, e.target.value)
+                            }
+                          >
+                            {item &&item?.deliveryCharges.map((eachDelivery) => {
+                              return (
+                                <Radio
+                                  value={JSON.stringify({
+                                    _id: eachDelivery._id?.toString(),
+                                    fare: eachDelivery?.fare
+                                  })}
+                                  style={{
+                                    ...radioStyle,
+                                    textTransform: 'uppercase',
+                                    width: '90%'
+                                  }}
+                                >
+                                  {eachDelivery?.vehicleName} (
+                                  {process.env.REACT_APP_CURRENCY_SYMBOL}{' '}
+                                  {eachDelivery?.fare})
+                                </Radio>
+                              );
+                            })}
+                          </Radio.Group>
+                        </td>
+                      </tr>
+                    )} */}
                     <tr>
                       <td
                         className="Product-name"
                         style={{
                           width: 300,
-                          maxWidth: "100%",
+                          maxWidth: '100%'
                         }}
                       >
-                        <p>Shipping Through</p>
+                        <p>Total</p>
                       </td>
                       <td
                         className="Product-price"
                         style={{
                           width: 100,
-                          maxWidth: "100%",
+                          maxWidth: '100%'
                         }}
                       >
-                        <Radio.Group
-                          value={shippingCharge[item?._id]}
-                          onChange={(e) => onShippingVehicleChange(item?._id, e.target.value)}
-                        >
-                          {item?.deliveryCharges.map((eachDelivery) => {
-                            return (
-                              <Radio
-                                value={JSON.stringify({
-                                  _id: eachDelivery
-                                    ._id?.toString(),
-                                  fare: eachDelivery?.fare
-                                })}
-                                style={{
-                                  ...radioStyle,
-                                  textTransform: "uppercase",
-                                  width: "90%",
-                                }}
-                              >
-                                {eachDelivery?.vehicleName} (
-                                {process.env.REACT_APP_CURRENCY_SYMBOL}{" "}
-                                {eachDelivery?.fare})
-                              </Radio>
-                            );
-                          })}
-                        </Radio.Group>
+                        <p>
+                          {process.env.REACT_APP_CURRENCY_SYMBOL}
+                          {totalPrice}
+                        </p>
                       </td>
                     </tr>
-                  )}
-                  <tr>
-                    <td
-                      className="Product-name"
-                      style={{
-                        width: 300,
-                        maxWidth: "100%",
-                      }}
-                    >
-                      <p>Total</p>
-                    </td>
-                    <td
-                      className="Product-price"
-                      style={{
-                        width: 100,
-                        maxWidth: "100%",
-                      }}
-                    >
-                      <p>
-                        {process.env.REACT_APP_CURRENCY_SYMBOL}
-                        {totalPrice}
-                      </p>
-                    </td>
-                  </tr>
                   </tfoot>
                 </div>
               </Collapse.Panel>
             );
           })}
-          <Collapse collapsible bordered={false} activeKey={"grand-total"}>
+          <Collapse collapsible bordered={false} activeKey={'grand-total'}>
             <Collapse.Panel
               className="collapse-grand-total"
-              key={"grand-total"}
+              key={'grand-total'}
               showArrow={false}
               header={
                 <Row justify="space-between" align="middle">
                   <Col>
                     <p
                       style={{
-                        marginBottom: 0,
+                        marginBottom: 0
                       }}
                     >
                       Grand Total
@@ -523,11 +534,13 @@ export default function Checkout() {
                   <Col>
                     <p
                       style={{
-                        marginBottom: 0,
+                        marginBottom: 0
                       }}
                     >
                       {process.env.REACT_APP_CURRENCY_SYMBOL}
-                      {parseFloat(grandTotalPrice + totalShipCharge+ totalTax).toFixed(2)}
+                      {parseFloat(
+                        grandTotalPrice + totalShipCharge + totalTax
+                      ).toFixed(2)}
                     </p>
                   </Col>
                 </Row>
@@ -544,43 +557,43 @@ export default function Checkout() {
     return (
       <Row
         stye={{
-          width: "100%",
+          width: '100%'
         }}
         gutter={[16, 32]}
       >
         <label
           class="mt-4"
           style={{
-            width: "100%",
+            width: '100%'
           }}
         >
           Time Preference
         </label>
 
-        <Col xs={24} key={index + "-order-time"}>
+        <Col xs={24} key={index + '-order-time'}>
           <Card
             style={{
-              transition: "height .3s ease-in-out",
-              boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+              transition: 'height .3s ease-in-out',
+              boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px'
             }}
             bordered={false}
           >
             <label class="mt-4">
-              Order:{" "}
+              Order:{' '}
               <Tag
                 style={{
-                  marginLeft: 8,
+                  marginLeft: 8
                 }}
               >
                 {eachOrder.orderId}
-              </Tag>{" "}
+              </Tag>{' '}
             </label>
             <Tabs
               defaultActiveKey="now"
               onChange={(activekey) =>
                 setScheduleType({
                   ...scheduleType,
-                  [eachOrder._id.toString()]: activekey,
+                  [eachOrder._id.toString()]: activekey
                 })
               }
               activeKey={scheduleType[eachOrder._id]}
@@ -597,7 +610,7 @@ export default function Checkout() {
                 Your order will be ready/delivered as fast as possible
               </Tabs.TabPane>
               <Tabs.TabPane
-                style={{ transition: "height .3s ease-in-out" }}
+                style={{ transition: 'height .3s ease-in-out' }}
                 tab={
                   <span>
                     <FieldTimeOutlined />
@@ -612,18 +625,18 @@ export default function Checkout() {
                   // disabledTime={disabledDateTime}
                   value={scheduleTime[eachOrder._id]}
                   showTime={{
-                    format: "HH:mm",
-                    defaultValue: moment("00:00", "HH:mm"),
+                    format: 'HH:mm',
+                    defaultValue: moment('00:00', 'HH:mm')
                   }}
                   onChange={(scheduleTime) => {
-                    if (moment().diff(scheduleTime, "days") > 2) {
+                    if (moment().diff(scheduleTime, 'days') > 2) {
                       notificationError(
-                        "Please select time before 2 days and after 1 hour"
+                        'Please select time before 2 days and after 1 hour'
                       );
                     } else {
                       setScheduleLater({
                         ...scheduleTime,
-                        [eachOrder._id.toString()]: scheduleTime,
+                        [eachOrder._id.toString()]: scheduleTime
                       });
                     }
                   }}
@@ -631,7 +644,7 @@ export default function Checkout() {
                 <span
                   style={{
                     marginTop: 8,
-                    width: "100%",
+                    width: '100%'
                   }}
                 >
                   Select time atleast 1 hour later from Now
@@ -649,35 +662,32 @@ export default function Checkout() {
       <div className="checkout-form">
         <div className="single-form checkout-note">
           {Array.isArray(items) &&
-          items.length > 0 &&
-          items.map((eachOrder, index) => {
-            return (
-              <>
-                <label className="mt-4">
-                  Order Notes for Order ID:{" "}
-                  <Tag
-                    style={{
-                      marginLeft: 8,
+            items.length > 0 &&
+            items.map((eachOrder, index) => {
+              return (
+                <>
+                  <label className="mt-4">
+                    Order Notes for Order ID:{' '}
+                    <Tag
+                      style={{
+                        marginLeft: 8
+                      }}
+                    >
+                      {eachOrder.orderId}
+                    </Tag>{' '}
+                  </label>
+                  <textarea
+                    onBlur={({ target: { value } }) => {
+                      setSpecialNote(value);
                     }}
-                  >
-                    {eachOrder.orderId}
-                  </Tag>{" "}
-                </label>
-                <textarea
-                  onBlur={({ target: { value } }) => {
-                    setSpecialNote({
-                      ...specialNote,
-                      [eachOrder._id.toString()]: value,
-                    });
-                  }}
-                  placeholder="Notes about your order, e.g. special notes for delivery."
-                  defaultValue={""}
-                />
-                {isAuth && buildTimePreferences(index, eachOrder)}
-                <Divider />
-              </>
-            );
-          })}
+                    placeholder="Notes about your order, e.g. special notes for delivery."
+                    defaultValue={''}
+                  />
+                  {isAuth && buildTimePreferences(index, eachOrder)}
+                  <Divider />
+                </>
+              );
+            })}
         </div>
       </div>
     );
@@ -689,7 +699,7 @@ export default function Checkout() {
       {spinning ? (
         <Row
           style={{
-            width: "100%",
+            width: '100%',
             minHeight: 300,
             marginBottom: 100
           }}
@@ -698,16 +708,20 @@ export default function Checkout() {
         >
           <Spin />
         </Row>
-      ) : items.length === 0 ? <Result
-        status="404"
-        title="You do not have any item to check out!"
-        subTitle="Please visit the homepage to buy more items"
-        extra={[
-          <Link to={routeURL.web.home()}>
-            <Button>Continue Shopping</Button>
-          </Link>,
-        ]}
-      /> : submitted ? (
+      ) : items.length === 0 ? (
+        <Result
+          status="404"
+          title="You do not have any item to check out!"
+          subTitle="Please visit the homepage to buy more items"
+          extra={[
+            <Link to={routeURL.web.home()} style = {{
+              borderRadius: '500px', backgroundColor: '#000'
+            }}>
+              <Button>Continue Shopping</Button>
+            </Link>
+          ]}
+        />
+      ) : submitted ? (
         <OrderSuccess orderDetail={successData} />
       ) : (
         <section className="checkout-page pt-50 pb-80">
@@ -744,7 +758,7 @@ export default function Checkout() {
                           class="payment-details"
                           style={{
                             marginTop: 10,
-                            marginBottom: 20,
+                            marginBottom: 20
                           }}
                         >
                           <p>
@@ -759,13 +773,13 @@ export default function Checkout() {
                       </div>
 
                       <div className="checkout-btn">
-                        {paymentMethod === "STRIPE" ? (
+                        {paymentMethod === 'STRIPE' ? (
                           <StripeContainer onHandleSubmit={onHandleStripe} />
                         ) : (
                           <Button
                             style={{
-                              backgroundColor: "#556cd6",
-                              height: "unset",
+                              backgroundColor: '#556cd6',
+                              height: 'unset'
                             }}
                             loading={submitting}
                             onClick={onPlaceOrder}

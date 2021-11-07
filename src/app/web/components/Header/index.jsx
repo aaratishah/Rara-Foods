@@ -35,6 +35,8 @@ const HeaderHome = ({ isHomePage }) => {
   const location = useLocation();
   const point = useBreakpoint();
   const isMobileDevice = () => ["xs", "sm"].includes(point);
+  // const isDevice = () => ["xs", "sm"].includes(point);
+  const isTabletDevice = () => ["md"].includes(point);
 
   const { clientStore, clientDispatch } = useContext(UserContext);
   const isAuth = clientStore.isAuthenticated;
@@ -263,14 +265,17 @@ const HeaderHome = ({ isHomePage }) => {
             {visibleSearch ? (
               <Col>
                 <Button
-                  shape="round"
-                  icon={<SearchOutlined />}
+                  // shape="round"
+                  icon={<SearchOutlined style={{ fontWeight: "bolder" }} />}
                   size="large"
                   style={{
-                    width: isMobileDevice() ? "200px" : "100%",
+                    width: isMobileDevice() ? "200px" : isTabletDevice() ? "100%" : "220%",
                     marginRight: isMobileDevice() ? 8 : 0,
                     marginLeft: isMobileDevice() ? 12 : 0,
                     zIndex: 3,
+                    backgroundColor: "#eeeeee",
+                    borderRadius: "30px",
+                    border: "#eeeeee",
                   }}
                 >
                   <input
@@ -279,6 +284,7 @@ const HeaderHome = ({ isHomePage }) => {
                       marginLeft: 5,
                       marginRight: 10,
                       width: isMobileDevice() ? "80%" : "90%",
+                      backgroundColor: "#eeeeee",
                     }}
                     value={searchText}
                     onKeyDown={({ key }) => {
@@ -304,6 +310,7 @@ const HeaderHome = ({ isHomePage }) => {
               </Col>
             ) : null}
           </Row>
+          
           <Row className="navbar-right-area">
             {/* {isMobileDevice() ? (
               <MobileMenu

@@ -138,7 +138,9 @@ const OrderSuccess = ({orderDetail}) => {
           title="Successfully Placed the Order!"
           // subTitle=""
           extra={[
-            <Link to={routeURL.web.home()}>
+            <Link to={routeURL.web.home()} style = {{
+              borderRadius: '500px', backgroundColor: '#000'
+            }}>
               <Button>Continue Shopping</Button>
             </Link>,
           ]}

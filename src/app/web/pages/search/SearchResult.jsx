@@ -42,9 +42,9 @@ export default function SearchResult({
             xs={24}
             sm={12}
             md={9}
-            lg={6}
+            lg={24}
           >
-            <Restaurant item={item} />
+            <Restaurant item={item} style = {{marginTop: 10}} />
           </Col>
         ))}
       </InfiniteScroll>

@@ -33,6 +33,7 @@ import DOMPurify from "dompurify";
 import ReviewList from "./ReviewList";
 import clsx from "clsx";
 import RestaurantRating from "./RestaurantRating";
+import ReviewModal from "./ReviewModal";
 
 const days = [
   "monday",
@@ -229,14 +230,21 @@ const HeroSection = ({
   isOpen,
   reviewDetail,
   onReviewClick,
+  setReviewSpinning,
+  reviewSpinning,
+  refreshReviews,
+  restaurantId,
 }) => {
   const [detailPreview, setDetailPreview] = useState(false);
+  const [ratePreview, setRatePreview] = useState(false);
 
   const createMarkup = (html) => {
     return {
       __html: DOMPurify.sanitize(html),
     };
   };
+
+  console.log('review detail',reviewDetail);
 
   return (
     <div
@@ -251,6 +259,15 @@ const HeroSection = ({
           data={data}
           detailPreview={detailPreview}
           setDetailPreview={setDetailPreview}
+        />
+        <ReviewModal
+          isModalVisible={ratePreview}
+          handleCancel={() => setRatePreview(false)}
+          setReviewSpinning={setReviewSpinning}
+          reviewSpinning={reviewSpinning}
+          refreshReview={refreshReviews}
+          reviewDetail={reviewDetail}
+          restaurantId={restaurantId}
         />
         <img
           src={
@@ -312,14 +329,45 @@ const HeroSection = ({
                 </span>
               </Tooltip>
             </h1>
-            <RestaurantRating
-              onClick={onReviewClick}
-              rating={reviewDetail && Math.ceil(reviewDetail.rating)}
-              count={
-                reviewDetail &&
+            <p
+              className="review"
+              onClick={() => setRatePreview(true)}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              {[...Array(5).keys()].map((each) => (
+                <i
+                  className="fas fa-star"
+                  style={{
+                    color:
+                      each + 1 <= reviewDetail &&
+                      Math.ceil(reviewDetail.rating) &&
+                      "#f5b223",
+                  }}
+                />
+              ))}
+              <a
+                style={{
+                  fontWeight: 400,
+                  marginLeft: 4,
+                  fontSize: 14,
+                }}
+              >
+                {reviewDetail &&
+                  reviewDetail.reviews &&
+                  reviewDetail.reviews.length}{" "}
+                customer{" "}
+                {reviewDetail &&
                 reviewDetail.reviews &&
-                reviewDetail.reviews.length
-              }
+                reviewDetail.reviews.length <= 1
+                  ? "rating"
+                  : "ratings"}
+              </a>
+            </p>
+            <p
+              style={{ margin: 0 }}
+              dangerouslySetInnerHTML={createMarkup(data.description)}
             />
             {data.famousFor && data.famousFor.length > 0 && (
               <p>
@@ -333,12 +381,6 @@ const HeroSection = ({
                 More info
               </Button>
             </p>
-            <p
-              style = {{margin: 0}}
-              dangerouslySetInnerHTML={createMarkup(
-                data.description
-              )}
-            />
           </div>
           {/* <div className="button-group">
 					<button className="button btn btn-light">
@@ -510,12 +552,29 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
             inlineCollapse={true}
             className="navbar-nav"
             selectedKeys={[menuActive]}
+            style={{ border: "none" }}
           >
             {data.map((foodGroup, idx) => (
-              <Menu.Item className="nav-item" key={foodGroup._id}>
+              <Menu.Item
+                className="nav-item"
+                key={foodGroup._id}
+                style={{ border: "none" }}
+              >
                 <a
                   style={{
                     padding: "unset",
+                    backgroundColor: "#eeeeee",
+                    marginRight: 8,
+                    cursor: "pointer",
+                    border: "none",
+                    color: "#000",
+                    padding: "5px 10px",
+                    fontSize: "18px",
+                    fontWeight: 500,
+                    borderRadius: "500px",
+                    fontFamily: "sans-serif",
+                    alignItems: "center",
+                    fontWeight: "bold",
                   }}
                   href={`#${foodGroup._id}`}
                 >
@@ -640,6 +699,9 @@ export default function RestaurantDetail(props) {
     setTabValue("review");
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
+
   return spinning ? (
     <Loader />
   ) : !restaurantDetail ? (
@@ -652,19 +714,24 @@ export default function RestaurantDetail(props) {
       data-offset={100}
     >
       <HeroSection
-        onReviewClick={scrollToBottom}
+        refreshReviews = {refreshReviews}
         reviewDetail={reviewDetail}
         isOpen={isOpen}
         data={restaurantDetail || {}}
         wishlistStatus={wishlistStatus}
         addToWishlist={addToWishlist}
+        setReviewSpinning={setReviewSpinning}
+        reviewSpinning={reviewSpinning}
+        // refreshReview={refreshReviews}
+        reviewDetail={reviewDetail}
+        restaurantId={restaurantDetail && restaurantDetail._id}
       />
       <FoodListing
         restaurantDetail={restaurantDetail}
         data={foodGroups}
         isOpen={isOpen}
       />
-      <section className="product-description-review pt-150">
+      {/* <section className="product-description-review pt-150">
         <div className="container">
           <div className="product-simple-tab-menu">
             <ul className="nav" ref={reviewRef}>
@@ -730,7 +797,7 @@ export default function RestaurantDetail(props) {
                 </Tabs.TabPane>
               </Tabs>
             </ul>
-          </div>
+          </div> */}
           {/* <div className="tab-content pt-30">
             <div className="tab-pane fade show active" id="description">
               <div
@@ -744,8 +811,8 @@ export default function RestaurantDetail(props) {
               <ReviewList reviews={reviewDetail} />
             </div>
           </div> */}
-        </div>
-      </section>
+        {/* </div>
+      </section> */}
       {/* <Container>
         <Divider orientation="left">Description</Divider>
         <Typography.Paragraph>

@@ -47,6 +47,7 @@ export default function AllRestaurant(props) {
           hasMore,
           page: 2,
         });
+        console.log('All restaurant', data);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
