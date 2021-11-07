@@ -22,10 +22,10 @@ const styles = {
   },
   productMeta: {
     transform: "unset",
-    paddingBottom: '0.5em',
-    borderBottom: '1px solid #eee',
-    fontSize: '16px',
-    width: '350px'
+    paddingBottom: "0.5em",
+    borderBottom: "1px solid #eee",
+    fontSize: "16px",
+    width: "350px",
   },
 };
 export default function Restaurant({ item, itemKey, location, style }) {
@@ -78,7 +78,7 @@ export default function Restaurant({ item, itemKey, location, style }) {
       <div
         style={{
           position: "relative",
-          padding: '20px',
+          padding: "20px",
           // marginTop: '10px'
         }}
       >
@@ -91,15 +91,13 @@ export default function Restaurant({ item, itemKey, location, style }) {
         >
           <img
             // width = '500px'
-            style={
-              {
-                // filter: 'grayscale(70%)',
-                // width: "80%",
-                height: '250px',
-                width: "350px",
-                objectFit: 'cover'
-              }
-            }
+            style={{
+              // filter: 'grayscale(70%)',
+              // width: "80%",
+              height: "250px",
+              width: "350px",
+              objectFit: "cover",
+            }}
             src={
               Array.isArray(item?.image) && item?.image.length > 0
                 ? config.getImageHost(item?.image[0])
@@ -158,9 +156,15 @@ export default function Restaurant({ item, itemKey, location, style }) {
           </span>
         </Tooltip>
       </div>
-      <div className="product-container" style = {{marginTop: '0px', padding: '0px 20px 20px 20px'}}>
-        <Title className="product-title" style = {{marginTop: -10}, style}>
-          <Link to={routeURL.web.restaurant_detail(item?._id)} style = {{color: '#000', fontSize: '20px'}}>
+      <div
+        className="product-container"
+        style={{ marginTop: "0px", padding: "0px 20px 20px 20px" }}
+      >
+        <Title className="product-title" style={{ marginTop: -10 }}>
+          <Link
+            to={routeURL.web.restaurant_detail(item?._id)}
+            style={{ color: "#000", fontSize: "16px" }}
+          >
             {item?.name}® {item?.address && `(${item?.address.street})`}
           </Link>
         </Title>
@@ -170,7 +174,7 @@ export default function Restaurant({ item, itemKey, location, style }) {
               <span
                 style={{
                   marginRight: 8,
-                  marginTop: '-10px'
+                  marginTop: "-10px",
                 }}
                 className="currency"
               >

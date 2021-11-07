@@ -32,11 +32,14 @@ const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 const BannerSection = () => {
+  const point = useBreakpoint();
+  const isMobile = ["xs", "sm"].includes(point);
+
   return (
     <BannerContainer>
       <ol
         className="breadcrumb justify-content-center"
-        style={{ marginTop: "150px" }}
+        style={isMobile ? { marginTop: "0px" } : { marginTop: "150px" }}
       >
         <li className="breadcrumb-item">
           <Link to={routeURL.web.home()}>Home</Link>
@@ -153,19 +156,28 @@ export default function Search(props) {
     <>
       <BannerSection />
       <Container>
-      <FoodCategoryCarousel items={foodCategory} title="Browse by categories">
-        {(item, key) => <FoodCategoryItem item={item} key={key} />}
-      </FoodCategoryCarousel>
-        <Row style={{ marginTop: "4rem" }}>
-          <Col xs={12}>
+        <FoodCategoryCarousel items={foodCategory} title="Browse by categories">
+          {(item, key) => <FoodCategoryItem item={item} key={key} />}
+        </FoodCategoryCarousel>
+        <Row
+          style={
+            !isMobile
+              ? { marginTop: "4rem" }
+              : { rowGap: "32px", marginTop: "2rem" }
+          }
+        >
+          <Col xs={24} sm={12} style={isMobile && { textAlign: "center" }}>
             <Title>Get your Deal?</Title>
             <Paragraph>Search for your cuisine or dishes!</Paragraph>
           </Col>
-          <Col xs={12}>
-            <Carousel dots={false} autoplay>
+          <Col
+            xs={isMobile ? { span: 16, offset: 4 } : 24}
+            sm={12}
+            style={isMobile && { textAlign: "center" }}
+          >
+            <Carousel dots={false}>
               {featuredRestaurant.map((restItem) => (
                 <Card
-                  style={{ width: "100%" }}
                   cover={
                     <img
                       alt="Featured Restaurant"
