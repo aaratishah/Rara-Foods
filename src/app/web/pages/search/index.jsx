@@ -4,7 +4,16 @@ import NoSearchQuery from "./NoSearchQuery";
 import { Link } from "react-router-dom";
 import routeURL from "config/routeURL";
 import bannerImage from "image/background.png";
-import { Col, Layout, Row, Spin, Typography, Card, Button } from "antd";
+import {
+  Col,
+  Layout,
+  Row,
+  Spin,
+  Typography,
+  Card,
+  Button,
+  Carousel,
+} from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
 import { default as useBreakpoint } from "services/Breakpoint";
@@ -18,20 +27,16 @@ import { useHistory } from "react-router-dom";
 import { CaretLeftFilled } from "@ant-design/icons";
 import FoodCategoryCarousel from "../home/FoodCategoryCarousel";
 import FoodCategoryItem from "../home/FoodCategoryItem";
-import Carousel from "react-elastic-carousel";
 
 const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 const BannerSection = () => {
-  const point = useBreakpoint();
-  const isMobile = ["xs", "sm"].includes(point);
-
   return (
     <BannerContainer>
       <ol
         className="breadcrumb justify-content-center"
-        style={!isMobile ? { marginTop: "150px" } : { marginTop: "0" }}
+        style={{ marginTop: "150px" }}
       >
         <li className="breadcrumb-item">
           <Link to={routeURL.web.home()}>Home</Link>
@@ -58,23 +63,20 @@ export default function Search(props) {
     hasMore: true,
     page: 1,
   });
-  const [allpackage, setAllPackage] = useState([]);
-  const [allPackagePAgination, setAllPackagePagination] = useState({
-    hasMore: true,
-    page: 1,
-  });
-  const [foodCategory, setFoodCategory] = useState([]);
   useEffect(() => {
     api.restaurant.featured_restaurant().then(({ data }) => {
       setFeaturedRestaurant([...data]);
     });
   }, []);
-
+  useEffect(() => {
+    api.restaurant_package
+      .readAll()
+      .then(({ data }) => setRestaurantPackage([...data]));
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
     setSpinning(true);
     setSearchResult([]);
-    console.log("params", params);
     const paramQuery = {};
     if (params.q) paramQuery.keyword = params.q;
     if (params.popularity) paramQuery.popularity = params.popularity;
@@ -91,34 +93,6 @@ export default function Search(props) {
           hasMore,
           page: 2,
         });
-        // console.log("restaurant By region", data);
-      })
-      .catch(handleError)
-      .finally(() => setSpinning(false));
-  }, [params.q, params.popularity, params.dietary, params.price]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setSpinning(true);
-    setSearchResult([]);
-    console.log("params", params);
-    const paramQuery = {};
-    // if (params.q) paramQuery.keyword = params.q;
-    // if (params.popularity) paramQuery.popularity = params.popularity;
-    // if (params.price) paramQuery.price = params.price;
-    // if (params.dietary) paramQuery.dietary = params.dietary;
-    paramQuery.page = 1;
-    paramQuery.size = perPageLimit;
-    paramQuery.result_type = "restaurant";
-    api.restaurant_package
-      .readAll(paramQuery)
-      .then(({ data, hasMore }) => {
-        setAllPackage(data);
-        setAllPackagePagination({
-          hasMore,
-          page: 2,
-        });
-        console.log("All package", data);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
@@ -138,7 +112,6 @@ export default function Search(props) {
           hasMore,
           page: pagination.page + 1,
         });
-        // console.log("restaurant By region", data);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
@@ -166,32 +139,16 @@ export default function Search(props) {
     );
   };
 
-  useEffect(() => {
-    setSpinning(true);
-    api.food_category
-      .readAll()
-      .then(({ data }) => setFoodCategory(data))
-      .catch(handleError)
-      .finally(() => setSpinning(false));
-  }, []);
-
   return (
     <>
       <BannerSection />
       <Container>
-        <FoodCategoryCarousel items={foodCategory} title="Browse by categories">
-          {(item, key) => <FoodCategoryItem item={item} key={key} />}
-        </FoodCategoryCarousel>
         <Row style={{ marginTop: "4rem" }}>
-          <Col
-            sm={12}
-            xs={{ span: 24 }}
-            style={{ textAlign: isMobile ? "center" : "none" }}
-          >
+          <Col xs={12}>
             <Title>Get your Deal?</Title>
             <Paragraph>Search for your cuisine or dishes!</Paragraph>
           </Col>
-          <Col sm={12} style={isMobile && { textAlign: "center" }}>
+          <Col xs={12}>
             <Carousel dots={false} autoplay>
               {featuredRestaurant.map((restItem) => (
                 <Card
@@ -211,8 +168,6 @@ export default function Search(props) {
                       }}
                     />
                   }
-                  height="200px"
-                  style={{ objectFit: "cover" }}
                 >
                   <Button
                     type="primary"
@@ -228,100 +183,51 @@ export default function Search(props) {
             </Carousel>
           </Col>
         </Row>
+        <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
+          <Sider
+            style={{
+              backgroundColor: "#fff",
+              borderRight: "2px solid #f5f5f5",
+            }}
+          >
+            <Col xs={24} style={{ padding: "20px" }}>
+              <SearchOption onSearch={onSearch} query={params} />
+            </Col>
+          </Sider>
+          <Content>
+            {restaurantPackage.map((item, idx) => {
+              return (
+                <FoodCategoryCarousel items={item} title={item.name}>
+                  {(_item, key) => <FoodCategoryItem item={_item} key={key} />}
+                </FoodCategoryCarousel>
+              );
+            })}
 
-        {isMobile ? (
-          <>
-            {/* mobile UI  */}
-            <Row style={{ margin: "48px 296px" }}>
-              <Col xs={{ span: 12, offset: 6 }}>
-                <SearchOption onSearch={onSearch} query={params} />
-              </Col>
-            </Row>
-            <Row>
-              {restaurantPackage.map((item, idx) => {
-                return (
-                  <FoodCategoryCarousel items={item} title={item.name}>
-                    {(_item, key) => (
-                      <FoodCategoryItem item={_item} key={key} />
-                    )}
-                  </FoodCategoryCarousel>
-                );
-              })}
-
-              <Col xs={24} style={{ padding: "20px", textAlign: "center" }}>
-                {spinning ? (
-                  <Row
-                    align="middle"
-                    justify="center"
-                    style={{
-                      minHeight: 300,
-                    }}
-                  >
-                    <Spin />
-                  </Row>
-                ) : searchResult.length === 0 ? (
-                  <EmptyResult />
-                ) : (
-                  <SearchResult
-                    spinning={spinning}
-                    query={params.q}
-                    fetchData={fetchMoreData}
-                    pagination={pagination}
-                    result={searchResult}
-                  />
-                )}
-              </Col>
-            </Row>
-          </>
-        ) : (
-          <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
-            <Sider
-              style={{
-                backgroundColor: "#fff",
-                borderRight: "2px solid #f5f5f5",
-              }}
-            >
-              <Col xs={24} style={{ padding: "20px" }}>
-                <SearchOption onSearch={onSearch} query={params} />
-              </Col>
-            </Sider>
-            <Content>
-              {restaurantPackage.map((item, idx) => {
-                return (
-                  <FoodCategoryCarousel items={item} title={item.name}>
-                    {(_item, key) => (
-                      <FoodCategoryItem item={_item} key={key} />
-                    )}
-                  </FoodCategoryCarousel>
-                );
-              })}
-
-              <Col xs={24} style={{ padding: "20px" }}>
-                {spinning ? (
-                  <Row
-                    align="middle"
-                    justify="center"
-                    style={{
-                      minHeight: 300,
-                    }}
-                  >
-                    <Spin />
-                  </Row>
-                ) : searchResult.length === 0 ? (
-                  <EmptyResult />
-                ) : (
-                  <SearchResult
-                    spinning={spinning}
-                    query={params.q}
-                    fetchData={fetchMoreData}
-                    pagination={pagination}
-                    result={searchResult}
-                  />
-                )}
-              </Col>
-            </Content>
-          </Layout>
-        )}
+            <Col xs={24} style={{ padding: "20px" }}>
+              {spinning ? (
+                <Row
+                  align="middle"
+                  justify="center"
+                  style={{
+                    minHeight: 300,
+                  }}
+                >
+                  <Spin />
+                </Row>
+              ) : searchResult.length === 0 ? (
+                <EmptyResult />
+              ) : (
+                <SearchResult
+                  spinning={spinning}
+                  query={params.q}
+                  fetchData={fetchMoreData}
+                  pagination={pagination}
+                  result={searchResult}
+                />
+              )}
+            </Col>
+          </Content>
+        </Layout>
       </Container>
     </>
   );
