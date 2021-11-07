@@ -1,6 +1,7 @@
 import { Button, Col, Row, Tooltip, Typography } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Restaurant from "../home/FoodProduct";
+import { default as useBreakpoint } from "services/Breakpoint";
 import "./index.css";
 
 export default function SearchResult({
@@ -9,6 +10,9 @@ export default function SearchResult({
   result,
   pagination,
 }) {
+  const point = useBreakpoint();
+  const isMobile = ["xs", "sm"].includes(point);
+
   return (
     <Row>
       <InfiniteScroll
@@ -39,7 +43,7 @@ export default function SearchResult({
             style={{
               padding: 4,
             }}
-            xs={24}
+            xs={isMobile ? { span: 8, offset: 8 } : 24}
             sm={12}
             lg={8}
             xxl={6}

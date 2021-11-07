@@ -175,7 +175,7 @@ export default function Search(props) {
             sm={12}
             style={isMobile && { textAlign: "center" }}
           >
-            <Carousel dots={false}>
+            <Carousel dots={false} autoplay>
               {featuredRestaurant.map((restItem) => (
                 <Card
                   cover={
@@ -208,18 +208,12 @@ export default function Search(props) {
             </Carousel>
           </Col>
         </Row>
-        <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
-          <Sider
-            style={{
-              backgroundColor: "#fff",
-              borderRight: "2px solid #f5f5f5",
-            }}
-          >
-            <Col xs={24} style={{ padding: "20px" }}>
+
+        {isMobile ? (
+          <>
+            <Col xs={{ span: 8, offset: 8 }} style={{ padding: "32px 48px" }}>
               <SearchOption onSearch={onSearch} query={params} />
             </Col>
-          </Sider>
-          <Content>
             {restaurantPackage.map((item, idx) => {
               return (
                 <FoodCategoryCarousel items={item} title={item.name}>
@@ -227,7 +221,6 @@ export default function Search(props) {
                 </FoodCategoryCarousel>
               );
             })}
-
             <Col xs={24} style={{ padding: "20px" }}>
               {spinning ? (
                 <Row
@@ -251,8 +244,56 @@ export default function Search(props) {
                 />
               )}
             </Col>
-          </Content>
-        </Layout>
+          </>
+        ) : (
+          <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
+            <Sider
+              style={{
+                backgroundColor: "#fff",
+                borderRight: "2px solid #f5f5f5",
+              }}
+            >
+              <Col xs={24} style={{ padding: "20px" }}>
+                <SearchOption onSearch={onSearch} query={params} />
+              </Col>
+            </Sider>
+            <Content>
+              {restaurantPackage.map((item, idx) => {
+                return (
+                  <FoodCategoryCarousel items={item} title={item.name}>
+                    {(_item, key) => (
+                      <FoodCategoryItem item={_item} key={key} />
+                    )}
+                  </FoodCategoryCarousel>
+                );
+              })}
+
+              <Col xs={24} style={{ padding: "20px" }}>
+                {spinning ? (
+                  <Row
+                    align="middle"
+                    justify="center"
+                    style={{
+                      minHeight: 300,
+                    }}
+                  >
+                    <Spin />
+                  </Row>
+                ) : searchResult.length === 0 ? (
+                  <EmptyResult />
+                ) : (
+                  <SearchResult
+                    spinning={spinning}
+                    query={params.q}
+                    fetchData={fetchMoreData}
+                    pagination={pagination}
+                    result={searchResult}
+                  />
+                )}
+              </Col>
+            </Content>
+          </Layout>
+        )}
       </Container>
     </>
   );
