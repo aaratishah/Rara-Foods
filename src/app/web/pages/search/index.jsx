@@ -13,6 +13,7 @@ import {
   Card,
   Button,
   Carousel,
+  Modal,
 } from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
@@ -27,6 +28,7 @@ import { useHistory } from "react-router-dom";
 import { CaretLeftFilled } from "@ant-design/icons";
 import FoodCategoryCarousel from "../home/FoodCategoryCarousel";
 import FoodCategoryItem from "../home/FoodCategoryItem";
+import { FilterIcon } from "app/dashboard/components";
 
 const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -152,6 +154,16 @@ export default function Search(props) {
     );
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <>
       <BannerSection />
@@ -212,7 +224,20 @@ export default function Search(props) {
         {isMobile ? (
           <>
             <Col xs={{ span: 8, offset: 8 }} style={{ padding: "32px 48px" }}>
-              <SearchOption onSearch={onSearch} query={params} />
+              <Button size="large" onClick={showModal}>
+                <span style={{ marginRight: "8px" }}>Filter</span>
+                <FilterIcon height={20} width={20} onClick={showModal} />
+              </Button>
+
+              <Modal
+                style={{ top: 40 }}
+                visible={isModalVisible}
+                onCancel={handleCancel}
+                footer={null}
+                bodyStyle={{ minHeight: "400px" }}
+              >
+                <SearchOption onSearch={onSearch} query={params} />
+              </Modal>
             </Col>
             {restaurantPackage.map((item, idx) => {
               return (
