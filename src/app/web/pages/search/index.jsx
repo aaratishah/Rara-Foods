@@ -32,11 +32,14 @@ const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
 
 const BannerSection = () => {
+  const point = useBreakpoint();
+  const isMobile = ["xs", "sm"].includes(point);
+
   return (
     <BannerContainer>
       <ol
         className="breadcrumb justify-content-center"
-        style={{ marginTop: "150px" }}
+        style={!isMobile ? { marginTop: "150px" } : { marginTop: "0" }}
       >
         <li className="breadcrumb-item">
           <Link to={routeURL.web.home()}>Home</Link>
@@ -144,11 +147,15 @@ export default function Search(props) {
       <BannerSection />
       <Container>
         <Row style={{ marginTop: "4rem" }}>
-          <Col xs={12}>
+          <Col
+            sm={12}
+            xs={{ span: 24 }}
+            style={{ textAlign: isMobile ? "center" : "none" }}
+          >
             <Title>Get your Deal?</Title>
             <Paragraph>Search for your cuisine or dishes!</Paragraph>
           </Col>
-          <Col xs={12}>
+          <Col sm={12} style={isMobile && { textAlign: "center" }}>
             <Carousel dots={false} autoplay>
               {featuredRestaurant.map((restItem) => (
                 <Card
@@ -183,51 +190,100 @@ export default function Search(props) {
             </Carousel>
           </Col>
         </Row>
-        <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
-          <Sider
-            style={{
-              backgroundColor: "#fff",
-              borderRight: "2px solid #f5f5f5",
-            }}
-          >
-            <Col xs={24} style={{ padding: "20px" }}>
-              <SearchOption onSearch={onSearch} query={params} />
-            </Col>
-          </Sider>
-          <Content>
-            {restaurantPackage.map((item, idx) => {
-              return (
-                <FoodCategoryCarousel items={item} title={item.name}>
-                  {(_item, key) => <FoodCategoryItem item={_item} key={key} />}
-                </FoodCategoryCarousel>
-              );
-            })}
 
-            <Col xs={24} style={{ padding: "20px" }}>
-              {spinning ? (
-                <Row
-                  align="middle"
-                  justify="center"
-                  style={{
-                    minHeight: 300,
-                  }}
-                >
-                  <Spin />
-                </Row>
-              ) : searchResult.length === 0 ? (
-                <EmptyResult />
-              ) : (
-                <SearchResult
-                  spinning={spinning}
-                  query={params.q}
-                  fetchData={fetchMoreData}
-                  pagination={pagination}
-                  result={searchResult}
-                />
-              )}
-            </Col>
-          </Content>
-        </Layout>
+        {isMobile ? (
+          <>
+            {/* mobile UI  */}
+            <Row style={{ margin: "48px 296px" }}>
+              <Col xs={{ span: 12, offset: 6 }}>
+                <SearchOption onSearch={onSearch} query={params} />
+              </Col>
+            </Row>
+            <Row>
+              {restaurantPackage.map((item, idx) => {
+                return (
+                  <FoodCategoryCarousel items={item} title={item.name}>
+                    {(_item, key) => (
+                      <FoodCategoryItem item={_item} key={key} />
+                    )}
+                  </FoodCategoryCarousel>
+                );
+              })}
+
+              <Col xs={24} style={{ padding: "20px", textAlign: "center" }}>
+                {spinning ? (
+                  <Row
+                    align="middle"
+                    justify="center"
+                    style={{
+                      minHeight: 300,
+                    }}
+                  >
+                    <Spin />
+                  </Row>
+                ) : searchResult.length === 0 ? (
+                  <EmptyResult />
+                ) : (
+                  <SearchResult
+                    spinning={spinning}
+                    query={params.q}
+                    fetchData={fetchMoreData}
+                    pagination={pagination}
+                    result={searchResult}
+                  />
+                )}
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <Layout style={{ backgroundColor: "#fff", padding: "50px 0" }}>
+            <Sider
+              style={{
+                backgroundColor: "#fff",
+                borderRight: "2px solid #f5f5f5",
+              }}
+            >
+              <Col xs={24} style={{ padding: "20px" }}>
+                <SearchOption onSearch={onSearch} query={params} />
+              </Col>
+            </Sider>
+            <Content>
+              {restaurantPackage.map((item, idx) => {
+                return (
+                  <FoodCategoryCarousel items={item} title={item.name}>
+                    {(_item, key) => (
+                      <FoodCategoryItem item={_item} key={key} />
+                    )}
+                  </FoodCategoryCarousel>
+                );
+              })}
+
+              <Col xs={24} style={{ padding: "20px" }}>
+                {spinning ? (
+                  <Row
+                    align="middle"
+                    justify="center"
+                    style={{
+                      minHeight: 300,
+                    }}
+                  >
+                    <Spin />
+                  </Row>
+                ) : searchResult.length === 0 ? (
+                  <EmptyResult />
+                ) : (
+                  <SearchResult
+                    spinning={spinning}
+                    query={params.q}
+                    fetchData={fetchMoreData}
+                    pagination={pagination}
+                    result={searchResult}
+                  />
+                )}
+              </Col>
+            </Content>
+          </Layout>
+        )}
       </Container>
     </>
   );
