@@ -42,7 +42,7 @@ export default function SearchResult({
             xs={24}
             sm={12}
             md={9}
-            lg={24}
+            lg={6}
           >
             <Restaurant item={item} style = {{marginTop: 10}} />
           </Col>
