@@ -236,6 +236,7 @@ export default function Search(props) {
                 footer={null}
                 bodyStyle={{ minHeight: "400px" }}
               >
+                <Title level={3}>Filters</Title>
                 <SearchOption onSearch={onSearch} query={params} />
               </Modal>
             </Col>
