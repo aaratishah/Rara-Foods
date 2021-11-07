@@ -60,6 +60,7 @@ export default function Search(props) {
     hasMore: true,
     page: 1,
   });
+  const [foodCategory, setFoodCategory] = useState([]);
   useEffect(() => {
     api.restaurant.featured_restaurant().then(({ data }) => {
       setFeaturedRestaurant([...data]);
@@ -162,13 +163,22 @@ export default function Search(props) {
     );
   };
 
+  useEffect(() => {
+    setSpinning(true);
+    api.food_category
+      .readAll()
+      .then(({ data }) => setFoodCategory(data))
+      .catch(handleError)
+      .finally(() => setSpinning(false));
+  }, []);
+
   return (
     <>
       <BannerSection />
       <Container>
-        <FoodCategoryCarousel items={allpackage}>
-          {(item, key) => <FoodCategoryItem item={item} key={key} />}
-        </FoodCategoryCarousel>
+      <FoodCategoryCarousel items={foodCategory} title="Browse by categories">
+        {(item, key) => <FoodCategoryItem item={item} key={key} />}
+      </FoodCategoryCarousel>
         <Row style={{ marginTop: "4rem" }}>
           <Col xs={12}>
             <Title>Get your Deal?</Title>
