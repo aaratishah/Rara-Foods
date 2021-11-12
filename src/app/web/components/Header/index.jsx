@@ -264,7 +264,7 @@ const HeaderHome = ({ isHomePage }) => {
               </Col>
             )}
 
-            {urlMatch && (
+            {urlMatch && !isMobileDevice() && (
               <Col>
                 <OrderTypes />
               </Col>

@@ -4,11 +4,11 @@
   padding: 4px;
   background-color: #eeeeee;
   border-radius: 32px;
-  /* transition: background-color 1s ease; */
 }
 
 .pickup-option-items {
   padding: 8px 20px;
   border-radius: 20px;
   cursor: pointer;
+  transition: background-color 0.3s 0.1s ease-in-out;
 }

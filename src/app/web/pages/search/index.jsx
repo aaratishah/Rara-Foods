@@ -14,6 +14,7 @@ import {
   Button,
   Carousel,
   Modal,
+  Divider,
 } from "antd";
 import SearchResult from "./SearchResult";
 import SearchOption from "./SearchOption";
@@ -30,6 +31,7 @@ import FoodCategoryCarousel from "../home/FoodCategoryCarousel";
 import FoodCategoryItem from "../home/FoodCategoryItem";
 import { FilterIcon } from "app/dashboard/components";
 import { OrderTypeProvider, OrderTypeContext } from "context/index";
+import OrderTypes from "app/web/components/OrderTypes";
 
 const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -262,6 +264,8 @@ const Search = (props) => {
                 bodyStyle={{ minHeight: "400px" }}
               >
                 <Title level={3}>Filters</Title>
+                <OrderTypes />
+                <br />
                 <SearchOption onSearch={onSearch} query={params} />
               </Modal>
             </Col>
