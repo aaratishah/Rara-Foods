@@ -1,5 +1,5 @@
-import { Layout } from 'antd';
-import routeURL from 'config/routeURL';
+import { Layout } from "antd";
+import routeURL from "config/routeURL";
 import {
   LOGIN_USER_CLIENT,
   LOGOUT_USER_CLIENT,
@@ -7,23 +7,24 @@ import {
   UserContext,
   UserLoginContextProvider,
   UserProvider,
-} from 'context/';
-import { useContext, useEffect } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { JwtService } from 'services/jwtServiceClient';
-import NavigationFooter from '../components/Footer/';
-import NavigationHeader from '../components/Header/';
-import routeConfig from './routeConfig';
-import api from 'app/web/api';
-import Page404 from 'app/web/components/Error/Page404';
-import CartItems from 'app/web/components/Header/CartItems';
-import SearchOverlay from '../components/search_overlay';
+  OrderTypeProvider,
+} from "context/";
+import { useContext, useEffect } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { JwtService } from "services/jwtServiceClient";
+import NavigationFooter from "../components/Footer/";
+import NavigationHeader from "../components/Header/";
+import routeConfig from "./routeConfig";
+import api from "app/web/api";
+import Page404 from "app/web/components/Error/Page404";
+import CartItems from "app/web/components/Header/CartItems";
+import SearchOverlay from "../components/search_overlay";
 
 // import all css for now
-import '../style/swiper.css';
-import './new-style.css';
-import './style.min.css';
-import LaunchingSoonModal from './LaunchingSoonModal';
+import "../style/swiper.css";
+import "./new-style.css";
+import "./style.min.css";
+import LaunchingSoonModal from "./LaunchingSoonModal";
 
 // import "./style.css";
 const switchRoutes = (routes) => (
@@ -84,7 +85,7 @@ function ClientLayout(props) {
     (err) => {
       if (err.response && err.response.status) {
         if (err.response.status === 401) {
-          console.log('Response error!');
+          console.log("Response error!");
         }
       }
 
@@ -95,27 +96,29 @@ function ClientLayout(props) {
     <UserLoginContextProvider>
       <div id="site-wrapper">
         <ShopContextProvider>
-          <Layout id="main-</UserCartProvider>wrapper" class="site-wrapper">
-            <SearchOverlay />
-            <NavigationHeader {...props} />
-            <CartItems />
-            <div
-              style={
-                {
-                  // paddingTop: 80
+          <OrderTypeProvider>
+            <Layout id="main-</UserCartProvider>wrapper" class="site-wrapper">
+              <SearchOverlay />
+              <NavigationHeader {...props} />
+              <CartItems />
+              <div
+                style={
+                  {
+                    // paddingTop: 80
+                  }
                 }
-              }
-            >
-              {switchRoutes(routeConfig)}
-            </div>
-            <div
-              style={{
-                padding: 0,
-              }}
-            >
-              <NavigationFooter />
-            </div>
-          </Layout>
+              >
+                {switchRoutes(routeConfig)}
+              </div>
+              <div
+                style={{
+                  padding: 0,
+                }}
+              >
+                <NavigationFooter />
+              </div>
+            </Layout>
+          </OrderTypeProvider>
         </ShopContextProvider>
       </div>
     </UserLoginContextProvider>
@@ -127,6 +130,5 @@ const Application = (props) => (
     <ClientLayout {...props}></ClientLayout>
   </UserProvider>
 );
-
 
 export default Application;

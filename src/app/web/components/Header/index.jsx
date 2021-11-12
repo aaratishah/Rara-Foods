@@ -1,6 +1,6 @@
 import { Col, Drawer, Row, Button, Layout } from "antd";
 import routeURL from "config/routeURL";
-import { LOGOUT_USER_CLIENT, UserContext, OrderTypeProvider } from "context/";
+import { LOGOUT_USER_CLIENT, UserContext } from "context/";
 import $ from "jquery";
 import { useContext, useEffect, useState } from "react";
 import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
@@ -265,11 +265,9 @@ const HeaderHome = ({ isHomePage }) => {
             )}
 
             {urlMatch && (
-              <OrderTypeProvider>
-                <Col>
-                  <OrderTypes />
-                </Col>
-              </OrderTypeProvider>
+              <Col>
+                <OrderTypes />
+              </Col>
             )}
 
             {visibleSearch ? (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as QueryString from "query-string";
 import NoSearchQuery from "./NoSearchQuery";
 import { Link } from "react-router-dom";
@@ -29,6 +29,7 @@ import { CaretLeftFilled } from "@ant-design/icons";
 import FoodCategoryCarousel from "../home/FoodCategoryCarousel";
 import FoodCategoryItem from "../home/FoodCategoryItem";
 import { FilterIcon } from "app/dashboard/components";
+import { OrderTypeProvider, OrderTypeContext } from "context/index";
 
 const { Sider, Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -53,7 +54,7 @@ const BannerSection = () => {
 };
 
 const perPageLimit = 15;
-export default function Search(props) {
+const Search = (props) => {
   let history = useHistory();
 
   const point = useBreakpoint();
@@ -70,6 +71,9 @@ export default function Search(props) {
     page: 1,
   });
   const [foodCategory, setFoodCategory] = useState([]);
+  const { activeOrderType } = useContext(OrderTypeContext);
+  const { isDinning, hasOwnDelivery, userPickup } = activeOrderType;
+
   useEffect(() => {
     api.restaurant.featured_restaurant().then(({ data }) => {
       setFeaturedRestaurant([...data]);
@@ -113,6 +117,26 @@ export default function Search(props) {
       .catch(handleError)
       .finally(() => setSpinning(false));
   }, []);
+
+  useEffect(() => {
+    if (isDinning) {
+      setSearchResult((prevState) => {
+        return prevState.filter((item) => item.dining === !isDinning);
+      });
+    } else if (hasOwnDelivery) {
+      setSearchResult((prevState) => {
+        return prevState.filter(
+          (item) => item.hasOwnDelivery === hasOwnDelivery
+        );
+      });
+    } else if (userPickup) {
+      setSearchResult((prevState) => {
+        return prevState.filter((item) => item.userPickup === userPickup);
+      });
+    } else {
+      setSearchResult((prevState) => prevState);
+    }
+  }, [isDinning, hasOwnDelivery, userPickup]);
 
   const fetchMoreData = () => {
     const params = {};
@@ -324,4 +348,6 @@ export default function Search(props) {
       </Container>
     </>
   );
-}
+};
+
+export default Search;
