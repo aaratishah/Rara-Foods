@@ -51,6 +51,7 @@ const BannerSection = () => {
     </BannerContainer>
   );
 };
+
 const perPageLimit = 15;
 export default function Search(props) {
   let history = useHistory();

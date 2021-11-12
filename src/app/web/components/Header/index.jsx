@@ -1,9 +1,9 @@
 import { Col, Drawer, Row, Button, Layout } from "antd";
 import routeURL from "config/routeURL";
-import { LOGOUT_USER_CLIENT, UserContext, UserLoginContext } from "context/";
+import { LOGOUT_USER_CLIENT, UserContext, OrderTypeProvider } from "context/";
 import $ from "jquery";
 import { useContext, useEffect, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { default as useBreakpoint } from "services/Breakpoint";
 import { JwtService } from "services/jwtServiceClient";
 import Container from "../Container";
@@ -16,6 +16,7 @@ import logoImage from "image/logo.png";
 import SideMenu, { AndroidLink, AppleLink } from "./SideMenu";
 import { NOT_INSTALL_APP } from "config";
 import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
+import OrderTypes from "../OrderTypes";
 const { Header } = Layout;
 
 let navbarStyles = {
@@ -37,6 +38,7 @@ const HeaderHome = ({ isHomePage }) => {
   const isMobileDevice = () => ["xs", "sm"].includes(point);
   // const isDevice = () => ["xs", "sm"].includes(point);
   const isTabletDevice = () => ["md"].includes(point);
+  let urlMatch = useRouteMatch("/search/");
 
   const { clientStore, clientDispatch } = useContext(UserContext);
   const isAuth = clientStore.isAuthenticated;
@@ -49,17 +51,17 @@ const HeaderHome = ({ isHomePage }) => {
   const [visibleSearch, setVisibleSearch] = useState(false);
 
   useEffect(() => {
-    console.log("here before ");
+    // console.log("here before ");
     if (isAuth === undefined) return;
     if (isAuth) {
       setSpinningProfile(true);
-      console.log("here after ");
+      // console.log("here after ");
       api.client
         .me()
         .then(({ data }) => {
           setProfile(data);
           // redirect to the profile
-          console.log("profileee", profile.name);
+          // console.log("profileee", profile.name);
           if (profile && !profile?.name) {
             if (location.pathname !== routeURL.web.my_account("accountDetail"))
               history.push(routeURL.web.my_account("accountDetail"));
@@ -262,6 +264,14 @@ const HeaderHome = ({ isHomePage }) => {
               </Col>
             )}
 
+            {urlMatch && (
+              <OrderTypeProvider>
+                <Col>
+                  <OrderTypes />
+                </Col>
+              </OrderTypeProvider>
+            )}
+
             {visibleSearch ? (
               <Col>
                 <Button
@@ -269,9 +279,13 @@ const HeaderHome = ({ isHomePage }) => {
                   icon={<SearchOutlined style={{ fontWeight: "bolder" }} />}
                   size="large"
                   style={{
-                    width: isMobileDevice() ? "200px" : isTabletDevice() ? "100%" : "220%",
-                    marginRight: isMobileDevice() ? 8 : 0,
-                    marginLeft: isMobileDevice() ? 12 : 0,
+                    width: isMobileDevice()
+                      ? "200px"
+                      : isTabletDevice()
+                      ? "100%"
+                      : "160%",
+                    marginRight: 8,
+                    marginLeft: isMobileDevice() ? 12 : 16,
                     zIndex: 3,
                     backgroundColor: "#eeeeee",
                     borderRadius: "30px",
@@ -310,7 +324,7 @@ const HeaderHome = ({ isHomePage }) => {
               </Col>
             ) : null}
           </Row>
-          
+
           <Row className="navbar-right-area">
             {/* {isMobileDevice() ? (
               <MobileMenu
