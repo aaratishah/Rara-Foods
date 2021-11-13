@@ -12,6 +12,7 @@ import "flag-icon-css/css/flag-icon.min.css";
 import { countryCode } from "./country";
 import routeURL from "config/routeURL";
 import SocialLoginFooter from "./SocialLoginFooter";
+import { Helmet } from "react-helmet";
 const loginStep = {
   PHONE_NUMBER: "PHONE_NUMBER",
   OTP_PIN: "OTP_PIN",
@@ -300,6 +301,14 @@ export default function Account({ history }) {
 
   return (
     <Fragment>
+      <Helmet>
+        <meta name="appleid-signin-client-id" content="au.com.rarafoods" />
+        <meta name="appleid-signin-scope" content="name email" />
+        <meta name="appleid-signin-redirect-uri" content="rarafoods.com.au" />
+        <meta name="appleid-signin-state" content="[STATE]" />
+        <meta name="appleid-signin-use-popup" content="true" />
+        <title>Rara Foods | Login Page</title>
+      </Helmet>
       {!clientStore.isAuthenticated ? (
         <>
           <div
