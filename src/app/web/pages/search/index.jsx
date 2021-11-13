@@ -56,6 +56,7 @@ const BannerSection = () => {
 };
 
 const perPageLimit = 15;
+let initialResPackage = [];
 const Search = (props) => {
   let history = useHistory();
 
@@ -106,6 +107,7 @@ const Search = (props) => {
           hasMore,
           page: 2,
         });
+        initialResPackage = [...data];
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
@@ -115,28 +117,30 @@ const Search = (props) => {
     setSpinning(true);
     api.food_category
       .readAll()
-      .then(({ data }) => setFoodCategory(data))
+      .then(({ data }) => {
+        setFoodCategory(data);
+      })
       .catch(handleError)
       .finally(() => setSpinning(false));
   }, []);
 
   useEffect(() => {
     if (isDinning) {
-      setSearchResult((prevState) => {
-        return prevState.filter((item) => item.dining === !isDinning);
-      });
+      setSearchResult(
+        initialResPackage.filter((item) => item.dining === isDinning)
+      );
     } else if (hasOwnDelivery) {
-      setSearchResult((prevState) => {
-        return prevState.filter(
+      setSearchResult(
+        initialResPackage.filter(
           (item) => item.hasOwnDelivery === hasOwnDelivery
-        );
-      });
+        )
+      );
     } else if (userPickup) {
-      setSearchResult((prevState) => {
-        return prevState.filter((item) => item.userPickup === userPickup);
-      });
+      setSearchResult(
+        initialResPackage.filter((item) => item.userPickup === userPickup)
+      );
     } else {
-      setSearchResult((prevState) => prevState);
+      setSearchResult(initialResPackage);
     }
   }, [isDinning, hasOwnDelivery, userPickup]);
 
