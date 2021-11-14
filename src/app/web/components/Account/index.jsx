@@ -301,6 +301,23 @@ export default function Account({ history }) {
 
   return (
     <Fragment>
+      <Helmet>
+        <meta name="appleid-signin-client-id" content="au.com.rarafoods" />
+        <meta name="appleid-signin-scope" content="name email" />
+        <meta
+          name="appleid-signin-redirect-uri"
+          content="https://rarafoods.com.au/api/client/apple-login"
+        />
+        <meta name="appleid-signin-state" content="[STATE]" />
+        <meta name="appleid-signin-use-popup" content="true" />
+        <title>Rara Foods | Login Page</title>
+        <script
+          type="text/javascript"
+          src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
+          async
+          defer
+        ></script>
+      </Helmet>
       {!clientStore.isAuthenticated ? (
         <>
           <div
