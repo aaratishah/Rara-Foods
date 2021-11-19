@@ -183,6 +183,7 @@ export default {
   },
   food: {
     read: (itemId) => parse_res(api.get(`${url.food}/id/${itemId}`)),
+    readAll: () => parse_res(api.get(`${url.food}/`)),
   },
   region: {
     readAll: () => parse_res(api.get(`${url.region}/`)),

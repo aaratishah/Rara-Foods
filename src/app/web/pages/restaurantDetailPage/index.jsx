@@ -235,16 +235,14 @@ const HeroSection = ({
   refreshReviews,
   restaurantId,
 }) => {
-  const [detailPreview, setDetailPreview] = useState(false);
   const [ratePreview, setRatePreview] = useState(false);
-
   const createMarkup = (html) => {
     return {
       __html: DOMPurify.sanitize(html),
     };
   };
 
-  console.log('review detail',reviewDetail);
+  console.log("review detail", reviewDetail);
 
   return (
     <div
@@ -255,10 +253,13 @@ const HeroSection = ({
       }}
     >
       <div className="hero-content-wrapper">
-        <RestaurantDetailModal
-          data={data}
-          detailPreview={detailPreview}
-          setDetailPreview={setDetailPreview}
+        <img
+          src={
+            data.image.length > 0
+              ? config.getImageHost(data.image[0])
+              : HeroImage
+          }
+          alt
         />
         <ReviewModal
           isModalVisible={ratePreview}
@@ -269,23 +270,16 @@ const HeroSection = ({
           reviewDetail={reviewDetail}
           restaurantId={restaurantId}
         />
-        <img
-          src={
-            data.image.length > 0
-              ? config.getImageHost(data.image[0])
-              : HeroImage
-          }
-          alt
-        />
         <Container
           outerStyle={{
             position: "absolute",
-            top: 40,
+            top: 50,
+            left: "-115px",
           }}
         >
           <div className="page-header">
             {isOpen || (
-              <span
+              <div
                 style={{
                   marginBottom: 16,
                 }}
@@ -299,16 +293,62 @@ const HeroSection = ({
                 >
                   Restaurant is Closed Now, Visit later.
                 </Tag>
-              </span>
+              </div>
             )}
-            <h1>
-              {data.name}® ({data.address && data.address.street}){" "}
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div>
+                <h2 style={{ color: "#fff" }}>
+                  {data.name}®{" "}
+                  <span>
+                    <p
+                      className="review"
+                      onClick={() => setRatePreview(true)}
+                      style={{
+                        cursor: "pointer",
+                        color: "#FFD700",
+                      }}
+                    >
+                      {[...Array(5).keys()].map((each) => (
+                        <i
+                          className="fas fa-star"
+                          style={{
+                            color:
+                              each + 1 <= reviewDetail &&
+                              Math.ceil(reviewDetail.rating) &&
+                              "#f5b223",
+                          }}
+                        />
+                      ))}
+                      <a
+                        style={{
+                          fontWeight: 400,
+                          marginLeft: 4,
+                          fontSize: 14,
+                        }}
+                      >
+                        {reviewDetail &&
+                          reviewDetail.reviews &&
+                          reviewDetail.reviews.length}{" "}
+                        customer{" "}
+                        {reviewDetail &&
+                        reviewDetail.reviews &&
+                        reviewDetail.reviews.length <= 1
+                          ? "rating"
+                          : "ratings"}
+                      </a>
+                    </p>
+                  </span>
+                </h2>
+              </div>
               <Tooltip
                 title={
                   wishlistStatus ? "Remove from Favorites" : "Make it Favorite"
                 }
               >
-                <span onClick={addToWishlist}>
+                <div
+                  onClick={addToWishlist}
+                  style={{ justifyContent: "flex-end" }}
+                >
                   {wishlistStatus ? (
                     <HeartFilled
                       style={{
@@ -326,60 +366,24 @@ const HeroSection = ({
                       }}
                     />
                   )}
-                </span>
+                </div>
               </Tooltip>
-            </h1>
-            <p
-              className="review"
-              onClick={() => setRatePreview(true)}
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              {[...Array(5).keys()].map((each) => (
-                <i
-                  className="fas fa-star"
-                  style={{
-                    color:
-                      each + 1 <= reviewDetail &&
-                      Math.ceil(reviewDetail.rating) &&
-                      "#f5b223",
-                  }}
-                />
-              ))}
-              <a
-                style={{
-                  fontWeight: 400,
-                  marginLeft: 4,
-                  fontSize: 14,
-                }}
-              >
-                {reviewDetail &&
-                  reviewDetail.reviews &&
-                  reviewDetail.reviews.length}{" "}
-                customer{" "}
-                {reviewDetail &&
-                reviewDetail.reviews &&
-                reviewDetail.reviews.length <= 1
-                  ? "rating"
-                  : "ratings"}
-              </a>
-            </p>
-            <p
-              style={{ margin: 0 }}
-              dangerouslySetInnerHTML={createMarkup(data.description)}
-            />
-            {data.famousFor && data.famousFor.length > 0 && (
+            </div>
+
+            {/* {data.famousFor && data.famousFor.length > 0 && (
               <p>
                 <small>{data.famousFor.map((each) => `• ${each} `)}</small>
               </p>
-            )}
-            <p>4.5 (200+) • View delivery time and booking fee.</p>
-            <p>
-              {data.category}
-              <Button type="link" onClick={() => setDetailPreview(true)}>
-                More info
-              </Button>
+            )} */}
+            <p style={{ marginTop: "-25px", color: "#fff" }}>
+              {" "}
+              {reviewDetail && reviewDetail.rating && reviewDetail.rating} (
+              {reviewDetail &&
+              reviewDetail.reviews &&
+              reviewDetail.reviews.length < 100
+                ? reviewDetail.reviews.length
+                : "100+"}
+              ) • {data.averageDeliveryTime} min
             </p>
           </div>
           {/* <div className="button-group">
@@ -400,6 +404,7 @@ const Food = ({ data, restaurantDetail, isOpen }) => {
   const [foodDetail, setFoodDetail] = useState(false);
   return (
     <li className="col-md-4 col-sm-6">
+      <h2>{data.foodCategory.name}</h2>
       <FoodDetailModal
         restaurantDetail={restaurantDetail}
         data={data}
@@ -470,7 +475,7 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
           paddingTop: 32,
         }}
       >
-        <h2 className="section-title">{data.name}</h2>
+        {/* <h2 className="section-title">{data.name}</h2> */}
       </header>
       <Row
         className="product-list"
@@ -508,8 +513,21 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
   );
 };
 
-const FoodListing = ({ data, restaurantDetail, isOpen }) => {
+const FoodListing = ({ data, restaurantDetail, isOpen, foodCategory }) => {
   const [menuActive, setMenuActive] = useState(null);
+  const [categoryId, setCategoryId] = useState();
+  const [food, setFood] = useState([])
+  const [spinning, setSpinning] = useState(false)
+  useEffect(() => {
+    setSpinning(true)
+    api.food
+        .readAll()
+        .then(({ data }) => {
+          setFood(data);
+        })
+        .catch(handleError)
+        .finally(() => setSpinning(false));
+  }, [])
 
   const getVisibleGroup = (height) => {
     data.forEach((each) => {
@@ -543,6 +561,10 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
     };
   }, [data]);
 
+  const handleMenuClick = (item, key, keyPath, selectedKeys, domEvent) => {
+    console.log("active", item);
+  };
+
   return (
     <section className="product-list-section section">
       <Container>
@@ -553,36 +575,62 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
             className="navbar-nav"
             selectedKeys={[menuActive]}
             style={{ border: "none" }}
+            onSelect={handleMenuClick}
           >
-            {data.map((foodGroup, idx) => (
+            {foodCategory.map((item, idx) => (
               <Menu.Item
+                // onClick = {handleMenuClick}
                 className="nav-item"
-                key={foodGroup._id}
-                style={{ border: "none" }}
+                key={item._id}
+                style={{
+                  border: "none",
+                  padding: "unset",
+                  backgroundColor: "#eeeeee",
+                  marginRight: 14,
+                  cursor: "gpointer",
+                  border: "none",
+                  color: "#000",
+                  padding: "5px 10px",
+                  fontSize: "18px",
+                  fontWeight: 500,
+                  borderRadius: "500px",
+                  fontFamily: "sans-serif",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                }}
               >
                 <a
-                  style={{
-                    padding: "unset",
-                    backgroundColor: "#eeeeee",
-                    marginRight: 8,
-                    cursor: "pointer",
-                    border: "none",
-                    color: "#000",
-                    padding: "5px 10px",
-                    fontSize: "18px",
-                    fontWeight: 500,
-                    borderRadius: "500px",
-                    fontFamily: "sans-serif",
-                    alignItems: "center",
-                    fontWeight: "bold",
-                  }}
-                  href={`#${foodGroup._id}`}
+                  // style={{
+                  //   padding: "unset",
+                  //   backgroundColor: "#eeeeee",
+                  //   marginRight: 8,
+                  //   cursor: "gpointer",
+                  //   border: "none",
+                  //   color: "#000",
+                  //   padding: "5px 10px",
+                  //   fontSize: "18px",
+                  //   fontWeight: 500,
+                  //   borderRadius: "500px",
+                  //   fontFamily: "sans-serif",
+                  //   alignItems: "center",
+                  //   fontWeight: "bold",
+                  // }}
+                  href={`#${item._id}`}
                 >
-                  {foodGroup.name}
+                  {item.name}
                 </a>
               </Menu.Item>
             ))}
           </Menu>
+          <div>
+            {
+              // food.map((food, idx) => {
+
+              // })
+              console.log(food)
+            }
+          </div>
         </div>
 
         <div className="product-sections" id="food-group-container">
@@ -618,6 +666,7 @@ export default function RestaurantDetail(props) {
   const [foodGroups, setFoodGroups] = useState([]);
   const [spinning, setSpinning] = useState(false);
   const [tabValue, setTabValue] = useState("description");
+  const [foodCategory, setFoodCategory] = useState([]);
 
   useEffect(() => {
     if (isAuth) {
@@ -671,6 +720,17 @@ export default function RestaurantDetail(props) {
         })
         .catch(handleError)
         .finally(() => setSpinning(false));
+      api.food_category
+        .readAll()
+        .then(({ data }) => {
+          const filteredData = data.filter((item) =>
+            restaurantDetail.availableFoodCategory.includes(item._id.toString())
+          );
+          setFoodCategory(filteredData);
+        })
+        // .then(res => setFoodCategory(res))
+        .catch(handleError)
+        .finally(() => console.log("food: ", foodCategory));
     }
   }, [itemId]);
 
@@ -700,7 +760,7 @@ export default function RestaurantDetail(props) {
   };
 
   const [isModalVisible, setIsModalVisible] = useState(true);
-
+  const [detailPreview, setDetailPreview] = useState(false);
 
   return spinning ? (
     <Loader />
@@ -714,7 +774,7 @@ export default function RestaurantDetail(props) {
       data-offset={100}
     >
       <HeroSection
-        refreshReviews = {refreshReviews}
+        refreshReviews={refreshReviews}
         reviewDetail={reviewDetail}
         isOpen={isOpen}
         data={restaurantDetail || {}}
@@ -726,10 +786,35 @@ export default function RestaurantDetail(props) {
         reviewDetail={reviewDetail}
         restaurantId={restaurantDetail && restaurantDetail._id}
       />
+      <RestaurantDetailModal
+        data={restaurantDetail}
+        detailPreview={detailPreview}
+        setDetailPreview={setDetailPreview}
+      />
+      <div style={{ padding: "50px 70px 20px 80px" }}>
+        <h5>
+          {restaurantDetail.address && restaurantDetail.address.street}{" "}
+          <span>
+            <p>
+              {restaurantDetail.category}
+              <Button type="link" onClick={() => setDetailPreview(true)}>
+                More info
+              </Button>
+            </p>
+          </span>
+        </h5>
+
+        <p
+          style={{ margin: 0, color: "#000" }}
+          dangerouslySetInnerHTML={createMarkup(restaurantDetail.description)}
+        />
+      </div>
+
       <FoodListing
         restaurantDetail={restaurantDetail}
         data={foodGroups}
         isOpen={isOpen}
+        foodCategory={foodCategory}
       />
       {/* <section className="product-description-review pt-150">
         <div className="container">
@@ -798,7 +883,7 @@ export default function RestaurantDetail(props) {
               </Tabs>
             </ul>
           </div> */}
-          {/* <div className="tab-content pt-30">
+      {/* <div className="tab-content pt-30">
             <div className="tab-pane fade show active" id="description">
               <div
                 className="preview"
@@ -811,7 +896,7 @@ export default function RestaurantDetail(props) {
               <ReviewList reviews={reviewDetail} />
             </div>
           </div> */}
-        {/* </div>
+      {/* </div>
       </section> */}
       {/* <Container>
         <Divider orientation="left">Description</Divider>
