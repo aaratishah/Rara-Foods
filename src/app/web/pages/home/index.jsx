@@ -221,63 +221,63 @@ const HeroSection = ({ fetchPackage }) => {
           </Row>
         </Col>
       ) : ( */}
-        <Row
-          style={{
-            position: "absolute",
-            bottom: isMobileDevice() ? "240px" : "250px",
-            width: isMobileDevice() ? "55%" : "55%",
-            marginLeft: isMobileDevice() ? "100px" : "280px",
-            marginRight: isMobileDevice() ? "100px" : "280px",
-          }}
-        >
-          <Col flex="1 1 100px">
-            <input
-              style={{
-                borderWidth: 0,
-                marginLeft: 5,
-                // marginRight: 10,
-                width: isMobileDevice() ? "100%" : "100%",
-                backgroundColor: "#eeeeee",
-                height: "55px",
-                padding: "10px",
-              }}
-              value={searchText}
-              onKeyDown={({ key }) => {
-                if (searchText && key === "Enter") {
-                  history.push(
-                    routeURL.params(routeURL.web.search(), `q=${searchText}`)
-                  );
-                  setSearchText("");
-                }
-              }}
-              type="text"
-              placeholder="Search foods/restaurants"
-              onChange={({ target: { value } }) => setSearchText(value)}
-            ></input>
-          </Col>
-          <Col flex="0 1 75px">
-            <Button
-              style={{
-                backgroundColor: "#000",
-                // borderRadius: "5px",
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-                color: "#fff",
-                border: "#000",
-                height: "55px",
-              }}
-              size="large"
-              onClick={() => {
+      <Row
+        style={{
+          position: "absolute",
+          bottom: isMobileDevice() ? "240px" : "250px",
+          width: isMobileDevice() ? "55%" : "55%",
+          marginLeft: isMobileDevice() ? "100px" : "280px",
+          marginRight: isMobileDevice() ? "100px" : "280px",
+        }}
+      >
+        <Col flex="1 1 100px">
+          <input
+            style={{
+              borderWidth: 0,
+              marginLeft: 5,
+              // marginRight: 10,
+              width: isMobileDevice() ? "100%" : "100%",
+              backgroundColor: "#eeeeee",
+              height: "55px",
+              padding: "10px",
+            }}
+            value={searchText}
+            onKeyDown={({ key }) => {
+              if (searchText && key === "Enter") {
                 history.push(
                   routeURL.params(routeURL.web.search(), `q=${searchText}`)
                 );
                 setSearchText("");
-              }}
-            >
-              Find Food
-            </Button>
-          </Col>
-        </Row>
+              }
+            }}
+            type="text"
+            placeholder="Search foods/restaurants"
+            onChange={({ target: { value } }) => setSearchText(value)}
+          ></input>
+        </Col>
+        <Col flex="0 1 75px">
+          <Button
+            style={{
+              backgroundColor: "#000",
+              // borderRadius: "5px",
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+              color: "#fff",
+              border: "#000",
+              height: "55px",
+            }}
+            size="large"
+            onClick={() => {
+              history.push(
+                routeURL.params(routeURL.web.search(), `q=${searchText}`)
+              );
+              setSearchText("");
+            }}
+          >
+            Find Food
+          </Button>
+        </Col>
+      </Row>
       {/* )} */}
     </Content>
   );
