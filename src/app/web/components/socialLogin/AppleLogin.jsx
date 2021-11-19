@@ -1,12 +1,14 @@
 import React from "react";
-import { AppleFilled } from "@ant-design/icons";
 
 const AppleLogin = () => {
   return (
-    <div className="auth-login apple-login">
-      <AppleFilled style={{ fontSize: "24px", verticalAlign: 3 }} />
-      <span style={{ marginLeft: "8px", verticalAlign: "top" }}>Apple Id</span>
-    </div>
+    <div
+      id="appleid-signin"
+      className="signin-button"
+      data-color="black"
+      data-border-radius="8"
+      data-type="sign-in"
+    ></div>
   );
 };
 

@@ -16,3 +16,8 @@
   width: 130px !important;
   background-color: #000 !important;
 }
+
+.signin-button {
+  width: 130px;
+  height: 40px;
+}
