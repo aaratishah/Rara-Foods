@@ -513,21 +513,32 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
   );
 };
 
-const FoodListing = ({ data, restaurantDetail, isOpen, foodCategory }) => {
+const FoodListing = ({ data, restaurantDetail, isOpen }) => {
   const [menuActive, setMenuActive] = useState(null);
-  const [categoryId, setCategoryId] = useState();
-  const [food, setFood] = useState([])
-  const [spinning, setSpinning] = useState(false)
+  // const [categoryId, setCategoryId] = useState();
+  const [foodCategory, setFoodCategory] = useState([]);
+  const [food, setFood] = useState([]);
+  const [spinning, setSpinning] = useState(false);
   useEffect(() => {
-    setSpinning(true)
+    setSpinning(true);
     api.food
-        .readAll()
-        .then(({ data }) => {
-          setFood(data);
-        })
-        .catch(handleError)
-        .finally(() => setSpinning(false));
-  }, [])
+      .readAll()
+      .then(({ data }) => {
+        setFood(data);
+      })
+      .catch(handleError)
+      .finally(() => setSpinning(false));
+    api.food_category
+      .readAll()
+      .then(({ data }) => {
+        const filteredData = data.filter((item) =>
+          restaurantDetail.availableFoodCategory.includes(item._id.toString())
+        );
+        setFoodCategory(filteredData);
+      })
+      .catch(handleError)
+      .finally(() => console.log("food: ", foodCategory));
+  }, []);
 
   const getVisibleGroup = (height) => {
     data.forEach((each) => {
@@ -666,7 +677,6 @@ export default function RestaurantDetail(props) {
   const [foodGroups, setFoodGroups] = useState([]);
   const [spinning, setSpinning] = useState(false);
   const [tabValue, setTabValue] = useState("description");
-  const [foodCategory, setFoodCategory] = useState([]);
 
   useEffect(() => {
     if (isAuth) {
@@ -720,17 +730,6 @@ export default function RestaurantDetail(props) {
         })
         .catch(handleError)
         .finally(() => setSpinning(false));
-      api.food_category
-        .readAll()
-        .then(({ data }) => {
-          const filteredData = data.filter((item) =>
-            restaurantDetail.availableFoodCategory.includes(item._id.toString())
-          );
-          setFoodCategory(filteredData);
-        })
-        // .then(res => setFoodCategory(res))
-        .catch(handleError)
-        .finally(() => console.log("food: ", foodCategory));
     }
   }, [itemId]);
 
@@ -814,7 +813,6 @@ export default function RestaurantDetail(props) {
         restaurantDetail={restaurantDetail}
         data={foodGroups}
         isOpen={isOpen}
-        foodCategory={foodCategory}
       />
       {/* <section className="product-description-review pt-150">
         <div className="container">
