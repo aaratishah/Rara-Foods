@@ -42,6 +42,7 @@ import htmlToDraft from 'html-to-draftjs';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MapAddress from './MapAddress';
+import './index.css'
 // import { mapCenterDefault } from 'config';
 
 const { Paragraph } = Typography;
@@ -112,6 +113,10 @@ export default function ItemAdd(props) {
 	const [restaurantStreet, setRestaurantStreet] = useState('');
 	const [restaurantState, setRestaurantState] = useState('');
 	const [restaurantCity, setRestaurantCity] = useState('');
+	const [userPickupValue, setUserPickupValue] = useState()
+	const [hasOwnDeliveryValue, setHasOwnDeliveryValue] = useState(false)
+	const [diningValue, setDiningValue] = useState(false)
+	const [activeStatus, setActiveStatus] = useState(false)
 
 	const [locationForm] = Form.useForm();
 
@@ -174,6 +179,7 @@ export default function ItemAdd(props) {
 	};
 
 	const fillForm = (data) => {
+		// console.log('form data', data);
 		setStatus(data?.status || 'PENDING');
 		setFileNames(data.image);
 		// setAddress({
@@ -181,6 +187,10 @@ export default function ItemAdd(props) {
 		// 	city: data?.city,
 		// 	state: data?.state
 		// });
+		setUserPickupValue(data.userPickup)
+		setHasOwnDeliveryValue(data.hasOwnDelivery)
+		setDiningValue(data.dining)
+		setActiveStatus(data.activeStatus)
 		setAgreementDoc(data.agreementDoc || []);
 		if (data.geo?.coordinates) {
 			const loc = {
@@ -241,7 +251,7 @@ export default function ItemAdd(props) {
 			famousFor: data.famousFor,
 			userPickup: data.userPickup,
 			dining: data.dining,
-			hasOwnDelivery: true,
+			hasOwnDelivery: data.hasOwnDelivery,
 			// deliveryCharge: data.deliveryCharge,
 			hasDeliveryCondition: data.hasDeliveryCondition,
 			minimumSpentForFreeDelivery: data.minimumSpentForFreeDelivery,
@@ -262,6 +272,7 @@ export default function ItemAdd(props) {
 		formRef.current.setFieldsValue(formField);
 	};
 	const fillLocation = (data) => {
+		// console.log('current Location: ', data);
 		if(data.address){
 			setRestaurantStreet(data.address.street)
 			setRestaurantCity(data.address.city)
@@ -275,6 +286,7 @@ export default function ItemAdd(props) {
 		
 		nestedFormRef.current.setFieldsValue(formLocationField);
 	}
+	
 	useEffect(() => {
 		setSpinning(true);
 		// api.shipping_charge
@@ -309,8 +321,11 @@ export default function ItemAdd(props) {
 			setSpinning(true);
 			api.restaurant
 				.read(itemId)
-				.then(({ data }) => fillForm(data))
-				.then(({ data }) => fillLocation(data))
+				.then(({ data }) => {
+					fillForm(data)
+					fillLocation(data)
+				})
+				// .then(({ data }) => fillLocation(data))
 				.catch(handleError)
 				.finally(() => setSpinning(false));
 		}
@@ -428,11 +443,11 @@ export default function ItemAdd(props) {
 				<Row
 					style={{
 						...rowStyle,
-						marginTop: 40
+						marginTop: 40,
 					}}
 					justify="center"
 				>
-					<Tabs centered style={{ width: '100%' }}>
+					<Tabs centered style={{ width: '100%'}}>
 						<Tabs.TabPane
 							style={{ width: '100%' }}
 							tab="Restaurant Detail"
@@ -1119,7 +1134,7 @@ export default function ItemAdd(props) {
 													name="userPickup"
 													label="User Pick up Facility"
 												>
-													<Switch />
+													<Switch checked = {itemId && userPickupValue && userPickupValue} onClick = {(status) => userPickupValue(status)} />
 												</Form.Item>
 											</Col>
 											<Col
@@ -1136,7 +1151,7 @@ export default function ItemAdd(props) {
 													name="activeStatus"
 													label="Active Status"
 												>
-													<Switch />
+													<Switch checked = {activeStatus}/>
 												</Form.Item>
 											</Col>
 											<Col
@@ -1153,7 +1168,7 @@ export default function ItemAdd(props) {
 													name="dining"
 													label="Dining Facility?"
 												>
-													<Switch />
+													<Switch checked = {diningValue}/>
 												</Form.Item>
 											</Col>
 											<Col
@@ -1170,7 +1185,7 @@ export default function ItemAdd(props) {
 													name="hasOwnDelivery"
 													label="Delivery Facility?"
 												>
-													<Switch />
+													<Switch checked = {hasOwnDeliveryValue}/>
 												</Form.Item>
 											</Col>
 											{/* <Col

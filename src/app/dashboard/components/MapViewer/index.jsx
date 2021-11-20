@@ -3,6 +3,7 @@ import { GoogleMap, Marker, useLoadScript, } from '@react-google-maps/api';
 import { mapCenterDefault } from 'config';
 // Import custom styles to customize the style of Google Map
 import './index.css';
+import api from 'app/dashboard/api';
 
 const markerSVGSelect = [
 	`<svg width="30px" height="30px" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">`,
@@ -41,6 +42,7 @@ export default memo(
 		const [infoOpen, setInfoOpen] = useState(false);
 		const [selectedMarker, setSelectedMarker] = useState(activeMarker);
 		const [markerMap, setMarkerMap] = useState({});
+		const [user, setUser] = useState()
 
 		const loadHandler = (map) => {
 			// Store a reference to the google map instance in state
@@ -109,6 +111,11 @@ export default memo(
 			}
 		}, [markers, map, bound]);
 
+		useEffect(() => {
+			api.auth.admin.currentUser()
+				.then((data) => setUser(data))
+		}, [])
+
 		function pinSymbol(color) {
 			return {
 				path:
@@ -136,7 +143,7 @@ export default memo(
 					// 		encodeURIComponent(markerSeletedIcon),
 					// 	origin: new window.google.maps.Point(0, 0),
 					// }}
-					icon={pinSymbol("red")}
+					// icon={pinSymbol("red")}
 					onLoad={(marker) => markerLoadHandler(marker, activeMarker)}
 					onClick={(e) => markerClickHandler(e, activeMarker)}
 					// onMouseOver={e => markerOverHandler(e, location)}
@@ -153,7 +160,7 @@ export default memo(
 				disableDefaultUI={true}
 				mapContainerStyle={{
 					height: "100%",
-					width: "100%",
+					width: user && user.isAdmin ? '200%' : "100%",
 					// boxShadow: "rgba(0, 0, 0, 0.15) 10px 10px 10px",
 				}}
 			>
