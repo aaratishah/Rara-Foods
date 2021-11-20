@@ -34,6 +34,7 @@ import ReviewList from "./ReviewList";
 import clsx from "clsx";
 import RestaurantRating from "./RestaurantRating";
 import ReviewModal from "./ReviewModal";
+import ProductImage from "image/demo/p-001.jpg";
 
 const days = [
   "monday",
@@ -411,7 +412,13 @@ const Food = ({ data, restaurantDetail, isOpen }) => {
         preview={foodDetail}
         setPreview={setFoodDetail}
       />
-      <div className="product">
+      <div
+        className="product"
+        style={{
+          boxShadow: "1px 1px 3px 0 rgba(0, 0, 0, 0.2) !important",
+          minHeight: "136px",
+        }}
+      >
         <img
           style={{
             width: 150,
@@ -428,12 +435,15 @@ const Food = ({ data, restaurantDetail, isOpen }) => {
                   "bottomRight"
                 )
           }
-          src={config.getImageHost(data.activeImage)}
-          alt
+          src={
+            +data.activeImage === -1
+              ? ProductImage
+              : config.getImageHost(data.activeImage)
+          }
+          alt={data.name}
         />
         <div className="product-container">
           <span
-            style={{}}
             onClick={() =>
               isOpen
                 ? setFoodDetail(true)
@@ -466,16 +476,18 @@ const Food = ({ data, restaurantDetail, isOpen }) => {
     </li>
   );
 };
-const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
+const FoodGroup = ({ data, restaurantDetail, isOpen, foodCategoryName }) => {
   return (
-    <div name={data._id} id={data._id}>
+    <div>
       <header
         className="section-header"
         style={{
           paddingTop: 32,
         }}
       >
-        {/* <h2 className="section-title">{data.name}</h2> */}
+        <h2 className="section-title">
+          {foodCategoryName ? foodCategoryName : "Available Foods"}
+        </h2>
       </header>
       <Row
         className="product-list"
@@ -483,8 +495,8 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
           width: "100%",
         }}
       >
-        {data.foods.length > 0 ? (
-          data.foods.map((food) => (
+        {data.length > 0 ? (
+          data.map((food) => (
             <Food
               isOpen={isOpen}
               restaurantDetail={restaurantDetail}
@@ -498,14 +510,14 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
               backgroundColor: "#e2e2e2",
             }}
           >
-            <h3
+            <h4
               style={{
                 cursor: isOpen && "pointer",
               }}
               className="product-title"
             >
               Coming soon..
-            </h3>
+            </h4>
           </div>
         )}
       </Row>
@@ -515,16 +527,19 @@ const FoodGroup = ({ data, restaurantDetail, isOpen }) => {
 
 const FoodListing = ({ data, restaurantDetail, isOpen }) => {
   const [menuActive, setMenuActive] = useState(null);
-  // const [categoryId, setCategoryId] = useState();
   const [foodCategory, setFoodCategory] = useState([]);
-  const [food, setFood] = useState([]);
+  const [categorizedFoods, setCategorizedFoods] = useState([]);
+  const [foodCategoryName, setFoodCategoryName] = useState("");
   const [spinning, setSpinning] = useState(false);
   useEffect(() => {
     setSpinning(true);
     api.food
       .readAll()
       .then(({ data }) => {
-        setFood(data);
+        const restaurantFoods = data.filter(
+          (item) => item.restaurant === restaurantDetail._id
+        );
+        setCategorizedFoods(restaurantFoods);
       })
       .catch(handleError)
       .finally(() => setSpinning(false));
@@ -572,8 +587,12 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
     };
   }, [data]);
 
-  const handleMenuClick = (item, key, keyPath, selectedKeys, domEvent) => {
-    console.log("active", item);
+  const handleMenuClick = (item) => {
+    setFoodCategoryName(item.name);
+    api.categorized_food
+      .read(`${restaurantDetail._id}`, `${item._id}`)
+      .then(({ data }) => setCategorizedFoods(data))
+      .catch(handleError);
   };
 
   return (
@@ -586,72 +605,41 @@ const FoodListing = ({ data, restaurantDetail, isOpen }) => {
             className="navbar-nav"
             selectedKeys={[menuActive]}
             style={{ border: "none" }}
-            onSelect={handleMenuClick}
           >
             {foodCategory.map((item, idx) => (
               <Menu.Item
-                // onClick = {handleMenuClick}
+                onClick={() => handleMenuClick(item)}
                 className="nav-item"
                 key={item._id}
                 style={{
                   border: "none",
-                  padding: "unset",
                   backgroundColor: "#eeeeee",
                   marginRight: 14,
+                  marginBottom: 16,
                   cursor: "gpointer",
-                  border: "none",
                   color: "#000",
                   padding: "5px 10px",
                   fontSize: "18px",
-                  fontWeight: 500,
-                  borderRadius: "500px",
+                  borderRadius: "30px",
                   fontFamily: "sans-serif",
                   alignItems: "center",
                   fontWeight: "bold",
                   textDecoration: "none",
                 }}
               >
-                <a
-                  // style={{
-                  //   padding: "unset",
-                  //   backgroundColor: "#eeeeee",
-                  //   marginRight: 8,
-                  //   cursor: "gpointer",
-                  //   border: "none",
-                  //   color: "#000",
-                  //   padding: "5px 10px",
-                  //   fontSize: "18px",
-                  //   fontWeight: 500,
-                  //   borderRadius: "500px",
-                  //   fontFamily: "sans-serif",
-                  //   alignItems: "center",
-                  //   fontWeight: "bold",
-                  // }}
-                  href={`#${item._id}`}
-                >
-                  {item.name}
-                </a>
+                {item.name}
               </Menu.Item>
             ))}
           </Menu>
-          <div>
-            {
-              // food.map((food, idx) => {
-
-              // })
-              console.log(food)
-            }
-          </div>
         </div>
 
         <div className="product-sections" id="food-group-container">
-          {data.map((foodGroup) => (
-            <FoodGroup
-              isOpen={isOpen}
-              restaurantDetail={restaurantDetail}
-              data={foodGroup}
-            />
-          ))}
+          <FoodGroup
+            isOpen={isOpen}
+            restaurantDetail={restaurantDetail}
+            data={categorizedFoods}
+            foodCategoryName={foodCategoryName}
+          />
         </div>
       </Container>
     </section>
