@@ -1,15 +1,15 @@
-import api from 'app/web/api';
-import { ShopContext, UserContext } from 'context';
-import { useContext, useEffect, useState } from 'react';
-import moment from 'moment';
-import { Button, Col, Modal, Row, Table, Tooltip } from 'antd';
-import { handleError, orderStatus } from 'services/util';
-import OrderPreview from './component/OrderPreview';
-import { BookOutlined, EyeFilled, ShoppingFilled } from '@ant-design/icons';
-import routeURL from 'config/routeURL';
-import { useHistory } from 'react-router-dom';
-import PendingOrders from 'app/web/pages/account/component/PendingOrderPreview';
-import OrderAction from 'app/web/pages/account/component/OrderAction';
+import api from "app/web/api";
+import { ShopContext, UserContext } from "context";
+import { useContext, useEffect, useState } from "react";
+import moment from "moment";
+import { Button, Col, Modal, Row, Table, Tooltip } from "antd";
+import { handleError, orderStatus } from "services/util";
+import OrderPreview from "./component/OrderPreview";
+import { BookOutlined, EyeFilled, ShoppingFilled } from "@ant-design/icons";
+import routeURL from "config/routeURL";
+import { useHistory } from "react-router-dom";
+import PendingOrders from "app/web/pages/account/component/PendingOrderPreview";
+import OrderAction from "app/web/pages/account/component/OrderAction";
 
 export default function Order() {
   const [spinning, setSpinning] = useState(false);
@@ -21,75 +21,75 @@ export default function Order() {
 
   const columns = [
     {
-      title: 'Order ID',
-      dataIndex: 'orderId',
+      title: "Order ID",
+      dataIndex: "orderId",
       width: 100,
-      key: 'orderId',
+      key: "orderId",
       sorter: (a, b) => a.orderId.localeCompare(b.orderId),
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
       ellipsis: true,
       render: (columnData) => (
         <div
-          // style={{
-          //   whiteSpace: 'pre-line',
-          // }}
+        // style={{
+        //   whiteSpace: 'pre-line',
+        // }}
         >
           {columnData}
         </div>
       ),
     },
     {
-      title: 'Restaurant',
-      dataIndex: 'restaurantId',
+      title: "Restaurant",
+      dataIndex: "restaurantId",
       width: 100,
-      key: 'restaurantId',
+      key: "restaurantId",
       sorter: (a, b) =>
-        (a.restaurantId ? a.restaurantId.name : '').localeCompare(
-          b.restaurantId ? b.restaurantId.name : ''
+        (a.restaurantId ? a.restaurantId.name : "").localeCompare(
+          b.restaurantId ? b.restaurantId.name : ""
         ),
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
       ellipsis: true,
       render: (restaurantId) => (
         <div
-          // style={{
-          //   whiteSpace: 'pre-line',
-          // }}
+        // style={{
+        //   whiteSpace: 'pre-line',
+        // }}
         >
-          {restaurantId ? restaurantId.name : 'N/A'}
+          {restaurantId ? restaurantId.name : "N/A"}
         </div>
       ),
     },
     {
-      title: 'Item',
-      dataIndex: 'food',
+      title: "Item",
+      dataIndex: "food",
       width: 100,
-      key: 'food',
+      key: "food",
       sorter: (a, b) => a.food.length - b.food.length,
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
       ellipsis: true,
       render: (food) => (
         <div
-          // style={{
-          //   whiteSpace: 'pre-line',
-          // }}
+        // style={{
+        //   whiteSpace: 'pre-line',
+        // }}
         >
           {food.length}
         </div>
       ),
     },
     {
-      title: 'Total Price',
-      dataIndex: 'totalPrice',
+      title: "Total Price",
+      dataIndex: "totalPrice",
       width: 100,
-      key: 'totalPrice',
+      key: "totalPrice",
       sorter: (a, b) => a.totalPrice - b.totalPrice,
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
       ellipsis: true,
       render: (totalPrice) => (
         <div
-          // style={{
-          //   whiteSpace: 'pre-line',
-          // }}
+        // style={{
+        //   whiteSpace: 'pre-line',
+        // }}
         >
           {process.env.REACT_APP_CURRENCY_SYMBOL}
           {totalPrice}
@@ -131,55 +131,57 @@ export default function Order() {
     //   ),
     // },
     {
-      title: 'Order Status',
-      dataIndex: 'status',
+      title: "Order Status",
+      dataIndex: "status",
       width: 100,
-      key: 'status',
+      key: "status",
       sorter: (a, b) => a.status.localeCompare(b.status),
-      sortDirections: ['descend', 'ascend'],
+      sortDirections: ["descend", "ascend"],
       ellipsis: true,
       render: (status) => (
         <div
-          // style={{
-          //   whiteSpace: 'pre-line',
-          // }}
+        // style={{
+        //   whiteSpace: 'pre-line',
+        // }}
         >
           {orderStatus[status]}
         </div>
       ),
     },
     {
-      title: 'Created At',
-      dataIndex: 'createdDateTime',
+      title: "Created At",
+      dataIndex: "createdDateTime",
       width: 100,
-      key: 'createdDateTime',
+      key: "createdDateTime",
       render: (data) => (
         <div
-          // style={{
-          //   whiteSpace: 'pre-line',
-          // }}
+        // style={{
+        //   whiteSpace: 'pre-line',
+        // }}
         >
-          {moment(data)
-            .fromNow()}
+          {moment(data).fromNow()}
         </div>
       ),
-      sortDirections: ['ascend', 'descend'],
+      sortDirections: ["ascend", "descend"],
       sorter: (a, b) =>
-        moment(a.createdDateTime)
-          .unix() - moment(b.createdDateTime)
-          .unix(),
+        moment(a.createdDateTime).unix() - moment(b.createdDateTime).unix(),
     },
     {
-      title: 'Preview',
-      dataIndex: '_id',
-      key: '_id',
+      title: "Preview",
+      dataIndex: "_id",
+      key: "_id",
       width: 130,
-      fixed: 'right',
+      fixed: "right",
       render: (orderId, order) => {
-        return <OrderAction order={order} onPreview={() => {
-          setOrderId(orderId);
-          setPreviewVisible(true);
-        }}  />
+        return (
+          <OrderAction
+            order={order}
+            onPreview={() => {
+              setOrderId(orderId);
+              setPreviewVisible(true);
+            }}
+          />
+        );
       },
     },
   ];
@@ -196,7 +198,7 @@ export default function Order() {
   }, [isAuth]);
   return (
     <div>
-      <PendingOrders orders={order ||  []} />
+      <PendingOrders orders={order || []} />
       <OrderPreview
         orderId={orderId}
         previewVisible={previewVisible}
@@ -206,7 +208,7 @@ export default function Order() {
         <h4 className="account-title">All Orders</h4>
         <div className="account-table text-center mt-30 table-responsive">
           <Table
-            style={{ whiteSpace: 'pre' }}
+            style={{ whiteSpace: "pre" }}
             columns={columns}
             dataSource={order}
           />
